@@ -1,16 +1,25 @@
 {
   "name": "syntaxure-fieldops",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check": "biome check .",
     "check:write": "biome check . --write",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,md}": [
+      "biome check --write"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2"
   },

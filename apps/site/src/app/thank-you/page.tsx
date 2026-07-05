@@ -17,14 +17,23 @@ export default function ThankYouPage() {
           <Button asChild variant="outline">
             <a href="/">Back to home</a>
           </Button>
-          <a
-            href="tel:+639000000000"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-          >
-            <Phone className="h-4 w-4" />
-            {/* TODO: confirm with client */}
-            Call +63 900 000 0000
-          </a>
+          <div className="space-y-1 text-sm">
+            <a
+              href="tel:+639700600264"
+              className="inline-flex items-center gap-2 font-medium text-primary hover:underline"
+            >
+              <Phone className="h-4 w-4" />
+              Aircon: +63 970 060 0264
+            </a>
+            <br />
+            <a
+              href="tel:+639983860315"
+              className="inline-flex items-center gap-2 font-medium text-primary hover:underline"
+            >
+              <Phone className="h-4 w-4" />
+              Electronics: +63 998 386 0315
+            </a>
+          </div>
         </div>
       </div>
     </main>
