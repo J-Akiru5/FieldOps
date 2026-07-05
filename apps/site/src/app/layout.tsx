@@ -9,22 +9,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Syntaxure FieldOps | Aircon & Electronics Service in the Philippines",
+  title: "J.R.R. Air-conditioning and Refrigeration Services | Iloilo",
   description:
-    "Fast, reliable air conditioning and electronics repair, maintenance, and installation for homes and businesses. Book a service inquiry online.",
+    "Air-conditioning, refrigeration, and electronics repair in Iloilo City and Western Visayas. Sales, design, installation, repair, and maintenance.",
   icons: {
     icon: "/favicon.png",
   },
   openGraph: {
-    title: "Syntaxure FieldOps | Aircon & Electronics Service in the Philippines",
+    title: "J.R.R. Air-conditioning and Refrigeration Services | Iloilo",
     description:
-      "Fast, reliable air conditioning and electronics repair, maintenance, and installation for homes and businesses. Book a service inquiry online.",
+      "Air-conditioning, refrigeration, and electronics repair in Iloilo City and Western Visayas. Sales, design, installation, repair, and maintenance.",
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Syntaxure FieldOps - Aircon & Electronics Service in the Philippines",
+        alt: "J.R.R. Air-conditioning and Refrigeration Services - Iloilo",
       },
     ],
   },
@@ -36,8 +36,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans`} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
