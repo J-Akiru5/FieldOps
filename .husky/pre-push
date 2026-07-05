@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Load DATABASE_URL from .env.local if it is not already set.
+if [ -z "$DATABASE_URL" ] && [ -f .env.local ]; then
+  set -a
+  . ./.env.local
+  set +a
+fi
+
+set -e
+
+echo "[pre-push] Validating Prisma schema..."
+pnpm --filter db exec prisma validate
+
+echo "[pre-push] Running Biome check..."
+pnpm biome check .
+
+echo "[pre-push] Building apps/site..."
+pnpm --filter site build
+
+echo "[pre-push] Building apps/ops..."
+pnpm --filter ops build
+
+echo "[pre-push] All checks passed."
