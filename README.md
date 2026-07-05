@@ -39,15 +39,25 @@ See [RELEASING.md](./RELEASING.md) for the version-bump and tag process.
 
 Two Vercel projects are configured against this repo:
 
-| Project | Root Directory | Production Branch | Environment |
-|---------|---------------|-------------------|-------------|
-| `jrr-fieldops-site` | `apps/site` | `master` | Production domain |
-| `jrr-fieldops-ops` | `apps/ops` | `master` | Production domain |
+| Project | Dashboard | Root Directory | Production Branch |
+|---------|-----------|----------------|-------------------|
+| `jrr-fieldops-site` | https://vercel.com/j-akiru5s-projects/jrr-fieldops-site | `apps/site` | `master` |
+| `jrr-fieldops-ops` | https://vercel.com/j-akiru5s-projects/jrr-fieldops-ops | `apps/ops` | `master` |
 
 - `develop` deploys to Preview/staging URLs.
 - Only `master` promotes to the production domain.
-- Ignored Build Step (`turbo-ignore`) is enabled per project so a change scoped to `apps/ops` does not rebuild `apps/site`, and vice versa.
 - Required environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `DATABASE_URL`) are set per project and scoped to Production vs. Preview.
+
+### Vercel project settings to confirm in each dashboard
+
+1. **Root Directory**: set to `apps/site` for `jrr-fieldops-site` and `apps/ops` for `jrr-fieldops-ops`.
+2. **Framework Preset**: set to Next.js.
+3. **Production Branch**: set to `master`.
+4. **Ignored Build Step**: enable and set the command to `npx turbo-ignore` so a change scoped to one app does not rebuild the other.
+5. **Environment Variables**: the following have been added via CLI; verify they are present for both Production and Preview:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `DATABASE_URL` (only needed for `jrr-fieldops-site`)
 
 ## Tech stack
 
