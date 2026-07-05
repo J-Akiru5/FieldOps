@@ -5,7 +5,6 @@ import { Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
 export default function HomePage() {
-  const broken = {{{ syntaxError: true }};
   return (
     <div className="min-h-screen">
       {/* Header */}
