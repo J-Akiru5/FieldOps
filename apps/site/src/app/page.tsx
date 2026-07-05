@@ -1,7 +1,8 @@
 import { InquiryForm } from "@/components/inquiry-form";
 import { ServiceCard } from "@/components/service-card";
 import { Button } from "@syntaxure/ui";
-import { Clock, HardHat, MapPin, Phone, ShieldCheck, Tv, Wind, Wrench } from "lucide-react";
+import { Clock, MapPin, Phone, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -10,8 +11,14 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Wind className="h-5 w-5" />
+            <div className="relative flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="Syntaxure FieldOps Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
             </div>
             <span className="text-lg font-bold tracking-tight">Syntaxure</span>
           </div>
@@ -24,30 +31,42 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 px-4 py-16 text-primary-foreground sm:py-24">
         <div className="mx-auto max-w-5xl">
-          <div className="max-w-2xl space-y-6">
-            <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Aircon & electronics service you can count on
-            </h1>
-            <p className="text-base leading-relaxed text-slate-200 sm:text-lg">
-              Maintenance, repair, and installation for homes and businesses across our service
-              area. Tell us what you need and we will call you back the same day.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button
-                asChild
-                size="lg"
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                <a href="#inquiry">Request a callback</a>
-              </Button>
-              <a
-                href="tel:+639000000000"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-200 hover:text-white"
-              >
-                <Phone className="h-4 w-4" />
-                {/* TODO: confirm with client */}
-                +63 900 000 0000
-              </a>
+          <div className="grid gap-8 md:grid-cols-12 items-center">
+            <div className="md:col-span-7 space-y-6">
+              <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+                Aircon & electronics service you can count on
+              </h1>
+              <p className="text-base leading-relaxed text-slate-200 sm:text-lg">
+                Maintenance, repair, and installation for homes and businesses across our service
+                area. Tell us what you need and we will call you back the same day.
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-accent text-accent-foreground hover:bg-accent/90"
+                >
+                  <a href="#inquiry">Request a callback</a>
+                </Button>
+                <a
+                  href="tel:+639000000000"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-slate-200 hover:text-white"
+                >
+                  <Phone className="h-4 w-4" />
+                  {/* TODO: confirm with client */}
+                  +63 900 000 0000
+                </a>
+              </div>
+            </div>
+            <div className="md:col-span-5 relative h-[250px] sm:h-[320px] w-full rounded-2xl overflow-hidden border border-slate-700 bg-slate-950/50">
+              <Image
+                src="/images/hero-aircon-service.webp"
+                alt="Friendly technician servicing split-type air conditioner in a warm Philippine home"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 400px"
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
@@ -64,22 +83,26 @@ export default function HomePage() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <ServiceCard
-              icon={Wind}
+              imageSrc="/images/icon-aircon-maintenance.webp"
+              imageAlt="Aircon maintenance cooling illustration"
               title="Aircon Maintenance"
               description="Cleaning, filter replacement, refrigerant check, and preventive tune-ups to keep units efficient."
             />
             <ServiceCard
-              icon={Wrench}
+              imageSrc="/images/icon-aircon-repair.webp"
+              imageAlt="Aircon diagnostics and repair tools illustration"
               title="Aircon Repair"
               description="Diagnostics and repair for split-type, window, and inverter units that are not cooling or leaking."
             />
             <ServiceCard
-              icon={Tv}
+              imageSrc="/images/icon-electronics-repair.webp"
+              imageAlt="Electronics repair screen and circuit illustration"
               title="Electronics Repair"
               description="Troubleshooting and repair for TVs, monitors, appliances, and small electronics."
             />
             <ServiceCard
-              icon={HardHat}
+              imageSrc="/images/icon-installation.webp"
+              imageAlt="Aircon installation wall bracket and drill illustration"
               title="Installation"
               description="Safe, professional installation of air conditioners and electronics with clean cable work."
             />
