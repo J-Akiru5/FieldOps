@@ -1,0 +1,13 @@
+{
+  "extends": "@syntaxure/config/tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*", "styles/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
