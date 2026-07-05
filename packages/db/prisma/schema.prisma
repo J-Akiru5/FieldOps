@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InquirySource {
+  SITE
+  PHONE
+  WALK_IN
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  CLOSED
+}
+
+enum ApplianceType {
+  AIRCON
+  ELECTRONICS
+}
+
+enum JobType {
+  MAINTENANCE
+  REPAIR
+  INSTALLATION
+}
+
+enum JobStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum StockMovementType {
+  DEDUCTION
+  RESTOCK
+  ADJUSTMENT
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+}
+
+enum VatType {
+  VAT_INCLUSIVE
+  VAT_EXCLUSIVE
+  NON_VAT
+}
+
+enum StaffRole {
+  OWNER
+  PARTNER
+  TECHNICIAN
+  BOOKKEEPER
+}
+
+model Customer {
+  id         String      @id @default(cuid())
+  name       String
+  phone      String
+  email      String?
+  address    String?
+  tin        String?     // nullable, for B2B customers
+  appliances Appliance[]
+  jobs       Job[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Appliance {
+  id            String        @id @default(cuid())
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  type          ApplianceType
+  brand         String?
+  model         String?
+  capacityHP    Float?
+  serialNumber  String?
+  locationNotes String?
+  jobs          Job[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Inquiry {
+  id          String        @id @default(cuid())
+  contactName String
+  phone       String
+  email       String?
+  message     String
+  source      InquirySource @default(SITE)
+  status      InquiryStatus @default(NEW)
+  convertedJob Job?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model StaffMember {
+  id         String     @id @default(cuid())
+  authUserId String     @unique // maps to Supabase auth.users.id
+  name       String
+  role       StaffRole
+  jobs       JobAssignment[]
+  createdAt  DateTime   @default(now())
+}
+
+model Job {
+  id           String        @id @default(cuid())
+  customerId   String
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  applianceId  String?
+  appliance    Appliance?    @relation(fields: [applianceId], references: [id])
+  inquiryId    String?       @unique
+  inquiry      Inquiry?      @relation(fields: [inquiryId], references: [id])
+  type         JobType
+  status       JobStatus     @default(SCHEDULED)
+  scheduledAt  DateTime
+  laborFee     Decimal       @default(0)
+  assignments  JobAssignment[]
+  lineItems    JobLineItem[]
+  salesTransaction SalesTransaction?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model JobAssignment {
+  id            String      @id @default(cuid())
+  jobId         String
+  job           Job         @relation(fields: [jobId], references: [id])
+  staffMemberId String
+  staffMember   StaffMember @relation(fields: [staffMemberId], references: [id])
+}
+
+model InventoryItem {
+  id                   String          @id @default(cuid())
+  sku                  String          @unique
+  name                 String
+  unit                 String          // e.g. "pc", "kg", "tank"
+  quantityOnHand       Decimal
+  safetyStockThreshold Decimal
+  unitCost             Decimal
+  lineItems            JobLineItem[]
+  movements            StockMovement[]
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+}
+
+model JobLineItem {
+  id                    String        @id @default(cuid())
+  jobId                 String
+  job                   Job           @relation(fields: [jobId], references: [id])
+  inventoryItemId       String
+  inventoryItem         InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  quantityUsed          Decimal
+  unitCostAtConsumption Decimal
+  createdAt             DateTime      @default(now())
+}
+
+model StockMovement {
+  id                String            @id @default(cuid())
+  inventoryItemId   String
+  inventoryItem     InventoryItem     @relation(fields: [inventoryItemId], references: [id])
+  jobId             String?
+  type              StockMovementType
+  quantity          Decimal
+  resultingQuantity Decimal
+  createdAt         DateTime          @default(now())
+}
+
+model SalesTransaction {
+  id            String        @id @default(cuid())
+  jobId         String        @unique
+  job           Job           @relation(fields: [jobId], references: [id])
+  invoiceNumber String?
+  grossAmount   Decimal
+  vatType       VatType       @default(VAT_INCLUSIVE)
+  materialCost  Decimal
+  netProfit     Decimal
+  paymentStatus PaymentStatus @default(UNPAID)
+  createdAt     DateTime      @default(now())
+}
