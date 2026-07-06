@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P03 — Customer &amp; Appliance Directory | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P03 — Customer &amp; Appliance Directory</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Customer &amp; Appliance Directory</h2>
+        <p>Full CRUD customer directory with linked appliances, reusable pickers, and mobile list → detail pattern.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-02.html">← P02</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-04.html">P04 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="03">
+
+      <div class="task-item" data-task-key="task-03-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-03-0" aria-label="Mark task complete" />
+          <span class="task-title">Customer data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Create reusable data service for customer CRUD and search.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add customer data layer and CRUD components</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/customers.ts</code></li>
+              <li><code>apps/ops/src/components/customer-form.tsx</code></li>
+              <li><code>apps/ops/src/components/customer-list.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-03-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-03-1" aria-label="Mark task complete" />
+          <span class="task-title">Customer pages</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Build /customers list (mobile: name + phone + More → detail), /customers/new, /customers/[id], /customers/[id]/edit.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add customer directory pages</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/customers/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/customers/new/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/customers/[id]/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/customers/[id]/edit/page.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-03-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-03-2" aria-label="Mark task complete" />
+          <span class="task-title">Appliance management</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Appliance CRUD linked to a customer. Appliance form and list components.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add appliance CRUD linked to customers</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/appliances.ts</code></li>
+              <li><code>apps/ops/src/components/appliance-form.tsx</code></li>
+              <li><code>apps/ops/src/components/appliance-list.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-03-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-03-3" aria-label="Mark task complete" />
+          <span class="task-title">Mobile customer list pattern</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>On mobile show only name and phone with a More button to the detail page. Keep full table on desktop.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): implement mobile list view with detail sub-pages for customers</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/customer-list.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-03-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-03-4" aria-label="Mark task complete" />
+          <span class="task-title">Add Customers to More menu</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Add Customers link to mobile bottom nav More menu and desktop sidebar.</p>
+          <p><strong>Commit:</strong> <code>refactor(ops): add customers link to navigation menus</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/mobile-nav.tsx</code></li>
+              <li><code>apps/ops/src/components/sidebar.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-02.html">← P02</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-04.html">P04 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

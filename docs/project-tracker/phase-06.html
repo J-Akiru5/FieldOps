@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P06 — Inventory Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P06 — Inventory Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Inventory Module</h2>
+        <p>Inventory catalog with images, stock movements, low-stock alerts, and grid view on mobile/desktop.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-05.html">← P05</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-07.html">P07 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="06">
+
+      <div class="task-item" data-task-key="task-06-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-06-0" aria-label="Mark task complete" />
+          <span class="task-title">Inventory data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Service for inventory items, stock movements, and low-stock detection.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add inventory data layer</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/inventory.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-06-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-06-1" aria-label="Mark task complete" />
+          <span class="task-title">Inventory catalog with grid view</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/inventory shows grid cards with item image, name, stock. Mobile defaults to grid (image-first). List toggle available for desktop.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add inventory catalog with image grid view</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/inventory/page.tsx</code></li>
+              <li><code>apps/ops/src/components/inventory-card.tsx</code></li>
+              <li><code>apps/ops/src/components/inventory-grid.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-06-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-06-2" aria-label="Mark task complete" />
+          <span class="task-title">Inventory detail and stock movements</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/inventory/[id] detail page with stock movement ledger and restock/adjust actions.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add inventory detail and stock movement ledger</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/inventory/[id]/page.tsx</code></li>
+              <li><code>apps/ops/src/components/stock-movement-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-06-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-06-3" aria-label="Mark task complete" />
+          <span class="task-title">Job line items → inventory deductions</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>When job is completed, deduct materials and create StockMovement records.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): link job line items to inventory deductions</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/actions/jobs.ts</code></li>
+              <li><code>apps/ops/src/components/job-line-items-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-06-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-06-4" aria-label="Mark task complete" />
+          <span class="task-title">Low-stock alerts</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Dashboard widget and notifications when stock falls below threshold set in settings.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add low-stock alerts</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/inventory.ts</code></li>
+              <li><code>apps/ops/src/components/low-stock-alert.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-05.html">← P05</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-07.html">P07 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

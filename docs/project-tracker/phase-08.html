@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P08 — Reports Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P08 — Reports Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Reports Module</h2>
+        <p>Dashboard completion and dedicated reports page with date-range filters and export.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-07.html">← P07</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-09.html">P09 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="08">
+
+      <div class="task-item" data-task-key="task-08-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-08-0" aria-label="Mark task complete" />
+          <span class="task-title">Reports data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Aggregated queries for revenue, job counts, inquiry conversion, inventory status.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add reports data layer</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/reports.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-08-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-08-1" aria-label="Mark task complete" />
+          <span class="task-title">Complete dashboard widgets</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Replace Coming Soon cards: Jobs Scheduled, Jobs Completed, Gross Sales; add Jobs by Status chart and Low Stock Alerts.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): complete dashboard widgets with live data</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/dashboard/page.tsx</code></li>
+              <li><code>apps/ops/src/components/dashboard-stats.tsx</code></li>
+              <li><code>apps/ops/src/components/dashboard-charts.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-08-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-08-2" aria-label="Mark task complete" />
+          <span class="task-title">Reports page with export</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/reports page with date-range filters and CSV/PDF export.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add reports page with export</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/reports/page.tsx</code></li>
+              <li><code>apps/ops/src/components/report-filters.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-07.html">← P07</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-09.html">P09 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
