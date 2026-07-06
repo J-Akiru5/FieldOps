@@ -13,6 +13,7 @@
     "@supabase/ssr": "^0.5.2",
     "@syntaxure/db": "workspace:*",
     "@syntaxure/ui": "workspace:*",
+    "date-fns": "^4.4.0",
     "lucide-react": "^0.469.0",
     "next": "^15.1.3",
     "react": "^19.0.0",
