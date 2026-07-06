@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/J-Akiru5/FieldOps/compare/v1.1.0...v1.1.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* wrap middleware & dashboard in try/catch for production resilience ([95e1cdc](https://github.com/J-Akiru5/FieldOps/commit/95e1cdc030d35503df7d17267ced660cf5f73441))
+* wrap middleware & dashboard in try/catch for production resilience ([fac5cd8](https://github.com/J-Akiru5/FieldOps/commit/fac5cd8a09aa49c0e9e47cb6fbcaf43d224e47b7))
+
 ## [1.1.0](https://github.com/J-Akiru5/FieldOps/compare/v1.0.0...v1.1.0) (2026-07-06)
 
 
