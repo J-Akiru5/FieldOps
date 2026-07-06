@@ -1,10 +1,10 @@
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/app-shell";
 import { prisma } from "@syntaxure/db";
 import { StaffRole } from "@syntaxure/db";
 import { createServerClient } from "@syntaxure/db/server";
 import { redirect } from "next/navigation";
 
-export default async function DashboardLayout({
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,7 +18,6 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  // Try to get name/role from StaffMember table — graceful fallback if not linked
   let userName = user.email?.split("@")[0] ?? "Staff";
   let userRole = "Staff";
 
@@ -39,13 +38,12 @@ export default async function DashboardLayout({
               : "Bookkeeper";
     }
   } catch {
-    // Silently fall back — DB may not have a StaffMember row yet
+    // Silently fall back
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar userName={userName} userEmail={user.email ?? ""} userRole={userRole} />
-      <main className="flex-1 overflow-y-auto bg-background">{children}</main>
-    </div>
+    <AppShell userName={userName} userEmail={user.email ?? ""} userRole={userRole}>
+      {children}
+    </AppShell>
   );
 }
