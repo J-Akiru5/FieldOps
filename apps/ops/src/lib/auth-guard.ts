@@ -1,6 +1,6 @@
 import { createServerClient } from "@syntaxure/db/server";
 
-export async function requireAuth() {
+export async function requireAuth(): Promise<string> {
   const supabase = await createServerClient();
   const {
     data: { user },
@@ -10,5 +10,5 @@ export async function requireAuth() {
     throw new Error("Unauthorized: must be signed in");
   }
 
-  return user;
+  return user.id;
 }
