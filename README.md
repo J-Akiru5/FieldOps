@@ -47,17 +47,21 @@ Two Vercel projects are configured against this repo:
 - `develop` deploys to Preview/staging URLs.
 - Only `master` promotes to the production domain.
 - Required environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `DATABASE_URL`) are set per project and scoped to Production vs. Preview.
+- The two apps deploy independently. The `turbo-ignore` build step checks whether the app or its dependencies changed; a change scoped to `apps/site` will not trigger a rebuild of `apps/ops`, and vice versa.
 
-### Vercel project settings to confirm in each dashboard
+### Vercel project settings
 
-1. **Root Directory**: set to `apps/site` for `jrr-fieldops-site` and `apps/ops` for `jrr-fieldops-ops`.
-2. **Framework Preset**: set to Next.js.
-3. **Production Branch**: set to `master`.
-4. **Ignored Build Step**: enable and set the command to `npx turbo-ignore` so a change scoped to one app does not rebuild the other.
-5. **Environment Variables**: the following have been added via CLI; verify they are present for both Production and Preview:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `DATABASE_URL` (only needed for `jrr-fieldops-site`)
+| Setting | `jrr-fieldops-site` | `jrr-fieldops-ops` |
+|---------|-------------------|-------------------|
+| Root Directory | `apps/site` | `apps/ops` |
+| Framework Preset | Next.js | Next.js |
+| Production Branch | `master` | `master` |
+| Ignored Build Step | `npx turbo-ignore` | `npx turbo-ignore` |
+| Include files outside root directory | Enabled | Enabled |
+
+**Preview URLs** (auto-deployed from `develop`):
+- `jrr-fieldops-site`: <!-- TODO: insert preview URL after first successful deploy -->
+- `jrr-fieldops-ops`: <!-- TODO: insert preview URL after first successful deploy -->
 
 ## Tech stack
 
