@@ -1,21 +1,33 @@
-import { Users } from "lucide-react";
+import { prisma } from "@syntaxure/db";
+import { createServerClient } from "@syntaxure/db/server";
+import { redirect } from "next/navigation";
+import { StaffPageClient } from "./staff-form";
 
-export default function StaffPage() {
+export const dynamic = "force-dynamic";
+
+export default async function StaffPage() {
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login");
+
+  const staffMembers = await prisma.staffMember.findMany({
+    select: { id: true, name: true, role: true, authUserId: true, createdAt: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const currentRole = staffMembers.find((s) => s.authUserId === user.id)?.role;
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Staff</h1>
-        <p className="text-sm text-muted-foreground mt-1">Manage team members and roles</p>
-      </div>
-      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted mb-4">
-          <Users className="h-6 w-6 text-muted-foreground" />
-        </div>
-        <p className="text-sm font-medium">No staff members</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Invite team members to start collaborating.
-        </p>
-      </div>
-    </div>
+    <StaffPageClient
+      staffMembers={staffMembers.map((s) => ({
+        ...s,
+        createdAt: s.createdAt.toISOString(),
+      }))}
+      currentUserRole={currentRole ?? undefined}
+      currentUserEmail={user.email ?? null}
+    />
   );
 }
