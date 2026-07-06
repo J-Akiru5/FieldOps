@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { MobileNav } from "./mobile-nav";
+import { OfflineStatus } from "./offline-status";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./top-bar";
 
@@ -23,6 +24,7 @@ export function AppShell({ children, userName, userEmail, userRole }: AppShellPr
       {/* Main content area */}
       <div className="flex flex-1 flex-col min-w-0">
         <TopBar userName={userName} userEmail={userEmail} />
+        <OfflineStatus />
         <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-6 pb-20 lg:pb-6">
           {children}
         </main>

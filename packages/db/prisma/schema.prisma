@@ -188,3 +188,25 @@ model SalesTransaction {
   paymentStatus PaymentStatus @default(UNPAID)
   createdAt     DateTime      @default(now())
 }
+
+model AppSettings {
+  id                      String   @id @default("singleton")
+  companyName             String   @default("J.R.R. Aircon & Electronics")
+  scheduleReminderHours   Int      @default(24)
+  lowStockThreshold       Int      @default(5)
+  defaultVatType          VatType  @default(VAT_INCLUSIVE)
+  workingHoursStart       String   @default("08:00")
+  workingHoursEnd         String   @default("17:00")
+  updatedAt               DateTime @updatedAt
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  readAt    DateTime?
+  metadata  Json?
+  createdAt DateTime  @default(now())
+}

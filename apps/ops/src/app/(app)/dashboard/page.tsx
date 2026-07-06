@@ -1,19 +1,17 @@
 import { prisma } from "@syntaxure/db";
 import { StatusBadge } from "@syntaxure/ui";
 import { formatDistanceToNow } from "date-fns";
-import { BarChart2, Briefcase, DollarSign, Lock, MessageSquare, PieChart } from "lucide-react";
+import { BarChart3, Briefcase, DollarSign, MessageSquare, Package } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-async function getInquiryStats() {
+async function getDashboardData() {
   try {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const [count, recent] = await Promise.all([
-      prisma.inquiry.count({
-        where: { createdAt: { gte: sevenDaysAgo } },
-      }),
+    const [inquiryCount, recent, jobCounts, revenue, lowStock] = await Promise.all([
+      prisma.inquiry.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
       prisma.inquiry.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
@@ -26,72 +24,84 @@ async function getInquiryStats() {
           createdAt: true,
         },
       }),
+      prisma.job.groupBy({ by: ["status"], _count: true }),
+      prisma.salesTransaction.aggregate({
+        _sum: { grossAmount: true },
+        where: { paymentStatus: "PAID" },
+      }),
+      prisma.inventoryItem.count({ where: { quantityOnHand: { lte: 0 } } }),
     ]);
 
-    return { count, recent };
+    const scheduled = jobCounts.find((j) => j.status === "SCHEDULED")?._count ?? 0;
+    const completed = jobCounts.find((j) => j.status === "COMPLETED")?._count ?? 0;
+    const byStatus = Object.fromEntries(jobCounts.map((j) => [j.status, j._count]));
+    const totalRevenue = Number(revenue._sum.grossAmount ?? 0);
+
+    return { inquiryCount, recent, scheduled, completed, totalRevenue, byStatus, lowStock };
   } catch {
-    // DB unreachable (e.g., env var missing, connection error) — degrade gracefully
-    return { count: 0, recent: [] };
+    return {
+      inquiryCount: 0,
+      recent: [],
+      scheduled: 0,
+      completed: 0,
+      totalRevenue: 0,
+      byStatus: {} as Record<string, number>,
+      lowStock: 0,
+    };
   }
 }
 
+const statusColors: Record<string, string> = {
+  SCHEDULED: "bg-blue-500",
+  IN_PROGRESS: "bg-amber-500",
+  COMPLETED: "bg-green-500",
+  CANCELLED: "bg-red-500",
+};
+
 export default async function DashboardPage() {
-  const { count, recent } = await getInquiryStats();
+  const { inquiryCount, recent, scheduled, completed, totalRevenue, byStatus, lowStock } =
+    await getDashboardData();
+  const totalJobs = Object.values(byStatus).reduce((s: number, c: number) => s + c, 0);
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Page header */}
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">Overview of your field operations</p>
       </div>
 
-      {/* Stat cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {/* Real stat — Inquiries */}
         <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-medium text-muted-foreground">Inquiries — Last 7 Days</p>
+            <p className="text-sm font-medium text-muted-foreground">Inquiries (7d)</p>
             <MessageSquare className="h-4 w-4 text-primary" />
           </div>
-          <p className="text-3xl font-bold">{count}</p>
-          <p className="text-xs text-muted-foreground mt-1">Live from database</p>
+          <p className="text-3xl font-bold">{inquiryCount}</p>
         </div>
-
-        {/* Coming Soon — Jobs Scheduled */}
-        <div className="rounded-xl border bg-muted/40 p-5 shadow-sm opacity-70">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-medium text-muted-foreground">Jobs Scheduled</p>
-            <Lock className="h-4 w-4 text-muted-foreground" />
+            <Briefcase className="h-4 w-4 text-blue-500" />
           </div>
-          <p className="text-3xl font-bold text-muted-foreground">—</p>
-          <p className="text-xs text-muted-foreground mt-1">Coming in a future phase</p>
+          <p className="text-3xl font-bold">{scheduled}</p>
         </div>
-
-        {/* Coming Soon — Jobs Completed */}
-        <div className="rounded-xl border bg-muted/40 p-5 shadow-sm opacity-70">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-medium text-muted-foreground">Jobs Completed</p>
-            <Briefcase className="h-4 w-4 text-muted-foreground" />
+            <Briefcase className="h-4 w-4 text-green-500" />
           </div>
-          <p className="text-3xl font-bold text-muted-foreground">—</p>
-          <p className="text-xs text-muted-foreground mt-1">Coming in a future phase</p>
+          <p className="text-3xl font-bold">{completed}</p>
         </div>
-
-        {/* Coming Soon — Gross Sales */}
-        <div className="rounded-xl border bg-muted/40 p-5 shadow-sm opacity-70">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-medium text-muted-foreground">Gross Sales</p>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-amber-500" />
           </div>
-          <p className="text-3xl font-bold text-muted-foreground">—</p>
-          <p className="text-xs text-muted-foreground mt-1">Coming in a future phase</p>
+          <p className="text-3xl font-bold">₱{totalRevenue.toLocaleString()}</p>
         </div>
       </div>
 
-      {/* Main content row */}
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Recent Inquiries — real */}
         <div className="rounded-xl border bg-card shadow-sm">
           <div className="border-b px-5 py-4">
             <h2 className="font-semibold text-sm">Recent Inquiries</h2>
@@ -123,30 +133,50 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* Right column — coming soon panels */}
         <div className="space-y-6">
-          {/* Jobs by Status — coming soon */}
-          <div className="rounded-xl border bg-muted/40 p-5 shadow-sm opacity-70">
+          <div className="rounded-xl border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-sm">Jobs by Status</h2>
-              <Lock className="h-4 w-4 text-muted-foreground" />
+              <h2 className="font-semibold text-sm flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Jobs by Status
+              </h2>
             </div>
-            <div className="flex flex-col items-center justify-center py-8 gap-2 text-muted-foreground">
-              <PieChart className="h-10 w-10" />
-              <p className="text-sm">Coming in a future phase</p>
+            <div className="space-y-3">
+              {Object.entries(byStatus).length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-4">No jobs yet.</p>
+              ) : (
+                Object.entries(byStatus).map(([status, count]) => (
+                  <div key={status} className="flex items-center gap-3">
+                    <span className="text-sm w-24 capitalize">
+                      {status.replace("_", " ").toLowerCase()}
+                    </span>
+                    <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${statusColors[status] ?? "bg-muted-foreground"}`}
+                        style={{ width: totalJobs ? `${(count / totalJobs) * 100}%` : "0%" }}
+                      />
+                    </div>
+                    <span className="text-sm font-medium w-8 text-right">{count}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
-          {/* Low Stock Alerts — coming soon */}
-          <div className="rounded-xl border bg-muted/40 p-5 shadow-sm opacity-70">
+          <div className="rounded-xl border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-sm">Low Stock Alerts</h2>
-              <Lock className="h-4 w-4 text-muted-foreground" />
+              <h2 className="font-semibold text-sm flex items-center gap-2">
+                <Package className="h-4 w-4" />
+                Low Stock Alerts
+              </h2>
             </div>
-            <div className="flex flex-col items-center justify-center py-8 gap-2 text-muted-foreground">
-              <BarChart2 className="h-10 w-10" />
-              <p className="text-sm">Coming in a future phase</p>
-            </div>
+            {lowStock > 0 ? (
+              <p className="text-destructive font-medium">
+                {lowStock} item{lowStock !== 1 ? "s" : ""} out of stock
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">All inventory items are in stock.</p>
+            )}
           </div>
         </div>
       </div>
