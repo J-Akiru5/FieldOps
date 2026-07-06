@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/J-Akiru5/FieldOps/compare/v1.3.0...v1.4.0) (2026-07-06)
+
+
+### Features
+
+* **ops:** add AppSettings and Notification models, settings page with company config and thresholds ([82af013](https://github.com/J-Akiru5/FieldOps/commit/82af013dfdc3bc9be50e9230871dbf945419a089))
+* **ops:** add notifications, offline status, error boundaries, and a11y ([63aac86](https://github.com/J-Akiru5/FieldOps/commit/63aac8641714f749bdbfcb0120bfe71f2cfccd9c))
+* **ops:** add sales list with payment tracking, reports dashboard, and live dashboard widgets ([6ace9ca](https://github.com/J-Akiru5/FieldOps/commit/6ace9cace3cc0ad5659ff3c76d1179642f713b6e))
+
 ## [1.3.0](https://github.com/J-Akiru5/FieldOps/compare/v1.2.0...v1.3.0) (2026-07-06)
 
 
