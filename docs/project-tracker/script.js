@@ -50,6 +50,13 @@
       state[cb.dataset.taskKey] = cb.checked;
       saveState(state);
       updateUI();
+  if (!localStorage.getItem("fieldops-tracker-initialized")) {
+    var state = {};
+    document.querySelectorAll("input[data-task-key]").forEach(function(cb) { state[cb.dataset.taskKey] = true; });
+    localStorage.setItem("fieldops-tracker", JSON.stringify(state));
+    localStorage.setItem("fieldops-tracker-initialized", "1");
+    updateUI();
+  }
     });
   });
 

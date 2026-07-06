@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Syntaxure FieldOps Dashboard",
   description: "Internal dashboard for Syntaxure FieldOps",
   manifest: "/manifest.json",
+  icons: { icon: "/favicon.svg", apple: "/icons/icon.svg" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
