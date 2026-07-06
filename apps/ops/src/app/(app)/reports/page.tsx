@@ -1,23 +1,34 @@
-import { BarChart3 } from "lucide-react";
+import { prisma } from "@syntaxure/db";
+import { createServerClient } from "@syntaxure/db/server";
+import { redirect } from "next/navigation";
+import { ReportsClient } from "./reports-client";
 
-export default function ReportsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ReportsPage() {
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const [jobs, inquiries, revenue, lowStock] = await Promise.all([
+    prisma.job.groupBy({ by: ["status"], _count: true }),
+    prisma.inquiry.count(),
+    prisma.salesTransaction.aggregate({
+      _sum: { grossAmount: true, netProfit: true },
+      where: { paymentStatus: "PAID" },
+    }),
+    prisma.inventoryItem.count({ where: { quantityOnHand: { lte: 0 } } }),
+  ]);
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Reports</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Insights and analytics for your operations
-        </p>
-      </div>
-      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted mb-4">
-          <BarChart3 className="h-6 w-6 text-muted-foreground" />
-        </div>
-        <p className="text-sm font-medium">Reports coming soon</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Revenue, job analytics, and export will be available here.
-        </p>
-      </div>
-    </div>
+    <ReportsClient
+      jobsByStatus={jobs.map((j) => ({ status: j.status, count: j._count }))}
+      totalInquiries={inquiries}
+      totalRevenue={Number(revenue._sum.grossAmount ?? 0)}
+      totalProfit={Number(revenue._sum.netProfit ?? 0)}
+      lowStockItems={lowStock}
+    />
   );
 }
