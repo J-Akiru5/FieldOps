@@ -60,8 +60,8 @@ Two Vercel projects are configured against this repo:
 | Include files outside root directory | Enabled | Enabled |
 
 **Preview URLs** (auto-deployed from `develop`):
-- `jrr-fieldops-site`: <!-- TODO: insert preview URL after first successful deploy -->
-- `jrr-fieldops-ops`: <!-- TODO: insert preview URL after first successful deploy -->
+- `jrr-fieldops-site`: https://jrr-fieldops-site-hb66qizzc-j-akiru5s-projects.vercel.app
+- `jrr-fieldops-ops`: https://jrr-fieldops-4hnxsc581-j-akiru5s-projects.vercel.app
 
 ## Tech stack
 
