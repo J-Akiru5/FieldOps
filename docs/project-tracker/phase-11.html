@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P11 — Settings Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P11 — Settings Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Settings Module</h2>
+        <p>Settings page with company info, notification thresholds, default VAT, working hours.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-10.html">← P10</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-12.html">P12 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="11">
+
+      <div class="task-item" data-task-key="task-11-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-11-0" aria-label="Mark task complete" />
+          <span class="task-title">Settings database model</span>
+          <div class="task-badges"><span class="badge badge-db">DB</span></div>
+        </div>
+        <div class="task-body">
+          <p>Add Settings singleton model or single-row table for company config and thresholds.</p>
+          <p><strong>Commit:</strong> <code>feat(db): add Settings model and ops settings CRUD</code></p>
+          <ul>
+              <li><code>packages/db/prisma/schema.prisma</code></li>
+              <li><code>apps/ops/src/lib/data/settings.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-11-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-11-1" aria-label="Mark task complete" />
+          <span class="task-title">Settings UI</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/settings page with company info, schedule reminder threshold, low-stock threshold, default VAT type, working hours.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add settings page with notification thresholds</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/settings/page.tsx</code></li>
+              <li><code>apps/ops/src/components/settings-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-10.html">← P10</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-12.html">P12 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

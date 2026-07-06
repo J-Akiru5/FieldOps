@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P10 — Offline Support &amp; Idempotent Sync | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P10 — Offline Support &amp; Idempotent Sync</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Offline Support &amp; Idempotent Sync</h2>
+        <p>IndexedDB offline queue, idempotency keys, auto-sync on reconnect, manual sync fallback, optimistic UI.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-09.html">← P09</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-11.html">P11 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="10">
+
+      <div class="task-item" data-task-key="task-10-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-10-0" aria-label="Mark task complete" />
+          <span class="task-title">Offline action queue</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Persist pending actions in IndexedDB with idempotencyKey, actionType, payload, timestamp.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add offline action queue with idempotency keys</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/offline/queue.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-10-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-10-1" aria-label="Mark task complete" />
+          <span class="task-title">Online/offline status and manual sync</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Banner when offline; manual Sync now button visible when queued actions exist.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add offline status banner and manual sync</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/offline-status.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-10-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-10-2" aria-label="Mark task complete" />
+          <span class="task-title">Idempotent auto-sync engine</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Process queue once on online event. Each action sent with idempotency key; remove on success. Prevent duplicates.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add idempotent auto-sync engine</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/offline/sync.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-10-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-10-3" aria-label="Mark task complete" />
+          <span class="task-title">Idempotency in server actions</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>All mutating server actions accept idempotencyKey and guard against duplicate processing.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): enforce idempotency keys in mutating server actions</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/actions/*.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-10-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-10-4" aria-label="Mark task complete" />
+          <span class="task-title">Optimistic UI for queued actions</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Show pending state and local-cache results until sync completes.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add optimistic UI for offline actions</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/offline/optimistic.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-09.html">← P09</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-11.html">P11 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

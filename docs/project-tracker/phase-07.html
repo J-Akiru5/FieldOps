@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P07 — Sales / Invoicing Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P07 — Sales / Invoicing Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Sales / Invoicing Module</h2>
+        <p>Sales transactions, invoice creation from job or direct, payment tracking, VAT, print/export.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-06.html">← P06</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-08.html">P08 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="07">
+
+      <div class="task-item" data-task-key="task-07-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-07-0" aria-label="Mark task complete" />
+          <span class="task-title">Sales data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Service for sales CRUD, payments, and VAT calculations.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add sales data layer</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/sales.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-07-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-07-1" aria-label="Mark task complete" />
+          <span class="task-title">Sales list and create</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/sales list; /sales/new form from job or direct sale; VAT handling per VatType.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add sales and invoicing pages</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/sales/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/sales/new/page.tsx</code></li>
+              <li><code>apps/ops/src/components/sale-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-07-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-07-2" aria-label="Mark task complete" />
+          <span class="task-title">Sale detail and payment tracking</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/sales/[id] detail with payment status and record-payment action.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add sale detail and payment tracking</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/sales/[id]/page.tsx</code></li>
+              <li><code>apps/ops/src/components/payment-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-07-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-07-3" aria-label="Mark task complete" />
+          <span class="task-title">Invoice print/export</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Printable invoice component and PDF export.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add invoice print and export</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/invoice-print.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-06.html">← P06</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-08.html">P08 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

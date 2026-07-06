@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P02 — RBAC &amp; Admin User Management | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P02 — RBAC &amp; Admin User Management</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>RBAC &amp; Admin User Management</h2>
+        <p>Implement full role-based access control and an admin page to invite staff, edit roles, and deactivate users.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-01.html">← P01</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-03.html">P03 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="02">
+
+      <div class="task-item" data-task-key="task-02-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-02-0" aria-label="Mark task complete" />
+          <span class="task-title">Permission matrix</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Define role hierarchy and permission constants. Owner/Partner/Bookkeeper/Technician scopes.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add role-based permission matrix</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/permissions.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-02-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-02-1" aria-label="Mark task complete" />
+          <span class="task-title">Server and client RBAC guards</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Create requirePermission server guard and PermissionGate client wrapper. admin@syntaxure.dev always passes.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add server and client RBAC guards</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/require-permission.ts</code></li>
+              <li><code>apps/ops/src/components/permission-gate.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-02-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-02-2" aria-label="Mark task complete" />
+          <span class="task-title">Staff management page</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Replace /staff stub with real list, invite new staff via Supabase auth invite, edit role, deactivate/reactivate.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add staff management with role editing</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/staff/page.tsx</code></li>
+              <li><code>apps/ops/src/app/actions/staff.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-02-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-02-3" aria-label="Mark task complete" />
+          <span class="task-title">Enforce RBAC across routes and actions</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Protect settings, staff, reports, sales actions. Hide menu items client-side by role.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): enforce RBAC across routes and actions</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/*/page.tsx</code></li>
+              <li><code>apps/ops/src/components/mobile-nav.tsx</code></li>
+              <li><code>apps/ops/src/components/sidebar.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-02-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-02-4" aria-label="Mark task complete" />
+          <span class="task-title">Seed super admin</span>
+          <div class="task-badges"><span class="badge badge-manual">Manual</span><span class="badge badge-db">DB</span></div>
+        </div>
+        <div class="task-body">
+          <p>Ensure StaffMember record for admin@syntaxure.dev has role OWNER. This can be a one-time Prisma seed or direct DB update.</p>
+          <p><strong>Commit:</strong> <code>feat(db): seed admin@syntaxure.dev as owner super admin</code></p>
+          <ul>
+              <li><code>packages/db/prisma/seed.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-01.html">← P01</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-03.html">P03 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

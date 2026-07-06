@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P05 — Schedule Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P05 — Schedule Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Schedule Module</h2>
+        <p>Service scheduling quick-action, calendar views, and reminder engine.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-04.html">← P04</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-06.html">P06 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="05">
+
+      <div class="task-item" data-task-key="task-05-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-05-0" aria-label="Mark task complete" />
+          <span class="task-title">Schedule data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Service for schedule CRUD and technician availability.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add schedule data layer</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/schedule.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-05-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-05-1" aria-label="Mark task complete" />
+          <span class="task-title">New service schedule quick-action</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/schedule/new page opened from center + button. Form includes customer/appliance, job type, preferred date/time, notes.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add new service schedule quick-action page</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/schedule/new/page.tsx</code></li>
+              <li><code>apps/ops/src/components/schedule-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-05-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-05-2" aria-label="Mark task complete" />
+          <span class="task-title">Calendar views</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/schedule page with month/week/day views. Mobile defaults to agenda/day view.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add responsive calendar views</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/schedule/page.tsx</code></li>
+              <li><code>apps/ops/src/components/schedule-calendar.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-05-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-05-3" aria-label="Mark task complete" />
+          <span class="task-title">Schedule reminder engine</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Compute reminders based on user-configured threshold. Trigger notification when job schedule date approaches.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add schedule reminder engine</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/schedule-reminders.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-04.html">← P04</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-06.html">P06 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P00 — Foundation: PWA, Shell &amp; Modern Login | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P00 — Foundation: PWA, Shell &amp; Modern Login</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Foundation: PWA, Shell &amp; Modern Login</h2>
+        <p>Install PWA boilerplate, replace the fixed desktop sidebar with a responsive shell (sidebar/rail/bottom-nav), modernize the login page, and prepare all page shells.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-01.html">P01 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="00">
+
+      <div class="task-item" data-task-key="task-00-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-0" aria-label="Mark task complete" />
+          <span class="task-title">Install and configure next-pwa</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Add @ducanh2912/next-pwa, create manifest.json, add icon placeholders, register service worker in next.config.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add PWA manifest, icons, and next-pwa config</code></p>
+          <ul>
+              <li><code>apps/ops/next.config.ts</code></li>
+              <li><code>apps/ops/public/manifest.json</code></li>
+              <li><code>apps/ops/public/icons/</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-00-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-1" aria-label="Mark task complete" />
+          <span class="task-title">Modern split-view login page</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Replace the current centered login with a left/right split layout. Left panel shows brand/illustration on desktop; form card on the right. Fully responsive.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): modernize login page with split-screen layout</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/login/page.tsx</code></li>
+              <li><code>apps/ops/src/components/login-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-00-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-2" aria-label="Mark task complete" />
+          <span class="task-title">Responsive app shell + top bar</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Create AppShell: desktop sidebar, tablet icon rail, mobile hidden sidebar. Add TopBar with page title and top-right avatar menu (Account, Notifications, Settings, Sign out).</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add responsive app shell with top bar</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/app-shell.tsx</code></li>
+              <li><code>apps/ops/src/components/top-bar.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/layout.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-00-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-3" aria-label="Mark task complete" />
+          <span class="task-title">Mobile bottom navigation</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Build bottom nav with Home, Inquiries, Schedule, More, and a large center + button that opens /schedule/new for registering a service schedule.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add mobile bottom navigation with quick-action schedule button</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/mobile-nav.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-00-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-4" aria-label="Mark task complete" />
+          <span class="task-title">Desktop sidebar only on desktop</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Render the existing Sidebar only on desktop; sync active state with bottom nav and rail.</p>
+          <p><strong>Commit:</strong> <code>refactor(ops): render sidebar only on desktop and sync active state</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/sidebar.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-00-5">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-00-5" aria-label="Mark task complete" />
+          <span class="task-title">Replace stub pages with real empty-state shells</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Convert Jobs, Inventory, Sales, Reports, Staff, Settings from ComingSoonPage to real page shells with headers and mobile padding.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): scaffold real page shells for jobs, inventory, sales, reports, staff, settings</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/jobs/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/inventory/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/sales/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/reports/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/staff/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/settings/page.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-01.html">P01 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

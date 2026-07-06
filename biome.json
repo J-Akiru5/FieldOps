@@ -2,6 +2,14 @@
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "extends": ["./packages/config/biome.json"],
   "files": {
-    "ignore": ["node_modules", ".next", ".turbo", ".vercel", "dist", "next-env.d.ts"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      ".turbo",
+      ".vercel",
+      "dist",
+      "next-env.d.ts",
+      "docs/project-tracker"
+    ]
   }
 }

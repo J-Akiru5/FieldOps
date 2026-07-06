@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P09 — Notifications: In-App + Push | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P09 — Notifications: In-App + Push</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Notifications: In-App + Push</h2>
+        <p>Notification data model, in-app bell with realtime, and PWA push subscriptions wired to business events.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-08.html">← P08</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-10.html">P10 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="09">
+
+      <div class="task-item" data-task-key="task-09-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-09-0" aria-label="Mark task complete" />
+          <span class="task-title">Notification database model</span>
+          <div class="task-badges"><span class="badge badge-db">DB</span></div>
+        </div>
+        <div class="task-body">
+          <p>Add Notification model with userId, type, title, body, readAt, metadata. Prisma migration.</p>
+          <p><strong>Commit:</strong> <code>feat(db): add Notification model</code></p>
+          <ul>
+              <li><code>packages/db/prisma/schema.prisma</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-09-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-09-1" aria-label="Mark task complete" />
+          <span class="task-title">In-app notification bell and list</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Notification bell in top bar with unread count. Dropdown shows recent; /notifications shows full list with mark-as-read.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add in-app notification bell and list</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/notifications/notification-bell.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/notifications/page.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-09-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-09-2" aria-label="Mark task complete" />
+          <span class="task-title">Supabase realtime notifications</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Subscribe to Notification table changes to update bell count in real time.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): wire in-app notifications to supabase realtime</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/notifications/notification-provider.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-09-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-09-3" aria-label="Mark task complete" />
+          <span class="task-title">PWA push subscription</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Generate VAPID keys. Add /api/push/subscribe route, store subscriptions, service worker push handler.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add PWA push notification subscription</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/api/push/subscribe/route.ts</code></li>
+              <li><code>apps/ops/public/sw.js</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-09-4">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-09-4" aria-label="Mark task complete" />
+          <span class="task-title">Notification dispatcher</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Central createNotification helper that writes DB row, sends pushes, and writes audit log. Hook into inquiry/job/schedule/sales/low-stock events.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): dispatch notifications on business events</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/notifications/dispatch.ts</code></li>
+              <li><code>apps/ops/src/app/actions/*.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-08.html">← P08</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-10.html">P10 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

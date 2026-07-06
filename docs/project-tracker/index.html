@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FieldOps Ops App — Implementation Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>FieldOps Ops Tracker</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Full Ops Implementation Roadmap</h2>
+      <p>PWA, offline sync, RBAC, customer/appliance directory, jobs, schedule, inventory, sales, reports, notifications, and polish. Click any phase to view tasks.</p>
+    </section>
+
+    <section class="phase-list">
+
+      <article class="phase-card" data-phase-id="00">
+        <div class="phase-badge">P00</div>
+        <div class="phase-info">
+          <h3>Foundation: PWA, Shell &amp; Modern Login</h3>
+          <p>Install PWA boilerplate, replace the fixed desktop sidebar with a responsive shell (sidebar/rail/bottom-nav), modernize the login page, and prepare all page shells.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/6</span>
+          </div>
+          <a class="btn btn-primary" href="phase-00.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="01">
+        <div class="phase-badge">P01</div>
+        <div class="phase-info">
+          <h3>Account CRUD &amp; Preferences</h3>
+          <p>Build a full account settings page with profile editing, password change, avatar upload, and notification preferences.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/4</span>
+          </div>
+          <a class="btn btn-primary" href="phase-01.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="02">
+        <div class="phase-badge">P02</div>
+        <div class="phase-info">
+          <h3>RBAC &amp; Admin User Management</h3>
+          <p>Implement full role-based access control and an admin page to invite staff, edit roles, and deactivate users.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/5</span>
+          </div>
+          <a class="btn btn-primary" href="phase-02.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="03">
+        <div class="phase-badge">P03</div>
+        <div class="phase-info">
+          <h3>Customer &amp; Appliance Directory</h3>
+          <p>Full CRUD customer directory with linked appliances, reusable pickers, and mobile list → detail pattern.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/5</span>
+          </div>
+          <a class="btn btn-primary" href="phase-03.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="04">
+        <div class="phase-badge">P04</div>
+        <div class="phase-info">
+          <h3>Jobs Module</h3>
+          <p>Complete job lifecycle: list, detail, create from inquiry or scratch, status workflow, technician assignment.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/4</span>
+          </div>
+          <a class="btn btn-primary" href="phase-04.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="05">
+        <div class="phase-badge">P05</div>
+        <div class="phase-info">
+          <h3>Schedule Module</h3>
+          <p>Service scheduling quick-action, calendar views, and reminder engine.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/4</span>
+          </div>
+          <a class="btn btn-primary" href="phase-05.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="06">
+        <div class="phase-badge">P06</div>
+        <div class="phase-info">
+          <h3>Inventory Module</h3>
+          <p>Inventory catalog with images, stock movements, low-stock alerts, and grid view on mobile/desktop.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/5</span>
+          </div>
+          <a class="btn btn-primary" href="phase-06.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="07">
+        <div class="phase-badge">P07</div>
+        <div class="phase-info">
+          <h3>Sales / Invoicing Module</h3>
+          <p>Sales transactions, invoice creation from job or direct, payment tracking, VAT, print/export.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/4</span>
+          </div>
+          <a class="btn btn-primary" href="phase-07.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="08">
+        <div class="phase-badge">P08</div>
+        <div class="phase-info">
+          <h3>Reports Module</h3>
+          <p>Dashboard completion and dedicated reports page with date-range filters and export.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/3</span>
+          </div>
+          <a class="btn btn-primary" href="phase-08.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="09">
+        <div class="phase-badge">P09</div>
+        <div class="phase-info">
+          <h3>Notifications: In-App + Push</h3>
+          <p>Notification data model, in-app bell with realtime, and PWA push subscriptions wired to business events.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/5</span>
+          </div>
+          <a class="btn btn-primary" href="phase-09.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="10">
+        <div class="phase-badge">P10</div>
+        <div class="phase-info">
+          <h3>Offline Support &amp; Idempotent Sync</h3>
+          <p>IndexedDB offline queue, idempotency keys, auto-sync on reconnect, manual sync fallback, optimistic UI.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/5</span>
+          </div>
+          <a class="btn btn-primary" href="phase-10.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="11">
+        <div class="phase-badge">P11</div>
+        <div class="phase-info">
+          <h3>Settings Module</h3>
+          <p>Settings page with company info, notification thresholds, default VAT, working hours.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/2</span>
+          </div>
+          <a class="btn btn-primary" href="phase-11.html">Details</a>
+        </div>
+      </article>
+
+      <article class="phase-card" data-phase-id="12">
+        <div class="phase-badge">P12</div>
+        <div class="phase-info">
+          <h3>Polish, Accessibility &amp; Performance</h3>
+          <p>Final pass: accessibility, loading/error states, responsive audit, and PWA polish.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-progress">
+            <div class="phase-progress-bar"><div class="phase-progress-fill" style="width:0%"></div></div>
+            <span class="phase-count">0/3</span>
+          </div>
+          <a class="btn btn-primary" href="phase-12.html">Details</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Manual Tasks</h2>
+      <div class="manual-list">
+
+      <div class="manual-card">
+        <h4>Configure Supabase Storage buckets</h4>
+        <p>Create &#039;avatars&#039; and &#039;invoices&#039; buckets. Enable public URL access for avatars. Add RLS policies so authenticated users can upload/view their own files.</p>
+      </div>
+
+      <div class="manual-card">
+        <h4>Generate VAPID keys for push notifications</h4>
+        <p>Run &#039;npx web-push generate-vapid-keys&#039; and add VAPID_PUBLIC_KEY / VAPID_PRIVATE_KEY to Vercel env vars (Production, Preview, Development).</p>
+      </div>
+
+      <div class="manual-card">
+        <h4>Seed super admin</h4>
+        <p>Ensure StaffMember record for admin@syntaxure.dev has role OWNER. One-time Prisma seed or direct DB update.</p>
+      </div>
+
+      <div class="manual-card">
+        <h4>Configure Supabase realtime</h4>
+        <p>Enable realtime on the Notification table in Supabase Dashboard so the bell updates live.</p>
+      </div>
+
+      <div class="manual-card">
+        <h4>PWA icon assets</h4>
+        <p>Replace placeholder icons in apps/ops/public/icons/ with final brand assets (192x192, 512x512, maskable).</p>
+      </div>
+
+      <div class="manual-card">
+        <h4>Vercel env var verification</h4>
+        <p>Verify NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, DATABASE_URL, and SUPABASE_SERVICE_ROLE_KEY are set for Production and Preview.</p>
+      </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>Progress is saved locally in your browser. Commit each task with a Conventional Commit to maintain semantic versioning and release tags.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

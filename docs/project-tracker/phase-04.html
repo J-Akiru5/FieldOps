@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P04 — Jobs Module | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P04 — Jobs Module</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Jobs Module</h2>
+        <p>Complete job lifecycle: list, detail, create from inquiry or scratch, status workflow, technician assignment.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-03.html">← P03</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-05.html">P05 →</a>
+    </div>
+
+    <section class="task-list" data-phase-id="04">
+
+      <div class="task-item" data-task-key="task-04-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-04-0" aria-label="Mark task complete" />
+          <span class="task-title">Job data layer</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Service for getJobs, getJobById, createJob, updateJobStatus, assignTechnician.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add job data layer</code></p>
+          <ul>
+              <li><code>apps/ops/src/lib/data/jobs.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-04-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-04-1" aria-label="Mark task complete" />
+          <span class="task-title">Job list and detail pages</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/jobs list with filters; /jobs/[id] detail. Mobile list view with More → detail.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add job list and detail pages</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/jobs/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/jobs/[id]/page.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-04-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-04-2" aria-label="Mark task complete" />
+          <span class="task-title">Create job and inquiry conversion</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>/jobs/new form with customer/appliance picker; /inquiries/[id]/convert to create a job from an inquiry.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add job creation and inquiry conversion</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/(app)/jobs/new/page.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/inquiries/[id]/convert/page.tsx</code></li>
+              <li><code>apps/ops/src/components/job-form.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-04-3">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-04-3" aria-label="Mark task complete" />
+          <span class="task-title">Job status workflow</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Status transitions: scheduled → in progress → completed → cancelled. Audit log entry on change.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add job status workflow</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/job-status-select.tsx</code></li>
+              <li><code>apps/ops/src/app/actions/jobs.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-03.html">← P03</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+      <a class="btn" href="phase-05.html">P05 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P12 — Polish, Accessibility &amp; Performance | FieldOps Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="sticky-header">
+    <div class="container inner">
+      <h1>P12 — Polish, Accessibility &amp; Performance</h1>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="global-progress-fill"></div></div>
+        <span class="progress-text" id="global-progress-text">0% complete</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="phase-detail-header">
+      <div>
+        <h2>Polish, Accessibility &amp; Performance</h2>
+        <p>Final pass: accessibility, loading/error states, responsive audit, and PWA polish.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-11.html">← P11</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+    </div>
+
+    <section class="task-list" data-phase-id="12">
+
+      <div class="task-item" data-task-key="task-12-0">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-12-0" aria-label="Mark task complete" />
+          <span class="task-title">Accessibility pass</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Focus states, aria-labels, keyboard navigation for bottom nav and sheets, reduced-motion support.</p>
+          <p><strong>Commit:</strong> <code>a11y(ops): improve keyboard and screen-reader support</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/mobile-nav.tsx</code></li>
+              <li><code>apps/ops/src/components/top-bar.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-12-1">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-12-1" aria-label="Mark task complete" />
+          <span class="task-title">Loading and error states</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Skeleton screens for lists and detail pages. Error boundaries for PWA shell.</p>
+          <p><strong>Commit:</strong> <code>feat(ops): add loading skeletons and error boundaries</code></p>
+          <ul>
+              <li><code>apps/ops/src/components/ui/skeleton-list.tsx</code></li>
+              <li><code>apps/ops/src/app/(app)/error.tsx</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-item" data-task-key="task-12-2">
+        <div class="task-row">
+          <input type="checkbox" data-task-key="task-12-2" aria-label="Mark task complete" />
+          <span class="task-title">Responsive audit</span>
+          <div class="task-badges"></div>
+        </div>
+        <div class="task-body">
+          <p>Test all pages on phone/tablet/desktop. Fix overflow, touch targets, font sizes.</p>
+          <p><strong>Commit:</strong> <code>style(ops): responsive polish across all pages</code></p>
+          <ul>
+              <li><code>apps/ops/src/app/globals.css</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <a class="btn" href="phase-11.html">← P11</a>
+      <a class="btn btn-primary" href="index.html">All Phases</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Tap a task row to expand full details. Checkboxes save locally in your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
