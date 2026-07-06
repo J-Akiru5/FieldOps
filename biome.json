@@ -11,7 +11,8 @@
       "next-env.d.ts",
       "docs/project-tracker",
       "**/public/sw.js",
-      "**/public/workbox-*.js"
+      "**/public/workbox-*.js",
+      "**/prisma/seed.ts"
     ]
   }
 }
