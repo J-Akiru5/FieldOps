@@ -21,29 +21,38 @@ import {
   Textarea,
 } from "@syntaxure/ui";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function AddInquiryDialog() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [source, setSource] = useState<string>("PHONE");
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPending(true);
+    setError("");
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      await createInquiry({
+      const result = await createInquiry({
         contactName: data.get("contactName") as string,
         phone: data.get("phone") as string,
         email: (data.get("email") as string) || undefined,
         message: data.get("message") as string,
         source: source as InquirySource,
       });
-      setOpen(false);
-      form.reset();
-      setSource("PHONE");
+      if (result.success) {
+        setOpen(false);
+        form.reset();
+        setSource("PHONE");
+        router.refresh();
+      } else {
+        setError(result.error ?? "Failed to create inquiry");
+      }
     } finally {
       setPending(false);
     }
@@ -99,6 +108,7 @@ export function AddInquiryDialog() {
               </SelectContent>
             </Select>
           </div>
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
             <Button type="submit" disabled={pending}>
               {pending ? "Saving…" : "Save Inquiry"}

@@ -2,18 +2,23 @@
 
 import { requireAuth } from "@/lib/auth-guard";
 import { prisma } from "@syntaxure/db";
-import { StaffRole } from "@syntaxure/db";
 import { createServerClient } from "@syntaxure/db/server";
 import { revalidatePath } from "next/cache";
 
 export async function updateStaffName(name: string): Promise<{ success: boolean; error?: string }> {
   try {
     const userId = await requireAuth();
-    await prisma.staffMember.upsert({
+    const existing = await prisma.staffMember.findUnique({
       where: { authUserId: userId },
-      update: { name },
-      create: { authUserId: userId, name, role: StaffRole.TECHNICIAN },
+      select: { id: true },
     });
+    if (!existing) {
+      return {
+        success: false,
+        error: "No staff profile found — ask an admin to create your staff account first",
+      };
+    }
+    await prisma.staffMember.update({ where: { authUserId: userId }, data: { name } });
     revalidatePath("/account");
     revalidatePath("/profile");
     revalidatePath("/dashboard");

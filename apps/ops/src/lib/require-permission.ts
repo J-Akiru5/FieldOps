@@ -2,6 +2,13 @@ import { prisma } from "@syntaxure/db";
 import { createServerClient } from "@syntaxure/db/server";
 import { type Permission, SUPER_ADMIN_EMAIL, hasPermission } from "./permissions";
 
+export class ServiceUnavailableError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ServiceUnavailableError";
+  }
+}
+
 export async function getCurrentUserRoleAndEmail(): Promise<{
   role?: string;
   email?: string;
@@ -21,7 +28,7 @@ export async function getCurrentUserRoleAndEmail(): Promise<{
     });
     role = staff?.role;
   } catch {
-    // fallback
+    throw new ServiceUnavailableError("Database is unavailable — cannot look up staff role");
   }
 
   return { role, email: user.email, userId: user.id };
@@ -49,7 +56,7 @@ export async function requirePermission(
     });
     role = staff?.role;
   } catch {
-    // fallback
+    throw new ServiceUnavailableError("Database is unavailable — cannot verify permissions");
   }
 
   if (!hasPermission(role, permission, user.email)) {

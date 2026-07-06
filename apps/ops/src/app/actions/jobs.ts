@@ -54,5 +54,10 @@ export async function updateJobStatusAction(
 }
 
 export async function getTechniciansAction() {
-  return getTechnicians();
+  try {
+    await requirePermission("jobs.read");
+    return getTechnicians();
+  } catch {
+    return [];
+  }
 }

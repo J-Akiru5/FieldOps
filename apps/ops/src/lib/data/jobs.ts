@@ -1,4 +1,4 @@
-import { type JobStatus, prisma } from "@syntaxure/db";
+import { type JobStatus, type JobType, prisma } from "@syntaxure/db";
 
 export interface JobFilters {
   status?: JobStatus;
@@ -49,7 +49,7 @@ export async function createJob(data: {
       customerId: data.customerId,
       applianceId: data.applianceId,
       inquiryId: data.inquiryId,
-      type: data.type as never,
+      type: data.type as JobType,
       scheduledAt: data.scheduledAt,
       laborFee: data.laborFee ?? 0,
     },
