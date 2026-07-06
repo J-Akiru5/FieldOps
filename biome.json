@@ -9,7 +9,9 @@
       ".vercel",
       "dist",
       "next-env.d.ts",
-      "docs/project-tracker"
+      "docs/project-tracker",
+      "**/public/sw.js",
+      "**/public/workbox-*.js"
     ]
   }
 }
