@@ -32,7 +32,21 @@ export async function middleware(request: NextRequest) {
   const isAuthenticated = Boolean(user);
   const pathname = request.nextUrl.pathname;
 
-  if (pathname.startsWith("/dashboard") && !isAuthenticated) {
+  const protectedPrefixes = [
+    "/dashboard",
+    "/inquiries",
+    "/profile",
+    "/jobs",
+    "/schedule",
+    "/inventory",
+    "/sales",
+    "/reports",
+    "/staff",
+    "/settings",
+  ];
+  const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
+
+  if (isProtected && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

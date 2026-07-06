@@ -39,15 +39,29 @@ See [RELEASING.md](./RELEASING.md) for the version-bump and tag process.
 
 Two Vercel projects are configured against this repo:
 
-| Project | Root Directory | Production Branch | Environment |
-|---------|---------------|-------------------|-------------|
-| `jrr-fieldops-site` | `apps/site` | `master` | Production domain |
-| `jrr-fieldops-ops` | `apps/ops` | `master` | Production domain |
+| Project | Dashboard | Root Directory | Production Branch |
+|---------|-----------|----------------|-------------------|
+| `jrr-fieldops-site` | https://vercel.com/j-akiru5s-projects/jrr-fieldops-site | `apps/site` | `master` |
+| `jrr-fieldops-ops` | https://vercel.com/j-akiru5s-projects/jrr-fieldops-ops | `apps/ops` | `master` |
 
 - `develop` deploys to Preview/staging URLs.
 - Only `master` promotes to the production domain.
-- Ignored Build Step (`turbo-ignore`) is enabled per project so a change scoped to `apps/ops` does not rebuild `apps/site`, and vice versa.
 - Required environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `DATABASE_URL`) are set per project and scoped to Production vs. Preview.
+- The two apps deploy independently. The `turbo-ignore` build step checks whether the app or its dependencies changed; a change scoped to `apps/site` will not trigger a rebuild of `apps/ops`, and vice versa.
+
+### Vercel project settings
+
+| Setting | `jrr-fieldops-site` | `jrr-fieldops-ops` |
+|---------|-------------------|-------------------|
+| Root Directory | `apps/site` | `apps/ops` |
+| Framework Preset | Next.js | Next.js |
+| Production Branch | `master` | `master` |
+| Ignored Build Step | `npx turbo-ignore` | `npx turbo-ignore` |
+| Include files outside root directory | Enabled | Enabled |
+
+**Preview URLs** (auto-deployed from `develop`):
+- `jrr-fieldops-site`: https://jrr-fieldops-site-hb66qizzc-j-akiru5s-projects.vercel.app
+- `jrr-fieldops-ops`: https://jrr-fieldops-4hnxsc581-j-akiru5s-projects.vercel.app
 
 ## Tech stack
 
@@ -57,3 +71,6 @@ Two Vercel projects are configured against this repo:
 - Prisma
 - Tailwind CSS + shadcn/ui
 - Biome
+
+
+

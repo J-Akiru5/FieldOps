@@ -20,7 +20,7 @@
     "./prisma": "./prisma/schema.prisma"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",

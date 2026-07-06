@@ -30,6 +30,22 @@
     "./card": {
       "types": "./src/components/ui/card.tsx",
       "default": "./src/components/ui/card.tsx"
+    },
+    "./select": {
+      "types": "./src/components/ui/select.tsx",
+      "default": "./src/components/ui/select.tsx"
+    },
+    "./dialog": {
+      "types": "./src/components/ui/dialog.tsx",
+      "default": "./src/components/ui/dialog.tsx"
+    },
+    "./avatar": {
+      "types": "./src/components/ui/avatar.tsx",
+      "default": "./src/components/ui/avatar.tsx"
+    },
+    "./status-badge": {
+      "types": "./src/components/ui/status-badge.tsx",
+      "default": "./src/components/ui/status-badge.tsx"
     }
   },
   "scripts": {
@@ -37,7 +53,10 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.2.1",
+    "@radix-ui/react-dialog": "^1.1.18",
     "@radix-ui/react-label": "^2.1.1",
+    "@radix-ui/react-select": "^2.3.2",
     "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

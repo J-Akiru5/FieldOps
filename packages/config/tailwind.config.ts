@@ -44,6 +44,14 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Status semantic colors
+        "status-success": "hsl(142 71% 45%)",
+        "status-warning": "hsl(38 92% 50%)",
+        "status-danger": "hsl(0 84% 60%)",
+        "status-info": "hsl(221 83% 53%)",
+        // Sidebar tokens
+        "sidebar-bg": "hsl(222 47% 11%)",
+        "sidebar-active": "hsl(221 83% 53%)",
       },
       borderRadius: {
         lg: "var(--radius)",
