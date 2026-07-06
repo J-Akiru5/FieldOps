@@ -1,16 +1,21 @@
 "use server";
 
-import { requireAuth } from "@/lib/auth-guard";
 import { markAsRead as dbMarkAsRead } from "@/lib/data/notifications";
+import { requirePermission } from "@/lib/require-permission";
 import { revalidatePath } from "next/cache";
 
-export async function markNotificationRead(id: string): Promise<{ success: boolean }> {
+export async function markNotificationRead(
+  id: string
+): Promise<{ success: boolean; error?: string }> {
   try {
-    await requireAuth();
+    await requirePermission("notifications.read");
     await dbMarkAsRead(id);
     revalidatePath("/notifications");
     return { success: true };
-  } catch {
-    return { success: false };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to mark as read",
+    };
   }
 }

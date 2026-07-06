@@ -16,7 +16,8 @@ export type Permission =
   | "settings.read"
   | "settings.write"
   | "customers.read"
-  | "customers.write";
+  | "customers.write"
+  | "notifications.read";
 
 const ROLE_HIERARCHY: Record<string, number> = {
   OWNER: 4,
@@ -45,6 +46,7 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "settings.write",
     "customers.read",
     "customers.write",
+    "notifications.read",
   ],
   PARTNER: [
     "inquiries.read",
@@ -63,6 +65,7 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "settings.read",
     "customers.read",
     "customers.write",
+    "notifications.read",
   ],
   BOOKKEEPER: [
     "inquiries.read",
@@ -75,8 +78,16 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "staff.read",
     "settings.read",
     "customers.read",
+    "notifications.read",
   ],
-  TECHNICIAN: ["inquiries.read", "jobs.read", "schedule.read", "inventory.read", "customers.read"],
+  TECHNICIAN: [
+    "inquiries.read",
+    "jobs.read",
+    "schedule.read",
+    "inventory.read",
+    "customers.read",
+    "notifications.read",
+  ],
 };
 
 const SUPER_ADMIN_EMAIL = "admin@syntaxure.dev";
