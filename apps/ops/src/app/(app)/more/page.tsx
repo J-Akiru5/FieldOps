@@ -1,4 +1,4 @@
-import { BarChart3, Package, ShoppingCart, Users, Wrench } from "lucide-react";
+import { BarChart3, Package, ShoppingCart, User, Users, Wrench } from "lucide-react";
 import Link from "next/link";
 
 const moreItems = [
@@ -11,6 +11,12 @@ const moreItems = [
   },
   { href: "/sales", label: "Sales", description: "View invoices and payments", icon: ShoppingCart },
   { href: "/reports", label: "Reports", description: "Insights and analytics", icon: BarChart3 },
+  {
+    href: "/customers",
+    label: "Customers",
+    description: "Client directory and appliances",
+    icon: User,
+  },
   { href: "/staff", label: "Staff", description: "Manage team members", icon: Users },
   { href: "/settings", label: "Settings", description: "Company and app preferences", icon: Users },
 ];
@@ -22,7 +28,6 @@ export default function MorePage() {
         <h1 className="text-xl font-bold">More</h1>
         <p className="text-sm text-muted-foreground">Quick access to all tools</p>
       </div>
-
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {moreItems.map(({ href, label, description, icon: Icon }) => (
           <Link
