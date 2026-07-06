@@ -30,3 +30,7 @@ Thumbs.db
 
 # Turbo
 .turbo
+
+# PWA build artifacts
+apps/ops/public/sw.js
+apps/ops/public/workbox-*.js
