@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/J-Akiru5/FieldOps/compare/v1.0.0...v1.1.0) (2026-07-06)
+
+
+### Features
+
+* **config:** add status and sidebar color tokens ([00fb28c](https://github.com/J-Akiru5/FieldOps/commit/00fb28c0e137113062eada84e23efbe5fceb739c))
+* **ops:** add auth-guard helper to server actions for defense-in-depth ([7f9b464](https://github.com/J-Akiru5/FieldOps/commit/7f9b4648dc24bd5447a79755173e9366d494e97e))
+* **ops:** add coming-soon stub pages for all nav items ([cc6b30d](https://github.com/J-Akiru5/FieldOps/commit/cc6b30daa46a54531a901ffd05aa4373349d2f9e))
+* **ops:** add inquiries page with status update and add inquiry modal ([950cc48](https://github.com/J-Akiru5/FieldOps/commit/950cc48a3807997328680099b27227638232ca35))
+* **ops:** add profile page ([81206ef](https://github.com/J-Akiru5/FieldOps/commit/81206efb31b0a1c823a096a5afc7d3e7ccbca620))
+* **ops:** add sidebar and dashboard route group layout ([8e36f6f](https://github.com/J-Akiru5/FieldOps/commit/8e36f6f7f2c54c5fc854d9c333a7fefa48e7d904))
+* **ops:** rebuild dashboard with real inquiries and coming-soon cards ([8326262](https://github.com/J-Akiru5/FieldOps/commit/83262621c486100e2fdf3d794c7ffb1aeca55057))
+* **site:** visual restyle — header, hero, services, why-us 4-col, CTA banner, footer ([0f040f8](https://github.com/J-Akiru5/FieldOps/commit/0f040f8ff9bfee92df384ddd0d99de12c14ce1be))
+* **ui:** add Select, Dialog, Avatar, StatusBadge primitives ([5daca58](https://github.com/J-Akiru5/FieldOps/commit/5daca582c102fcede9eee35f32a8c40521b6cc8c))
+
+
+### Bug Fixes
+
+* **db:** run prisma generate before tsc in build script ([3c11174](https://github.com/J-Akiru5/FieldOps/commit/3c11174e25fd25db33732bbd071e4aef5bad3820))
+* **deps:** regenerate lockfile with radix-ui packages ([5df86dc](https://github.com/J-Akiru5/FieldOps/commit/5df86dc0f6cd60f7970c2e25dcd34d0bb0f7b834))
+* **ops:** add explicit return type to requireAuth for TS declaration emit ([07eaf4a](https://github.com/J-Akiru5/FieldOps/commit/07eaf4ac4db4f850f970366f0c7e22e6dc50d190))
+* **ops:** extend auth middleware to all protected routes ([9aba253](https://github.com/J-Akiru5/FieldOps/commit/9aba25328ac62d8e5c2223b65909fa4e66c14f9a))
+
 ## [1.0.0] - 2026-07-05
 
 ### Added
