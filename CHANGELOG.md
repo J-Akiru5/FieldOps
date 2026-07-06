@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/J-Akiru5/FieldOps/compare/v1.1.1...v1.2.0) (2026-07-06)
+
+
+### Features
+
+* **ops:** add customer directory CRUD with list, detail, and edit pages ([0508ffa](https://github.com/J-Akiru5/FieldOps/commit/0508ffa122ccbcd5e0b1ad16a90b4bf4deeb131b))
+* **ops:** add full account CRUD with editable name and password reset ([b784be7](https://github.com/J-Akiru5/FieldOps/commit/b784be711ccdc212a7d1df3e944674846a233157))
+* **ops:** add mobile bottom navigation with quick-action schedule button ([0ecde34](https://github.com/J-Akiru5/FieldOps/commit/0ecde345f858d3618594d1114b53b0fbfb06db1a))
+* **ops:** add PWA manifest, icons, and next-pwa config ([eb8f314](https://github.com/J-Akiru5/FieldOps/commit/eb8f314c06f0b82237c1fedab8bba2f0ccc2a318))
+* **ops:** add responsive app shell with top bar ([6424db0](https://github.com/J-Akiru5/FieldOps/commit/6424db0ded7fdb0fbb40fcc88b08c63d921cd162))
+* **ops:** add role-based permission matrix, RBAC guards, and staff management ([4b5ad7b](https://github.com/J-Akiru5/FieldOps/commit/4b5ad7b99f4ba489a2691ea481dbf756f28dcdfa))
+* **ops:** modernize login page with split-screen layout ([fbf46c1](https://github.com/J-Akiru5/FieldOps/commit/fbf46c1409f0945d1d57a73a8f551311caaf179b))
+* **ops:** scaffold real page shells for jobs, inventory, sales, reports, staff, settings, schedule ([1828117](https://github.com/J-Akiru5/FieldOps/commit/1828117f13930b1c290ae3f57a48c0ecf11af8ba))
+
 ## [1.1.1](https://github.com/J-Akiru5/FieldOps/compare/v1.1.0...v1.1.1) (2026-07-06)
 
 
