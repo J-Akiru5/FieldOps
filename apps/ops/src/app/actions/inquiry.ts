@@ -1,5 +1,6 @@
 "use server";
 
+import { createNotificationAction } from "@/app/actions/notifications";
 import { requirePermission } from "@/lib/require-permission";
 import { prisma } from "@syntaxure/db";
 import { type InquirySource, InquiryStatus } from "@syntaxure/db";
@@ -47,6 +48,19 @@ export async function createInquiry(data: {
     });
     revalidatePath("/inquiries");
     revalidatePath("/dashboard");
+
+    const staffMember = await prisma.staffMember.findFirst({
+      where: { role: "OWNER" },
+      select: { authUserId: true },
+    });
+    if (staffMember) {
+      await createNotificationAction({
+        userId: staffMember.authUserId,
+        type: "inquiry",
+        title: "New inquiry received",
+        body: `${data.contactName} — ${data.message.substring(0, 60)}${data.message.length > 60 ? "…" : ""}`,
+      });
+    }
     return { success: true };
   } catch (error) {
     return {

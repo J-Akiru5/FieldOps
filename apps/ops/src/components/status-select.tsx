@@ -3,8 +3,8 @@
 import { updateInquiryStatus } from "@/app/actions/inquiry";
 import { InquiryStatus } from "@syntaxure/db";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@syntaxure/ui";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface StatusSelectProps {
   inquiryId: string;
@@ -12,13 +12,13 @@ interface StatusSelectProps {
 }
 
 export function StatusSelect({ inquiryId, currentStatus }: StatusSelectProps) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   function handleChange(value: string) {
     startTransition(async () => {
       const result = await updateInquiryStatus(inquiryId, value as InquiryStatus);
-      if (result.success) router.refresh();
+      if (result.success) toast.success("Status updated");
+      else toast.error(result.error ?? "Failed to update status");
     });
   }
 

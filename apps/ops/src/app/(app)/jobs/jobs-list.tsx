@@ -61,7 +61,11 @@ export function JobsListClient({ jobs }: { jobs: JobRow[] }) {
           </div>
           <p className="text-sm font-medium">No jobs yet</p>
           <p className="text-xs text-muted-foreground mt-1">
-            Create a new job or convert an inquiry.
+            Tap{" "}
+            <Link href="/jobs/new" className="text-primary hover:underline">
+              New Job
+            </Link>{" "}
+            or convert an inquiry to get started.
           </p>
         </div>
       ) : (

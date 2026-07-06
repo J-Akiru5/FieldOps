@@ -23,18 +23,17 @@ import {
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function AddInquiryDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [source, setSource] = useState<string>("PHONE");
-  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPending(true);
-    setError("");
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
@@ -46,12 +45,13 @@ export function AddInquiryDialog() {
         source: source as InquirySource,
       });
       if (result.success) {
+        toast.success("Inquiry saved successfully");
         setOpen(false);
         form.reset();
         setSource("PHONE");
         router.refresh();
       } else {
-        setError(result.error ?? "Failed to create inquiry");
+        toast.error(result.error ?? "Failed to create inquiry");
       }
     } finally {
       setPending(false);
@@ -108,7 +108,6 @@ export function AddInquiryDialog() {
               </SelectContent>
             </Select>
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
             <Button type="submit" disabled={pending}>
               {pending ? "Saving…" : "Save Inquiry"}

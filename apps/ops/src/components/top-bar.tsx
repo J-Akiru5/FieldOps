@@ -10,6 +10,7 @@ import { useState } from "react";
 interface TopBarProps {
   userName: string;
   userEmail: string;
+  unreadNotificationCount?: number;
 }
 
 const pageTitles: Record<string, string> = {
@@ -35,7 +36,7 @@ function getPageTitle(pathname: string): string {
   return "FieldOps";
 }
 
-export function TopBar({ userName, userEmail }: TopBarProps) {
+export function TopBar({ userName, userEmail, unreadNotificationCount = 0 }: TopBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -98,8 +99,9 @@ export function TopBar({ userName, userEmail }: TopBarProps) {
           aria-label="Notifications"
         >
           <Bell className="h-[18px] w-[18px] text-muted-foreground" />
-          {/* Notification dot */}
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500 ring-2 ring-background" />
+          {unreadNotificationCount > 0 && (
+            <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500 ring-2 ring-background" />
+          )}
         </Link>
 
         {/* Avatar dropdown */}

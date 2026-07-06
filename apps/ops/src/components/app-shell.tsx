@@ -11,9 +11,16 @@ interface AppShellProps {
   userName: string;
   userEmail: string;
   userRole: string;
+  unreadNotificationCount?: number;
 }
 
-export function AppShell({ children, userName, userEmail, userRole }: AppShellProps) {
+export function AppShell({
+  children,
+  userName,
+  userEmail,
+  userRole,
+  unreadNotificationCount = 0,
+}: AppShellProps) {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Desktop sidebar — hidden on mobile/tablet */}
@@ -23,7 +30,11 @@ export function AppShell({ children, userName, userEmail, userRole }: AppShellPr
 
       {/* Main content area */}
       <div className="flex flex-1 flex-col min-w-0">
-        <TopBar userName={userName} userEmail={userEmail} />
+        <TopBar
+          userName={userName}
+          userEmail={userEmail}
+          unreadNotificationCount={unreadNotificationCount}
+        />
         <OfflineStatus />
         <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-6 pb-20 lg:pb-6">
           {children}

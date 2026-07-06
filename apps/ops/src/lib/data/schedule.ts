@@ -1,4 +1,5 @@
 import { prisma } from "@syntaxure/db";
+import { endOfWeek, startOfWeek } from "date-fns";
 
 export async function getSchedule(startDate: Date, endDate: Date) {
   return prisma.job.findMany({
@@ -24,4 +25,11 @@ export async function getUpcomingReminders(hoursThreshold: number) {
     },
     include: { customer: { select: { name: true, phone: true } } },
   });
+}
+
+export async function getWeekJobs(weekStart: Date) {
+  const start = startOfWeek(weekStart, { weekStartsOn: 1 });
+  const end = endOfWeek(weekStart, { weekStartsOn: 1 });
+  end.setHours(23, 59, 59, 999);
+  return getSchedule(start, end);
 }

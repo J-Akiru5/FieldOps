@@ -1,12 +1,26 @@
 "use client";
 
 import { updateJobStatusAction } from "@/app/actions/jobs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@syntaxure/ui";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@syntaxure/ui";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, Wrench } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface JobDetail {
   id: string;
@@ -33,12 +47,40 @@ const statuses = ["SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"];
 export function JobDetailClient({ job }: { job: JobDetail }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   function handleStatusChange(s: string) {
+    if (s === "CANCELLED") {
+      setCancelOpen(true);
+      return;
+    }
     startTransition(async () => {
-      await updateJobStatusAction(job.id, s as never);
+      const result = await updateJobStatusAction(job.id, s as never);
+      if (result.success) {
+        toast.success("Status updated");
+      } else {
+        toast.error("Failed to update status");
+      }
       router.refresh();
     });
+  }
+
+  function confirmCancel() {
+    startTransition(async () => {
+      const result = await updateJobStatusAction(job.id, "CANCELLED" as never);
+      if (result.success) {
+        toast.success("Status updated");
+      } else {
+        toast.error("Failed to update status");
+      }
+      setCancelOpen(false);
+      router.refresh();
+    });
+  }
+
+  function cancelCancel() {
+    setCancelOpen(false);
+    router.refresh();
   }
 
   return (
@@ -144,6 +186,25 @@ export function JobDetailClient({ job }: { job: JobDetail }) {
           </div>
         )}
       </div>
+
+      <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Cancel this job?</DialogTitle>
+            <DialogDescription>
+              This cannot be undone. The job will be marked as cancelled.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={cancelCancel}>
+              Keep Job
+            </Button>
+            <Button variant="destructive" onClick={confirmCancel}>
+              Yes, Cancel Job
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

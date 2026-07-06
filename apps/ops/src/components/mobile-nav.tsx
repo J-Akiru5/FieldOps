@@ -27,7 +27,7 @@ export function MobileNav() {
           {/* Center FAB */}
           <div className="flex flex-col items-center justify-end pb-2">
             <Link
-              href="/inquiries/new"
+              href="/schedule/new"
               className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all active:scale-95 -mt-7 fab-pulse"
               aria-label="New inquiry"
             >

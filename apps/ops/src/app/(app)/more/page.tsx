@@ -1,4 +1,4 @@
-import { BarChart3, Package, ShoppingCart, User, Users, Wrench } from "lucide-react";
+import { BarChart3, Package, Settings, ShoppingCart, User, Users, Wrench } from "lucide-react";
 import Link from "next/link";
 
 const moreItems = [
@@ -18,7 +18,12 @@ const moreItems = [
     icon: User,
   },
   { href: "/staff", label: "Staff", description: "Manage team members", icon: Users },
-  { href: "/settings", label: "Settings", description: "Company and app preferences", icon: Users },
+  {
+    href: "/settings",
+    label: "Settings",
+    description: "Company and app preferences",
+    icon: Settings,
+  },
 ];
 
 export default function MorePage() {
