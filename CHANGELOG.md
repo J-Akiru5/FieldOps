@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/J-Akiru5/FieldOps/compare/v1.2.0...v1.3.0) (2026-07-06)
+
+
+### Features
+
+* **ops:** add jobs module with list, detail, create, and inquiry conversion ([ddf76ee](https://github.com/J-Akiru5/FieldOps/commit/ddf76ee808fdb4c022e54748fa9be9cf46a6306e))
+* **ops:** add sales and reports data layers ([748a0a7](https://github.com/J-Akiru5/FieldOps/commit/748a0a7b54bb9bd5ab2ca173adc7da771d162df4))
+* **ops:** add schedule quick-action page and inventory data layer ([5792ea9](https://github.com/J-Akiru5/FieldOps/commit/5792ea95340ee22f626bc500ae13d817ab9e9a4c))
+
 ## [1.2.0](https://github.com/J-Akiru5/FieldOps/compare/v1.1.1...v1.2.0) (2026-07-06)
 
 
