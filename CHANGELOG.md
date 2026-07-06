@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1](https://github.com/J-Akiru5/FieldOps/compare/v1.4.0...v1.4.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* harden server actions with auth checks and error handling ([8e8540a](https://github.com/J-Akiru5/FieldOps/commit/8e8540a0609dce39106364fe0c41392bfbcd4c23))
+* **ops:** harden server actions and data layers with proper auth, error handling, and types ([fed1f7f](https://github.com/J-Akiru5/FieldOps/commit/fed1f7fec69d7aa1579d7ff106aa4ede8f071b06))
+
 ## [1.4.0](https://github.com/J-Akiru5/FieldOps/compare/v1.3.0...v1.4.0) (2026-07-06)
 
 
