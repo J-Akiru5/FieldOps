@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { MobileNav } from "./mobile-nav";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./top-bar";
 
@@ -25,6 +26,7 @@ export function AppShell({ children, userName, userEmail, userRole }: AppShellPr
         <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-6 pb-20 lg:pb-6">
           {children}
         </main>
+        <MobileNav />
       </div>
     </div>
   );
