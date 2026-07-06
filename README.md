@@ -71,3 +71,4 @@ Two Vercel projects are configured against this repo:
 - Prisma
 - Tailwind CSS + shadcn/ui
 - Biome
+
