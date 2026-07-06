@@ -6,28 +6,33 @@ import { BarChart2, Briefcase, DollarSign, Lock, MessageSquare, PieChart } from 
 export const dynamic = "force-dynamic";
 
 async function getInquiryStats() {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-  const [count, recent] = await Promise.all([
-    prisma.inquiry.count({
-      where: { createdAt: { gte: sevenDaysAgo } },
-    }),
-    prisma.inquiry.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        contactName: true,
-        phone: true,
-        message: true,
-        status: true,
-        createdAt: true,
-      },
-    }),
-  ]);
+    const [count, recent] = await Promise.all([
+      prisma.inquiry.count({
+        where: { createdAt: { gte: sevenDaysAgo } },
+      }),
+      prisma.inquiry.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          contactName: true,
+          phone: true,
+          message: true,
+          status: true,
+          createdAt: true,
+        },
+      }),
+    ]);
 
-  return { count, recent };
+    return { count, recent };
+  } catch {
+    // DB unreachable (e.g., env var missing, connection error) — degrade gracefully
+    return { count: 0, recent: [] };
+  }
 }
 
 export default async function DashboardPage() {
