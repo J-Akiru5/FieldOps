@@ -1,10 +1,12 @@
 "use server";
 
+import { requireAuth } from "@/lib/auth-guard";
 import { prisma } from "@syntaxure/db";
 import { type InquirySource, InquiryStatus } from "@syntaxure/db";
 import { revalidatePath } from "next/cache";
 
 export async function updateInquiryStatus(id: string, status: InquiryStatus) {
+  await requireAuth();
   await prisma.inquiry.update({
     where: { id },
     data: { status },
@@ -20,6 +22,7 @@ export async function createInquiry(data: {
   message: string;
   source: InquirySource;
 }) {
+  await requireAuth();
   await prisma.inquiry.create({
     data: {
       contactName: data.contactName,
