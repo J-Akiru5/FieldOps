@@ -1,23 +1,34 @@
-import { Wrench } from "lucide-react";
+import { prisma } from "@syntaxure/db";
+import { createServerClient } from "@syntaxure/db/server";
+import { redirect } from "next/navigation";
+import { JobsListClient } from "./jobs-list";
 
-export default function JobsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function JobsPage() {
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const jobs = await prisma.job.findMany({
+    include: {
+      customer: { select: { name: true, phone: true } },
+      appliance: { select: { brand: true, model: true } },
+      assignments: { include: { staffMember: { select: { name: true } } } },
+    },
+    orderBy: { scheduledAt: "desc" },
+    take: 50,
+  });
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Jobs</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Track service jobs, repairs, and installations
-        </p>
-      </div>
-      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-12 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted mb-4">
-          <Wrench className="h-6 w-6 text-muted-foreground" />
-        </div>
-        <p className="text-sm font-medium">No jobs yet</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Jobs created from inquiries or directly will appear here.
-        </p>
-      </div>
-    </div>
+    <JobsListClient
+      jobs={jobs.map((j) => ({
+        ...j,
+        scheduledAt: j.scheduledAt.toISOString(),
+        createdAt: j.createdAt.toISOString(),
+      }))}
+    />
   );
 }
