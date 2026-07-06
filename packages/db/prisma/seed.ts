@@ -1,9 +1,27 @@
 import { PrismaClient } from "@prisma/client";
+import { createClient } from "@supabase/supabase-js";
 
 const prisma = new PrismaClient();
 
+async function getAdminAuthUserId(): Promise<string> {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+  const { data, error } = await supabase.auth.admin.listUsers();
+  if (error || !data?.users?.length) {
+    throw new Error(`Could not fetch admin auth user: ${error?.message ?? "no users found"}`);
+  }
+  const admin = data.users.find((u) => u.email === "admin@syntaxure.dev");
+  if (!admin) throw new Error("admin@syntaxure.dev auth user not found");
+  return admin.id;
+}
+
 async function main() {
   console.log("Seeding FieldOps database...");
+
+  const adminAuthUserId = await getAdminAuthUserId();
+  console.log(`  Admin auth user ID: ${adminAuthUserId}`);
 
   // Clean existing data in dependency order
   await prisma.notification.deleteMany();
@@ -22,7 +40,7 @@ async function main() {
   // ── Staff ──
   const staff = await Promise.all([
     prisma.staffMember.create({
-      data: { authUserId: "admin@syntaxure.dev", name: "Raul Reyes", role: "OWNER" },
+      data: { authUserId: adminAuthUserId, name: "Raul Reyes", role: "OWNER" },
     }),
     prisma.staffMember.create({
       data: { authUserId: "partner@jrraircon.com", name: "Angelo Santos", role: "PARTNER" },
