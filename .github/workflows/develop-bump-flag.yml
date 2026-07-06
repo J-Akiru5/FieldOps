@@ -1,0 +1,103 @@
+name: develop-bump-flag
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop]
+
+jobs:
+  flag-bump-level:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine bump level from commit messages
+        id: bump
+        run: |
+          set -e
+
+          # Get the merge commit SHA
+          MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+
+          echo "Analyzing commits from $BASE_SHA to $MERGE_SHA"
+
+          # Get commit messages between base and merge
+          COMMITS=$(git log --format=%s "$BASE_SHA..$MERGE_SHA" 2>/dev/null || git log --format=%s -n 50)
+
+          echo "Commits found:"
+          echo "$COMMITS"
+          echo "---"
+
+          # Count by type
+          MAJOR_COUNT=0
+          MINOR_COUNT=0
+          PATCH_COUNT=0
+          OTHER_COUNT=0
+
+          while IFS= read -r line; do
+            line=$(echo "$line" | tr -d '\r\n')
+            if [ -z "$line" ]; then
+              continue
+            fi
+
+            # Check for BREAKING CHANGE in footer or ! in type
+            if echo "$line" | grep -qiE "BREAKING CHANGE:|feat!:|fix!:|refactor!:|perf!:"; then
+              MAJOR_COUNT=$((MAJOR_COUNT + 1))
+            elif echo "$line" | grep -qiE "^feat(\([^)]*\))?:|^feat:"; then
+              MINOR_COUNT=$((MINOR_COUNT + 1))
+            elif echo "$line" | grep -qiE "^fix(\([^)]*\))?:|^fix:"; then
+              PATCH_COUNT=$((PATCH_COUNT + 1))
+            else
+              OTHER_COUNT=$((OTHER_COUNT + 1))
+            fi
+          done <<< "$COMMITS"
+
+          # Determine highest bump level
+          if [ "$MAJOR_COUNT" -gt 0 ]; then
+            BUMP="MAJOR"
+          elif [ "$MINOR_COUNT" -gt 0 ]; then
+            BUMP="MINOR"
+          elif [ "$PATCH_COUNT" -gt 0 ]; then
+            BUMP="PATCH"
+          else
+            BUMP="NONE"
+          fi
+
+          echo "BUMP_LEVEL=$BUMP" >> "$GITHUB_OUTPUT"
+          echo "MAJOR_COUNT=$MAJOR_COUNT" >> "$GITHUB_OUTPUT"
+          echo "MINOR_COUNT=$MINOR_COUNT" >> "$GITHUB_OUTPUT"
+          echo "PATCH_COUNT=$PATCH_COUNT" >> "$GITHUB_OUTPUT"
+          echo "OTHER_COUNT=$OTHER_COUNT" >> "$GITHUB_OUTPUT"
+          echo "COMMIT_COUNT=$(echo "$COMMITS" | grep -c . || echo 0)" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        if: steps.bump.outputs.BUMP_LEVEL != 'NONE'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bump = '${{ steps.bump.outputs.BUMP_LEVEL }}';
+            const major = ${{ steps.bump.outputs.MAJOR_COUNT }};
+            const minor = ${{ steps.bump.outputs.MINOR_COUNT }};
+            const patch = ${{ steps.bump.outputs.PATCH_COUNT }};
+            const other = ${{ steps.bump.outputs.OTHER_COUNT }};
+            const total = ${{ steps.bump.outputs.COMMIT_COUNT }};
+
+            let body = `## Bump Advisory\n\n`;
+            body += `This PR would trigger a **${bump}** version bump when promoted to \`master\`.\n\n`;
+            body += `Commit breakdown (${total} total):\n`;
+            if (major > 0) body += `- ${major} breaking change commit(s) → **MAJOR**\n`;
+            if (minor > 0) body += `- ${minor} feature commit(s) → **MINOR**\n`;
+            if (patch > 0) body += `- ${patch} fix commit(s) → **PATCH**\n`;
+            if (other > 0) body += `- ${other} other commit(s) (no version impact)\n`;
+            body += `\n_merge-please_ will compute the final bump level on \`master\` based on all merged commits.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
