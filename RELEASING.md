@@ -57,3 +57,5 @@ Because commit messages are written by humans, a mis-tagged commit (e.g. a `feat
 ## Vercel production deploys
 
 Pushing to `master` (including from the merged `release-please` PR) automatically triggers Vercel production deployments for both `jrr-fieldops-site` and `jrr-fieldops-ops`.
+
+> Note: Ensure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set in Vercel project Environment Variables before building — these are inlined at build time and required by `@supabase/ssr` client initialization.
