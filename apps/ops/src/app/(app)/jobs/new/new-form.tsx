@@ -18,7 +18,7 @@ import { toast } from "sonner";
 interface NewJobFormProps {
   customers: {
     id: string;
-    name: string;
+    displayName: string;
     appliances: { id: string; brand: string | null; model: string | null }[];
   }[];
   technicians: { id: string; name: string }[];
@@ -76,7 +76,7 @@ export function NewJobForm({ customers, technicians: _technicians }: NewJobFormP
             <SelectContent>
               {customers.map((c) => (
                 <SelectItem key={c.id} value={c.id}>
-                  {c.name}
+                  {c.displayName}
                 </SelectItem>
               ))}
             </SelectContent>

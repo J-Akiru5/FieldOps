@@ -19,7 +19,15 @@ export default async function JobDetailPage({ params }: Props) {
     .findUnique({
       where: { id },
       include: {
-        customer: { select: { id: true, name: true, phone: true, email: true, address: true } },
+        customer: {
+          select: {
+            id: true,
+            displayName: true,
+            contactPhone: true,
+            contactEmail: true,
+            address: true,
+          },
+        },
         appliance: { select: { id: true, brand: true, model: true, type: true } },
         assignments: { include: { staffMember: { select: { id: true, name: true, role: true } } } },
         inquiry: { select: { id: true, source: true, status: true } },

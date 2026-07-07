@@ -21,9 +21,9 @@ export default async function EditCustomerPage({ params }: EditCustomerPageProps
   return (
     <EditCustomerForm
       id={customer.id}
-      initialName={customer.name}
-      initialPhone={customer.phone}
-      initialEmail={customer.email ?? ""}
+      initialName={customer.displayName}
+      initialPhone={customer.contactPhone}
+      initialEmail={customer.contactEmail ?? ""}
       initialAddress={customer.address ?? ""}
     />
   );

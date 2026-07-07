@@ -15,7 +15,7 @@ interface SaleRow {
   vatType: string;
   paymentStatus: string;
   createdAt: string;
-  job: { id: string; type: string; customer: { name: string } };
+  job: { id: string; type: string; customer: { displayName: string } };
 }
 
 const statuses = ["UNPAID", "PARTIAL", "PAID"];
@@ -67,7 +67,7 @@ export function SalesListClient({ sales }: { sales: SaleRow[] }) {
                   className="border-b last:border-0 hover:bg-muted/30 transition-colors"
                 >
                   <td className="px-4 py-3 font-medium">
-                    {s.job.customer.name}
+                    {s.job.customer.displayName}
                     <span className="text-muted-foreground text-xs block sm:hidden">
                       {s.job.type}
                     </span>

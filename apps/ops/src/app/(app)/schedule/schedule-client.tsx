@@ -22,7 +22,7 @@ type Job = {
   type: string;
   scheduledAt: string | Date;
   status: string;
-  customer: { id: string; name: string; phone?: string | null };
+  customer: { id: string; displayName: string; contactPhone?: string | null };
   assignments: { staffMember: { id: string; name: string } }[];
 };
 
@@ -109,7 +109,7 @@ function WeekGrid({
                       onClick={() => router.push(`/jobs/${job.id}`)}
                       className="w-full text-xs p-2 rounded border bg-background text-left hover:bg-accent transition-colors"
                     >
-                      <div className="font-medium truncate">{job.customer.name}</div>
+                      <div className="font-medium truncate">{job.customer.displayName}</div>
                       <div className="text-muted-foreground truncate">
                         {format(new Date(job.scheduledAt), "h:mm a")}
                       </div>
@@ -196,7 +196,7 @@ function DayAgenda({
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <div className="font-medium truncate">{job.customer.name}</div>
+                <div className="font-medium truncate">{job.customer.displayName}</div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <StatusBadge status={job.type} />
                   <span>{format(new Date(job.scheduledAt), "h:mm a")}</span>

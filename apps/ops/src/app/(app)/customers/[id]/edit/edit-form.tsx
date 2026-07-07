@@ -38,9 +38,9 @@ export function EditCustomerForm({
     }
     startTransition(async () => {
       const result = await updateCustomer(id, {
-        name,
-        phone,
-        email: email || undefined,
+        displayName: name,
+        contactPhone: phone,
+        contactEmail: email || undefined,
         address: address || undefined,
       });
       if (result.success) {

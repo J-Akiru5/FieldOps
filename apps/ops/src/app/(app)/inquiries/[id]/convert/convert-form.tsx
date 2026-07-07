@@ -19,7 +19,7 @@ interface ConvertInquiryFormProps {
   inquiry: { id: string; source: string; contactName: string; phone: string };
   customers: {
     id: string;
-    name: string;
+    displayName: string;
     appliances: { id: string; brand: string | null; model: string | null }[];
   }[];
 }
@@ -79,7 +79,7 @@ export function ConvertInquiryForm({ inquiry, customers }: ConvertInquiryFormPro
             <SelectContent>
               {customers.map((c) => (
                 <SelectItem key={c.id} value={c.id}>
-                  {c.name}
+                  {c.displayName}
                 </SelectItem>
               ))}
             </SelectContent>
