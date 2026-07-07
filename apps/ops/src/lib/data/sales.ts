@@ -3,7 +3,7 @@ import { prisma } from "@syntaxure/db";
 export async function getSales() {
   return prisma.salesTransaction.findMany({
     include: {
-      job: { include: { customer: { select: { name: true } } } },
+      job: { include: { customer: { select: { displayName: true } } } },
     },
     orderBy: { createdAt: "desc" },
     take: 50,

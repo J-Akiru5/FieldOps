@@ -13,7 +13,7 @@ export async function getJobs(filters?: JobFilters) {
   return prisma.job.findMany({
     where,
     include: {
-      customer: { select: { id: true, name: true, phone: true } },
+      customer: { select: { id: true, displayName: true, contactPhone: true } },
       appliance: { select: { id: true, brand: true, model: true, type: true } },
       assignments: { include: { staffMember: { select: { id: true, name: true } } } },
       inquiry: { select: { id: true } },

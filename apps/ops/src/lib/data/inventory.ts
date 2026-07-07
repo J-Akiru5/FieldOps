@@ -14,7 +14,7 @@ export async function getInventoryItemById(id: string) {
       movements: { orderBy: { createdAt: "desc" }, take: 20 },
       lineItems: {
         include: {
-          job: { select: { id: true, type: true, customer: { select: { name: true } } } },
+          job: { select: { id: true, type: true, customer: { select: { displayName: true } } } },
         },
         take: 20,
       },

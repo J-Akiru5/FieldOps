@@ -13,7 +13,14 @@ export default async function CustomersPage() {
   if (!user) redirect("/login");
 
   const customers = await prisma.customer.findMany({
-    select: { id: true, name: true, phone: true, email: true, address: true, createdAt: true },
+    select: {
+      id: true,
+      displayName: true,
+      contactPhone: true,
+      contactEmail: true,
+      address: true,
+      createdAt: true,
+    },
     orderBy: { createdAt: "desc" },
     take: 50,
   });

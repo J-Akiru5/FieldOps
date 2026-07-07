@@ -13,7 +13,7 @@ export default async function SalesPage() {
   if (!user) redirect("/login");
 
   const sales = await prisma.salesTransaction.findMany({
-    include: { job: { include: { customer: { select: { name: true } } } } },
+    include: { job: { include: { customer: { select: { displayName: true } } } } },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
@@ -29,7 +29,11 @@ export default async function SalesPage() {
         vatType: s.vatType,
         paymentStatus: s.paymentStatus,
         createdAt: s.createdAt.toISOString(),
-        job: { id: s.jobId, type: s.job.type, customer: { name: s.job.customer.name } },
+        job: {
+          id: s.jobId,
+          type: s.job.type,
+          customer: { displayName: s.job.customer.displayName },
+        },
       }))}
     />
   );

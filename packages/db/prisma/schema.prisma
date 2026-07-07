@@ -70,17 +70,29 @@ enum LedgerCategory {
   PARTNER_DRAW
 }
 
+enum CustomerType {
+  INDIVIDUAL
+  BUSINESS
+  GOVERNMENT
+}
+
 model Customer {
-  id         String      @id @default(cuid())
-  name       String
-  phone      String
-  email      String?
-  address    String?
-  tin        String? // nullable, for B2B customers
-  appliances Appliance[]
-  jobs       Job[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id                String        @id @default(cuid())
+  type              CustomerType  @default(INDIVIDUAL)
+  displayName       String        @map("name")
+  contactPersonName String?
+  contactPhone      String        @map("phone")
+  contactEmail      String?       @map("email")
+  address           String?
+  tin               String?       // legacy B2B TIN field
+  notes             String?
+  appliances        Appliance[]
+  jobs              Job[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([type])
+  @@index([displayName])
 }
 
 model Appliance {

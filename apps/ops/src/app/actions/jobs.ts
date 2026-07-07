@@ -35,14 +35,14 @@ export async function createJobAction(formData: {
     });
     const customer = await prisma.customer.findUnique({
       where: { id: formData.customerId },
-      select: { name: true },
+      select: { displayName: true },
     });
     if (owner && customer) {
       await createNotificationAction({
         userId: owner.authUserId,
         type: "job",
         title: "Job scheduled",
-        body: `${customer.name} — ${formData.type} on ${new Date(formData.scheduledAt).toLocaleDateString()}`,
+        body: `${customer.displayName} — ${formData.type} on ${new Date(formData.scheduledAt).toLocaleDateString()}`,
       });
     }
     return { success: true, id: result.id };
@@ -62,7 +62,7 @@ export async function updateJobStatusAction(
     await requirePermission("jobs.write");
     const job = await prisma.job.findUnique({
       where: { id },
-      include: { customer: { select: { name: true } } },
+      include: { customer: { select: { displayName: true } } },
     });
     await updateJobStatus(id, status);
     revalidatePath("/jobs");
@@ -80,7 +80,7 @@ export async function updateJobStatusAction(
           userId: owner.authUserId,
           type: "job",
           title: "Job completed",
-          body: `${job.customer.name} — ${job.type} marked as completed`,
+          body: `${job.customer.displayName} — ${job.type} marked as completed`,
         });
       }
     }

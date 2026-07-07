@@ -21,7 +21,7 @@ interface JobRow {
   status: string;
   scheduledAt: string;
   createdAt: string;
-  customer: { name: string; phone: string };
+  customer: { displayName: string; contactPhone: string };
   appliance: { brand: string | null; model: string | null } | null;
   assignments: { staffMember: { name: string } }[];
 }
@@ -92,7 +92,7 @@ export function JobsListClient({ jobs }: { jobs: JobRow[] }) {
                   className="border-b last:border-0 hover:bg-muted/30 transition-colors"
                 >
                   <td className="px-4 py-3">
-                    <span className="font-medium">{job.customer.name}</span>
+                    <span className="font-medium">{job.customer.displayName}</span>
                     <span className="text-muted-foreground text-xs block sm:hidden">
                       {job.type}
                     </span>

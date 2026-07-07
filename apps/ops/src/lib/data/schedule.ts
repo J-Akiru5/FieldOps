@@ -12,7 +12,7 @@ export async function getSchedule(startDate: Date, endDate: Date) {
       type: true,
       status: true,
       scheduledAt: true,
-      customer: { select: { id: true, name: true, phone: true } },
+      customer: { select: { id: true, displayName: true, contactPhone: true } },
       assignments: { include: { staffMember: { select: { id: true, name: true } } } },
     },
     orderBy: { scheduledAt: "asc" },
@@ -27,7 +27,7 @@ export async function getUpcomingReminders(hoursThreshold: number) {
       scheduledAt: { gte: now, lte: threshold },
       status: { notIn: ["COMPLETED", "CANCELLED"] },
     },
-    include: { customer: { select: { name: true, phone: true } } },
+    include: { customer: { select: { displayName: true, contactPhone: true } } },
   });
 }
 

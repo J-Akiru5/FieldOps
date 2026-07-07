@@ -11,4 +11,5 @@ export {
   VatType,
   StaffRole,
   LedgerCategory,
+  CustomerType,
 } from "@prisma/client";

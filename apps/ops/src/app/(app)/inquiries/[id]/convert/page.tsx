@@ -21,10 +21,10 @@ export default async function ConvertInquiryPage({ params }: Props) {
   const customers = await prisma.customer.findMany({
     select: {
       id: true,
-      name: true,
+      displayName: true,
       appliances: { select: { id: true, brand: true, model: true } },
     },
-    orderBy: { name: "asc" },
+    orderBy: { displayName: "asc" },
   });
 
   return <ConvertInquiryForm inquiry={inquiry} customers={customers} />;

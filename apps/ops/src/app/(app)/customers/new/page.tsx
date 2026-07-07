@@ -22,9 +22,9 @@ export default function NewCustomerPage() {
     }
     startTransition(async () => {
       const result = await createCustomer({
-        name,
-        phone,
-        email: email || undefined,
+        displayName: name,
+        contactPhone: phone,
+        contactEmail: email || undefined,
         address: address || undefined,
       });
       if (result.success) {

@@ -32,7 +32,7 @@ export default async function CustomerDetailPage({ params }: CustomerDetailPageP
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold tracking-tight">{customer.name}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{customer.displayName}</h1>
           <p className="text-sm text-muted-foreground">Customer details</p>
         </div>
         <Link href={`/customers/${id}/edit`}>
@@ -40,7 +40,7 @@ export default async function CustomerDetailPage({ params }: CustomerDetailPageP
             <Pencil className="h-4 w-4" /> Edit
           </Button>
         </Link>
-        <DeleteCustomerButton customerId={customer.id} customerName={customer.name} />
+        <DeleteCustomerButton customerId={customer.id} customerName={customer.displayName} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -49,12 +49,12 @@ export default async function CustomerDetailPage({ params }: CustomerDetailPageP
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm">
               <Phone className="h-4 w-4 text-muted-foreground" />
-              <span>{customer.phone}</span>
+              <span>{customer.contactPhone}</span>
             </div>
-            {customer.email && (
+            {customer.contactEmail && (
               <div className="flex items-center gap-2 text-sm">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span>{customer.email}</span>
+                <span>{customer.contactEmail}</span>
               </div>
             )}
             {customer.address && (
