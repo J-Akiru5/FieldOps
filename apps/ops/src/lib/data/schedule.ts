@@ -7,7 +7,11 @@ export async function getSchedule(startDate: Date, endDate: Date) {
       scheduledAt: { gte: startDate, lte: endDate },
       status: { not: "CANCELLED" },
     },
-    include: {
+    select: {
+      id: true,
+      type: true,
+      status: true,
+      scheduledAt: true,
       customer: { select: { id: true, name: true, phone: true } },
       assignments: { include: { staffMember: { select: { id: true, name: true } } } },
     },

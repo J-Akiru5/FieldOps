@@ -13,7 +13,10 @@ export default async function SchedulePage({
     ? startOfWeek(new Date(params.week), { weekStartsOn: 1 })
     : startOfWeek(today, { weekStartsOn: 1 });
 
-  const jobs = await getWeekJobs(weekStart);
+  const jobs = await getWeekJobs(weekStart).catch((error) => {
+    console.error("[schedule] Failed to load jobs:", error);
+    return [];
+  });
 
   return <ScheduleClient jobs={jobs} currentWeekStart={weekStart.toISOString()} />;
 }
