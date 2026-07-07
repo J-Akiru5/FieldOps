@@ -14,6 +14,7 @@ export async function createJobAction(formData: {
   type: string;
   scheduledAt: string;
   laborFee?: number;
+  notes?: string;
 }): Promise<{ success: boolean; error?: string; id?: string }> {
   try {
     await requirePermission("jobs.write");
@@ -24,6 +25,7 @@ export async function createJobAction(formData: {
       type: formData.type,
       scheduledAt: new Date(formData.scheduledAt),
       laborFee: formData.laborFee,
+      notes: formData.notes,
     });
     revalidatePath("/jobs");
     revalidatePath("/schedule");

@@ -43,6 +43,7 @@ export async function createJob(data: {
   type: string;
   scheduledAt: Date;
   laborFee?: number;
+  notes?: string;
 }) {
   return prisma.job.create({
     data: {
@@ -52,6 +53,7 @@ export async function createJob(data: {
       type: data.type as JobType,
       scheduledAt: data.scheduledAt,
       laborFee: data.laborFee ?? 0,
+      notes: data.notes,
     },
     select: { id: true },
   });

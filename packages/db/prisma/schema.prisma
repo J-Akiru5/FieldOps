@@ -146,6 +146,7 @@ model Job {
   status           JobStatus         @default(SCHEDULED)
   scheduledAt      DateTime
   laborFee         Decimal           @default(0)
+  notes            String?
   assignments      JobAssignment[]
   lineItems        JobLineItem[]
   salesTransaction SalesTransaction?
