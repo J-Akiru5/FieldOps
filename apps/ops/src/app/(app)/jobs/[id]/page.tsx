@@ -18,7 +18,14 @@ export default async function JobDetailPage({ params }: Props) {
   const job = await prisma.job
     .findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        scheduledAt: true,
+        createdAt: true,
+        updatedAt: true,
+        laborFee: true,
         customer: {
           select: {
             id: true,

@@ -44,10 +44,6 @@ interface CustomerOption {
   appliances: { id: string; brand: string | null; model: string | null; type: string }[];
 }
 
-interface NewJobFormProps {
-  technicians: { id: string; name: string }[];
-}
-
 const jobTypes = ["MAINTENANCE", "REPAIR", "INSTALLATION"] as const;
 
 const customerTypes: { value: CustomerType; label: string; icon: typeof User }[] = [
@@ -98,14 +94,18 @@ function SectionNumber({ number }: { number: number }) {
   );
 }
 
-export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
+export function NewJobForm() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   // Form fields
   const [type, setType] = useState<string>("REPAIR");
+  const [serviceCategory, setServiceCategory] = useState<string>("");
+  const [priority, setPriority] = useState<string>("NORMAL");
+  const [description, setDescription] = useState<string>("");
   const [scheduledDate, setScheduledDate] = useState<string>("");
   const [scheduledTime, setScheduledTime] = useState<string>("08:00");
+  const [estimatedDuration, setEstimatedDuration] = useState<string>("");
   const [laborFee, setLaborFee] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
 
@@ -280,6 +280,10 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
         scheduledAt: scheduledAt.toISOString(),
         laborFee: laborFee ? Number(laborFee) : undefined,
         notes: notes.trim() || undefined,
+        description: description.trim() || undefined,
+        serviceCategory: serviceCategory.trim() || undefined,
+        priority: priority.trim() || undefined,
+        estimatedDuration: estimatedDuration ? Number(estimatedDuration) : undefined,
       });
       if (result.success) {
         toast.success("Job created successfully");
@@ -561,7 +565,7 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
               <h2 className="font-semibold">Job Details</h2>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-3">
               <div>
                 <Label htmlFor="jobType">
                   Job Type <span className="text-red-500">*</span>
@@ -583,14 +587,48 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
                 </div>
               </div>
 
-              <div className="sm:col-span-2">
-                <Label htmlFor="notes">Notes (Optional)</Label>
+              <div>
+                <Label htmlFor="serviceCategory">Service Category</Label>
+                <Select value={serviceCategory} onValueChange={setServiceCategory}>
+                  <SelectTrigger id="serviceCategory" className="mt-1.5">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="RESIDENTIAL">Residential</SelectItem>
+                    <SelectItem value="COMMERCIAL">Commercial</SelectItem>
+                    <SelectItem value="INDUSTRIAL">Industrial</SelectItem>
+                    <SelectItem value="PREVENTIVE">Preventive Maintenance</SelectItem>
+                    <SelectItem value="EMERGENCY">Emergency</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="priority">Priority</Label>
+                <Select value={priority} onValueChange={setPriority}>
+                  <SelectTrigger id="priority" className="mt-1.5">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="NORMAL">Normal</SelectItem>
+                    <SelectItem value="HIGH">High</SelectItem>
+                    <SelectItem value="URGENT">Urgent</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="sm:col-span-3">
+                <Label htmlFor="description">
+                  Job Description / Issue <span className="text-red-500">*</span>
+                </Label>
                 <Textarea
-                  id="notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Add any notes for this job…"
-                  className="mt-1.5 min-h-[80px]"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Describe the issue or service request in detail…"
+                  className="mt-1.5 min-h-[100px]"
+                  required
                 />
               </div>
             </div>
@@ -641,6 +679,27 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
                   </Select>
                 </div>
               </div>
+
+              <div>
+                <Label htmlFor="estimatedDuration">Duration (Est.)</Label>
+                <Select value={estimatedDuration} onValueChange={setEstimatedDuration}>
+                  <SelectTrigger id="estimatedDuration" className="mt-1.5">
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="30">30 min</SelectItem>
+                    <SelectItem value="60">1 hr</SelectItem>
+                    <SelectItem value="90">1.5 hrs</SelectItem>
+                    <SelectItem value="120">2 hrs</SelectItem>
+                    <SelectItem value="180">3 hrs</SelectItem>
+                    <SelectItem value="240">4 hrs</SelectItem>
+                    <SelectItem value="300">5 hrs</SelectItem>
+                    <SelectItem value="360">6 hrs</SelectItem>
+                    <SelectItem value="480">8 hrs</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </section>
 
@@ -667,6 +726,17 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
                     className="pl-9"
                   />
                 </div>
+              </div>
+
+              <div className="sm:col-span-2">
+                <Label htmlFor="notes">Notes (Optional)</Label>
+                <Textarea
+                  id="notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Add any notes for this job…"
+                  className="mt-1.5 min-h-[80px]"
+                />
               </div>
             </div>
           </section>
@@ -711,6 +781,20 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
                   <span className="text-muted-foreground">Job Type</span>
                   <span className="text-right font-medium">{type}</span>
                 </div>
+                {serviceCategory && (
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="text-muted-foreground">Category</span>
+                    <span className="text-right font-medium">
+                      {serviceCategory.replace("_", " ")}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-muted-foreground">Priority</span>
+                  <span className="text-right font-medium capitalize">
+                    {priority.toLowerCase()}
+                  </span>
+                </div>
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-muted-foreground">Schedule</span>
                   <span className="text-right font-medium">
@@ -725,6 +809,16 @@ export function NewJobForm({ technicians: _technicians }: NewJobFormProps) {
                       : "Not scheduled"}
                   </span>
                 </div>
+                {estimatedDuration && (
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="text-muted-foreground">Estimated Duration</span>
+                    <span className="text-right font-medium">
+                      {Number(estimatedDuration) >= 60
+                        ? `${Math.floor(Number(estimatedDuration) / 60)} hr${Number(estimatedDuration) % 60 === 0 ? "" : "s"}`
+                        : `${estimatedDuration} min`}
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-start justify-between gap-4">
                   <span className="text-muted-foreground">Labor Fee</span>
                   <span className="text-right font-medium">

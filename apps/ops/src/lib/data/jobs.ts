@@ -12,7 +12,13 @@ export async function getJobs(filters?: JobFilters) {
 
   return prisma.job.findMany({
     where,
-    include: {
+    select: {
+      id: true,
+      type: true,
+      status: true,
+      scheduledAt: true,
+      createdAt: true,
+      laborFee: true,
       customer: { select: { id: true, displayName: true, contactPhone: true } },
       appliance: { select: { id: true, brand: true, model: true, type: true } },
       assignments: { include: { staffMember: { select: { id: true, name: true } } } },
@@ -26,7 +32,14 @@ export async function getJobs(filters?: JobFilters) {
 export async function getJobById(id: string) {
   return prisma.job.findUnique({
     where: { id },
-    include: {
+    select: {
+      id: true,
+      type: true,
+      status: true,
+      scheduledAt: true,
+      createdAt: true,
+      updatedAt: true,
+      laborFee: true,
       customer: true,
       appliance: true,
       assignments: { include: { staffMember: { select: { id: true, name: true, role: true } } } },
@@ -44,6 +57,10 @@ export async function createJob(data: {
   scheduledAt: Date;
   laborFee?: number;
   notes?: string;
+  description?: string;
+  serviceCategory?: string;
+  priority?: string;
+  estimatedDuration?: number;
 }) {
   return prisma.job.create({
     data: {
@@ -54,6 +71,10 @@ export async function createJob(data: {
       scheduledAt: data.scheduledAt,
       laborFee: data.laborFee ?? 0,
       notes: data.notes,
+      description: data.description,
+      serviceCategory: data.serviceCategory,
+      priority: data.priority,
+      estimatedDuration: data.estimatedDuration,
     },
     select: { id: true },
   });
