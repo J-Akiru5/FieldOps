@@ -32,11 +32,13 @@ jobs:
         run: pnpm --filter db exec prisma validate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Generate Prisma client
         run: pnpm --filter db exec prisma generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Lint
         run: pnpm biome check .
