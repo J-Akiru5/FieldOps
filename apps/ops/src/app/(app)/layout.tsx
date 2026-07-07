@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/app-shell";
+import { getUnreadCount } from "@/lib/data/notifications";
 import { prisma } from "@syntaxure/db";
 import { StaffRole } from "@syntaxure/db";
 import { createServerClient } from "@syntaxure/db/server";
@@ -20,6 +21,7 @@ export default async function AppLayout({
 
   let userName = user.email?.split("@")[0] ?? "Staff";
   let userRole = "Staff";
+  let unreadNotificationCount = 0;
 
   try {
     const staffMember = await prisma.staffMember.findUnique({
@@ -41,8 +43,19 @@ export default async function AppLayout({
     // Silently fall back
   }
 
+  try {
+    unreadNotificationCount = await getUnreadCount(user.id);
+  } catch {
+    // Non-fatal
+  }
+
   return (
-    <AppShell userName={userName} userEmail={user.email ?? ""} userRole={userRole}>
+    <AppShell
+      userName={userName}
+      userEmail={user.email ?? ""}
+      userRole={userRole}
+      unreadNotificationCount={unreadNotificationCount}
+    >
       {children}
     </AppShell>
   );

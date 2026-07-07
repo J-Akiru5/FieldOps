@@ -25,9 +25,14 @@ export default async function JobsPage() {
   return (
     <JobsListClient
       jobs={jobs.map((j) => ({
-        ...j,
+        id: j.id,
+        type: j.type,
+        status: j.status,
         scheduledAt: j.scheduledAt.toISOString(),
         createdAt: j.createdAt.toISOString(),
+        customer: j.customer,
+        appliance: j.appliance,
+        assignments: j.assignments,
       }))}
     />
   );

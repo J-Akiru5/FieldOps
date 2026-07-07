@@ -13,6 +13,7 @@ import {
 } from "@syntaxure/ui";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 const jobTypes = ["MAINTENANCE", "REPAIR", "INSTALLATION"];
 
@@ -23,12 +24,11 @@ export function NewScheduleForm({ customers }: { customers: { id: string; name: 
   const [type, setType] = useState("REPAIR");
   const [scheduledAt, setScheduledAt] = useState("");
   const [laborFee, setLaborFee] = useState("");
-  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!customerId || !scheduledAt) {
-      setError("Customer and schedule date are required");
+      toast.error("Customer and schedule date are required");
       return;
     }
     startTransition(async () => {
@@ -38,8 +38,12 @@ export function NewScheduleForm({ customers }: { customers: { id: string; name: 
         scheduledAt: new Date(scheduledAt).toISOString(),
         laborFee: laborFee ? Number(laborFee) : undefined,
       });
-      if (result.success) router.push("/schedule");
-      else setError(result.error ?? "Failed to schedule");
+      if (result.success) {
+        toast.success("Job scheduled successfully");
+        router.push("/schedule");
+      } else {
+        toast.error(result.error ?? "Failed to schedule job");
+      }
     });
   }
 
@@ -102,7 +106,6 @@ export function NewScheduleForm({ customers }: { customers: { id: string; name: 
             className="mt-1.5"
           />
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Scheduling..." : "Schedule service"}
         </Button>

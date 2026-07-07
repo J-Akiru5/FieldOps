@@ -3,8 +3,8 @@
 import { recordPayment } from "@/app/actions/sales";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@syntaxure/ui";
 import { ShoppingCart } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface SaleRow {
   id: string;
@@ -21,13 +21,13 @@ interface SaleRow {
 const statuses = ["UNPAID", "PARTIAL", "PAID"];
 
 export function SalesListClient({ sales }: { sales: SaleRow[] }) {
-  const router = useRouter();
   const [, startTransition] = useTransition();
 
   function handlePayment(saleId: string, s: string) {
     startTransition(async () => {
-      await recordPayment(saleId, s as "PARTIAL" | "PAID");
-      router.refresh();
+      const result = await recordPayment(saleId, s as "PARTIAL" | "PAID");
+      if (result.success) toast.success("Payment recorded");
+      else toast.error(result.error ?? "Failed to record payment");
     });
   }
 
@@ -42,9 +42,9 @@ export function SalesListClient({ sales }: { sales: SaleRow[] }) {
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted mb-4">
             <ShoppingCart className="h-6 w-6 text-muted-foreground" />
           </div>
-          <p className="text-sm font-medium">No sales recorded</p>
+          <p className="text-sm font-medium">No invoices yet</p>
           <p className="text-xs text-muted-foreground mt-1">
-            Invoices from completed jobs will appear here.
+            Complete a job to generate an invoice.
           </p>
         </div>
       ) : (

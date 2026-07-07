@@ -1,9 +1,11 @@
 "use client";
 
 import { changePassword, updateStaffName } from "@/app/actions/account";
+import { uploadAvatar } from "@/app/actions/avatar";
 import { Button, Input, Label } from "@syntaxure/ui";
+import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 
 interface AccountPageClientProps {
   userName: string;
@@ -27,6 +29,9 @@ export function AccountPageClient({
     error?: string;
     message?: string;
   } | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarStatus, setAvatarStatus] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const initials = name
     .split(" ")
@@ -50,6 +55,24 @@ export function AccountPageClient({
     });
   }
 
+  async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAvatarStatus("Uploading...");
+    const formData = new FormData();
+    formData.append("file", file);
+    startTransition(async () => {
+      const result = await uploadAvatar(formData);
+      if (result.success && result.url) {
+        setAvatarUrl(result.url);
+        setAvatarStatus("Uploaded");
+        router.refresh();
+      } else {
+        setAvatarStatus(result.error ?? "Upload failed");
+      }
+    });
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -63,14 +86,31 @@ export function AccountPageClient({
         <div className="rounded-xl border bg-card p-6 shadow-sm">
           <h2 className="text-sm font-semibold text-muted-foreground mb-4">Profile Photo</h2>
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
-              {initials}
-            </div>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="h-16 w-16 rounded-full object-cover" />
+            ) : (
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                {initials}
+              </div>
+            )}
             <div>
               <p className="text-sm font-medium">{name}</p>
-              <p className="text-xs text-muted-foreground">
-                Avatar upload available after Supabase Storage is configured
-              </p>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={isPending}
+                className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+              >
+                <Upload className="h-3 w-3" />
+                {avatarStatus || (avatarUrl ? "Change photo" : "Upload photo")}
+              </button>
             </div>
           </div>
         </div>

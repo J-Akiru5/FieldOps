@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 import "@syntaxure/ui/styles";
 import "./globals.css";
 
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
   title: "Syntaxure FieldOps Dashboard",
   description: "Internal dashboard for Syntaxure FieldOps",
   manifest: "/manifest.json",
+  icons: { icon: "/favicon.svg", apple: "/icons/icon.svg" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -39,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans`} suppressHydrationWarning>
         {children}
+        <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
   );

@@ -5,6 +5,8 @@ import { ArrowLeft, Mail, MapPin, Pencil, Phone } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { DeleteCustomerButton } from "./delete-button";
+
 interface CustomerDetailPageProps {
   params: Promise<{ id: string }>;
 }
@@ -38,6 +40,7 @@ export default async function CustomerDetailPage({ params }: CustomerDetailPageP
             <Pencil className="h-4 w-4" /> Edit
           </Button>
         </Link>
+        <DeleteCustomerButton customerId={customer.id} customerName={customer.name} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

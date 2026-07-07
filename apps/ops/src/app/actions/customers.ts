@@ -49,3 +49,17 @@ export async function updateCustomer(
     };
   }
 }
+
+export async function deleteCustomer(id: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    await requirePermission("customers.write");
+    await prisma.customer.delete({ where: { id } });
+    revalidatePath("/customers");
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to delete customer",
+    };
+  }
+}

@@ -4,6 +4,7 @@ import { createCustomer } from "@/app/actions/customers";
 import { Button, Input, Label, Textarea } from "@syntaxure/ui";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 export default function NewCustomerPage() {
   const router = useRouter();
@@ -12,12 +13,11 @@ export default function NewCustomerPage() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name || !phone) {
-      setError("Name and phone are required");
+      toast.error("Name and phone are required");
       return;
     }
     startTransition(async () => {
@@ -27,8 +27,12 @@ export default function NewCustomerPage() {
         email: email || undefined,
         address: address || undefined,
       });
-      if (result.success) router.push("/customers");
-      else setError(result.error ?? "Failed to create customer");
+      if (result.success) {
+        toast.success("Customer saved successfully");
+        router.push("/customers");
+      } else {
+        toast.error(result.error ?? "Failed to save customer");
+      }
     });
   }
 
@@ -80,7 +84,6 @@ export default function NewCustomerPage() {
             rows={3}
           />
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Saving..." : "Save customer"}
         </Button>

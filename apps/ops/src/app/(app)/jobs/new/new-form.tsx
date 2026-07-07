@@ -13,6 +13,7 @@ import {
 } from "@syntaxure/ui";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface NewJobFormProps {
   customers: {
@@ -33,14 +34,13 @@ export function NewJobForm({ customers, technicians: _technicians }: NewJobFormP
   const [type, setType] = useState("REPAIR");
   const [scheduledAt, setScheduledAt] = useState("");
   const [laborFee, setLaborFee] = useState("");
-  const [error, setError] = useState("");
 
   const selectedCustomer = customers.find((c) => c.id === customerId);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!customerId || !type || !scheduledAt) {
-      setError("Customer, type, and schedule date are required");
+      toast.error("Customer, type, and schedule date are required");
       return;
     }
     startTransition(async () => {
@@ -51,8 +51,12 @@ export function NewJobForm({ customers, technicians: _technicians }: NewJobFormP
         scheduledAt: new Date(scheduledAt).toISOString(),
         laborFee: laborFee ? Number(laborFee) : undefined,
       });
-      if (result.success) router.push("/jobs");
-      else setError(result.error ?? "Failed to create job");
+      if (result.success) {
+        toast.success("Job created successfully");
+        router.push("/jobs");
+      } else {
+        toast.error(result.error ?? "Failed to create job");
+      }
     });
   }
 
@@ -133,7 +137,6 @@ export function NewJobForm({ customers, technicians: _technicians }: NewJobFormP
             className="mt-1.5"
           />
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Creating..." : "Create job"}
         </Button>

@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://github.com/J-Akiru5/FieldOps/compare/v1.4.1...v1.5.0) (2026-07-07)
+
+
+### Features
+
+* **db:** add comprehensive mock data seeder with Prisma seed script ([6a6474f](https://github.com/J-Akiru5/FieldOps/commit/6a6474f84c0ed16b39b48d42e52a26b1a9149772))
+* **db:** add db:push and db:reset scripts to package.json ([10c8804](https://github.com/J-Akiru5/FieldOps/commit/10c88041a43d7e4db7a3a10a5f6b58f27133275a))
+
+
+### Bug Fixes
+
+* **ops:** add avatar upload, storage docs, and favicon ([4963c00](https://github.com/J-Akiru5/FieldOps/commit/4963c00a4af62f41a0de2e8f7da4002e467c828d))
+* **ops:** add favicon, exclude manifest/sw from middleware, pre-complete tracker ([c518118](https://github.com/J-Akiru5/FieldOps/commit/c518118a7836677e7f48e3eb33e0cf397e4a7ec6))
+* **ops:** jobs Decimal serialization and seed authUserId lookup ([417f96c](https://github.com/J-Akiru5/FieldOps/commit/417f96c6889482d03e8f335952d49e4a9c7f3ab8))
+* resolve build errors and apply final hardening pass ([09cc430](https://github.com/J-Akiru5/FieldOps/commit/09cc430a33c4d82e22e43c957d5c85c0468f87ee))
+
+
+### Chores
+
+* stop tracking generated PWA service worker files ([d294428](https://github.com/J-Akiru5/FieldOps/commit/d294428a7a8c81767b3d5d03c75b6e3a7f5034f1))
+
 ## [1.4.1](https://github.com/J-Akiru5/FieldOps/compare/v1.4.0...v1.4.1) (2026-07-06)
 
 

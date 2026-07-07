@@ -4,6 +4,12 @@ import { inviteStaff, removeStaff, updateStaffRole } from "@/app/actions/staff";
 import { hasPermission } from "@/lib/permissions";
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Input,
   Label,
   Select,
@@ -15,6 +21,7 @@ import {
 import { Shield, Trash2, UserPlus, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface StaffMember {
   id: string;
@@ -32,6 +39,13 @@ interface StaffPageClientProps {
 
 const ROLES = ["OWNER", "PARTNER", "BOOKKEEPER", "TECHNICIAN"];
 
+const ROLE_LABELS: Record<string, string> = {
+  OWNER: "Owner",
+  PARTNER: "Partner",
+  BOOKKEEPER: "Bookkeeper",
+  TECHNICIAN: "Technician",
+};
+
 export function StaffPageClient({
   staffMembers,
   currentUserRole,
@@ -43,13 +57,14 @@ export function StaffPageClient({
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteName, setInviteName] = useState("");
   const [inviteRole, setInviteRole] = useState("TECHNICIAN");
-  const [status, setStatus] = useState<{ success: boolean; error?: string } | null>(null);
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(false);
 
   const canManageStaff = hasPermission(currentUserRole, "staff.write", currentUserEmail);
 
   async function handleInvite() {
     if (!inviteEmail || !inviteName) {
-      setStatus({ success: false, error: "Email and name are required" });
+      toast.error("Name and email are required");
       return;
     }
     startTransition(async () => {
@@ -58,29 +73,47 @@ export function StaffPageClient({
         inviteName,
         inviteRole as "OWNER" | "PARTNER" | "BOOKKEEPER" | "TECHNICIAN"
       );
-      setStatus(result);
       if (result.success) {
+        toast.success(`${inviteName} added to staff`);
         setInviteEmail("");
         setInviteName("");
         setShowInvite(false);
         router.refresh();
+      } else {
+        toast.error(result.error ?? "Failed to add staff");
       }
     });
   }
 
   async function handleRoleChange(staffId: string, newRole: string) {
     startTransition(async () => {
-      await updateStaffRole(staffId, newRole as "OWNER" | "PARTNER" | "BOOKKEEPER" | "TECHNICIAN");
-      router.refresh();
+      const result = await updateStaffRole(
+        staffId,
+        newRole as "OWNER" | "PARTNER" | "BOOKKEEPER" | "TECHNICIAN"
+      );
+      if (result.success) toast.success("Role updated");
+      else toast.error(result.error ?? "Failed to update role");
     });
   }
 
-  async function handleRemove(staffId: string) {
+  async function handleConfirmRemove() {
+    if (!confirmRemoveId) return;
+    setRemoving(true);
     startTransition(async () => {
-      await removeStaff(staffId);
-      router.refresh();
+      const result = await removeStaff(confirmRemoveId);
+      if (result.success) {
+        toast.success("Staff member removed");
+        setConfirmRemoveId(null);
+        router.refresh();
+      } else {
+        toast.error(result.error ?? "Failed to remove staff");
+        setConfirmRemoveId(null);
+      }
+      setRemoving(false);
     });
   }
+
+  const removingStaff = staffMembers.find((s) => s.id === confirmRemoveId);
 
   return (
     <div className="space-y-6">
@@ -111,14 +144,14 @@ export function StaffPageClient({
             />
           </div>
           <div>
-            <Label htmlFor="invite-email">Email (auth user ID)</Label>
+            <Label htmlFor="invite-email">Email address</Label>
             <Input
               id="invite-email"
               type="email"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
               className="mt-1.5"
-              placeholder="staff@example.com"
+              placeholder="juan@example.com"
             />
           </div>
           <div>
@@ -130,19 +163,15 @@ export function StaffPageClient({
               <SelectContent>
                 {ROLES.map((r) => (
                   <SelectItem key={r} value={r}>
-                    {r}
+                    {ROLE_LABELS[r]}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center gap-3">
-            <Button onClick={handleInvite} disabled={isPending} size="sm">
-              {isPending ? "Adding..." : "Add staff"}
-            </Button>
-            {status?.success && <span className="text-sm text-green-500">Staff added</span>}
-            {status?.error && <span className="text-sm text-destructive">{status.error}</span>}
-          </div>
+          <Button onClick={handleInvite} disabled={isPending} size="sm">
+            {isPending ? "Adding..." : "Add staff"}
+          </Button>
         </div>
       )}
 
@@ -161,7 +190,7 @@ export function StaffPageClient({
               <tr className="border-b bg-muted/50">
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground">Name</th>
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground hidden sm:table-cell">
-                  Auth ID
+                  User ID
                 </th>
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground">Role</th>
                 {canManageStaff && (
@@ -183,7 +212,7 @@ export function StaffPageClient({
                       <span className="font-medium">{staff.name}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
+                  <td className="px-4 py-3 text-muted-foreground text-xs hidden sm:table-cell">
                     {staff.authUserId}
                   </td>
                   <td className="px-4 py-3">
@@ -198,14 +227,14 @@ export function StaffPageClient({
                         <SelectContent>
                           {ROLES.map((r) => (
                             <SelectItem key={r} value={r}>
-                              {r}
+                              {ROLE_LABELS[r]}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     ) : (
                       <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted">
-                        {staff.role}
+                        {ROLE_LABELS[staff.role] ?? staff.role}
                       </span>
                     )}
                   </td>
@@ -214,7 +243,7 @@ export function StaffPageClient({
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleRemove(staff.id)}
+                        onClick={() => setConfirmRemoveId(staff.id)}
                         disabled={isPending}
                         className="h-8 w-8 text-destructive hover:bg-destructive/10"
                       >
@@ -228,6 +257,26 @@ export function StaffPageClient({
           </table>
         </div>
       )}
+
+      <Dialog open={!!confirmRemoveId} onOpenChange={(open) => !open && setConfirmRemoveId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Remove staff member?</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to remove <strong>{removingStaff?.name}</strong> from the team?
+              They will lose access to the app. This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmRemoveId(null)} disabled={removing}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmRemove} disabled={removing}>
+              {removing ? "Removing..." : "Yes, remove"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

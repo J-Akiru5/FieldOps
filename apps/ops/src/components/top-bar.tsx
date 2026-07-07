@@ -1,13 +1,16 @@
 "use client";
 
 import { createBrowserClient } from "@syntaxure/db/browser";
+import { Avatar, AvatarFallback } from "@syntaxure/ui";
 import { Bell, LogOut, Settings, User } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface TopBarProps {
   userName: string;
   userEmail: string;
+  unreadNotificationCount?: number;
 }
 
 const pageTitles: Record<string, string> = {
@@ -33,7 +36,7 @@ function getPageTitle(pathname: string): string {
   return "FieldOps";
 }
 
-export function TopBar({ userName, userEmail }: TopBarProps) {
+export function TopBar({ userName, userEmail, unreadNotificationCount = 0 }: TopBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,27 +57,65 @@ export function TopBar({ userName, userEmail }: TopBarProps) {
   const pageTitle = getPageTitle(pathname);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/80 backdrop-blur-sm px-4 lg:px-6">
-      <span className="text-sm font-medium text-muted-foreground">{pageTitle}</span>
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/90 backdrop-blur-md px-4 lg:px-6">
+      {/* Left — Logo mark (mobile only) / page title (desktop) */}
+      <div className="flex items-center gap-2.5 min-w-0">
+        {/* Logo mark — visible on mobile only */}
+        <Link
+          href="/dashboard"
+          className="lg:hidden flex items-center gap-2 shrink-0"
+          aria-label="Go to dashboard"
+        >
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-sidebar-bg text-white text-[10px] font-black tracking-tight">
+            FO
+          </div>
+          <div className="leading-none">
+            <p className="text-[11px] font-black tracking-tight text-foreground uppercase">
+              Syntaxure
+            </p>
+            <p className="text-[9px] text-muted-foreground font-semibold tracking-widest uppercase">
+              FieldOps
+            </p>
+          </div>
+        </Link>
 
-      <div className="flex items-center gap-2">
-        <a
+        {/* Desktop: page title on left */}
+        <span className="hidden lg:block text-sm font-medium text-muted-foreground">
+          {pageTitle}
+        </span>
+      </div>
+
+      {/* Center — page title on mobile */}
+      <span className="lg:hidden absolute left-1/2 -translate-x-1/2 text-sm font-semibold text-foreground truncate max-w-[120px]">
+        {pageTitle}
+      </span>
+
+      {/* Right — bell + avatar */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {/* Notification bell with dot */}
+        <Link
           href="/notifications"
           className="relative rounded-lg p-2 hover:bg-muted transition-colors"
           aria-label="Notifications"
         >
-          <Bell className="h-4 w-4 text-muted-foreground" />
-        </a>
+          <Bell className="h-[18px] w-[18px] text-muted-foreground" />
+          {unreadNotificationCount > 0 && (
+            <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500 ring-2 ring-background" />
+          )}
+        </Link>
 
+        {/* Avatar dropdown */}
         <div className="relative">
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-muted transition-colors"
+            className="flex items-center gap-2 rounded-lg p-1 hover:bg-muted transition-colors"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-bg text-xs font-semibold text-white">
-              {initials}
-            </div>
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-sidebar-bg text-white text-xs font-semibold">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
             <span className="hidden sm:block text-sm font-medium">{userName}</span>
           </button>
 
@@ -87,29 +128,31 @@ export function TopBar({ userName, userEmail }: TopBarProps) {
                   if (e.key === "Escape") setMenuOpen(false);
                 }}
               />
-              <div className="absolute right-0 top-full mt-1 z-50 w-56 rounded-xl border border-border bg-card shadow-lg py-1">
-                <div className="px-3 py-2 border-b border-border">
-                  <p className="text-sm font-medium truncate">{userName}</p>
+              <div className="absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-border bg-card shadow-lg py-1 overflow-hidden">
+                <div className="px-3 py-2.5 border-b border-border">
+                  <p className="text-sm font-semibold truncate">{userName}</p>
                   <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
                 </div>
-                <a
+                <Link
                   href="/account"
-                  className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted transition-colors"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-muted transition-colors"
+                  onClick={() => setMenuOpen(false)}
                 >
                   <User className="h-4 w-4 text-muted-foreground" />
                   Account
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/settings"
-                  className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-muted transition-colors"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-muted transition-colors"
+                  onClick={() => setMenuOpen(false)}
                 >
                   <Settings className="h-4 w-4 text-muted-foreground" />
                   Settings
-                </a>
+                </Link>
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="flex w-full items-center gap-3 px-3 py-2 text-sm hover:bg-muted transition-colors text-destructive"
+                  className="flex w-full items-center gap-3 px-3 py-2.5 text-sm hover:bg-muted transition-colors text-destructive"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out

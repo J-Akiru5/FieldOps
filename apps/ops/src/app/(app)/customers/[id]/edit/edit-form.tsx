@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface EditCustomerFormProps {
   id: string;
@@ -28,12 +29,11 @@ export function EditCustomerForm({
   const [phone, setPhone] = useState(initialPhone);
   const [email, setEmail] = useState(initialEmail);
   const [address, setAddress] = useState(initialAddress);
-  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name || !phone) {
-      setError("Name and phone are required");
+      toast.error("Name and phone are required");
       return;
     }
     startTransition(async () => {
@@ -43,8 +43,12 @@ export function EditCustomerForm({
         email: email || undefined,
         address: address || undefined,
       });
-      if (result.success) router.push(`/customers/${id}`);
-      else setError(result.error ?? "Failed to update");
+      if (result.success) {
+        toast.success("Customer updated successfully");
+        router.push(`/customers/${id}`);
+      } else {
+        toast.error(result.error ?? "Failed to update customer");
+      }
     });
   }
 
@@ -101,7 +105,6 @@ export function EditCustomerForm({
             rows={3}
           />
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Saving..." : "Save changes"}
         </Button>

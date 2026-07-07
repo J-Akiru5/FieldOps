@@ -13,6 +13,7 @@ import {
 } from "@syntaxure/ui";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface ConvertInquiryFormProps {
   inquiry: { id: string; source: string; contactName: string; phone: string };
@@ -33,14 +34,13 @@ export function ConvertInquiryForm({ inquiry, customers }: ConvertInquiryFormPro
   const [applianceId, setApplianceId] = useState("");
   const [scheduledAt, setScheduledAt] = useState("");
   const [laborFee, setLaborFee] = useState("");
-  const [error, setError] = useState("");
 
   const selectedCustomer = customers.find((c) => c.id === customerId);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!customerId || !scheduledAt) {
-      setError("Customer and schedule date are required");
+      toast.error("Customer and schedule date are required");
       return;
     }
     startTransition(async () => {
@@ -52,8 +52,12 @@ export function ConvertInquiryForm({ inquiry, customers }: ConvertInquiryFormPro
         scheduledAt: new Date(scheduledAt).toISOString(),
         laborFee: laborFee ? Number(laborFee) : undefined,
       });
-      if (result.success) router.push("/jobs");
-      else setError(result.error ?? "Failed to convert inquiry to job");
+      if (result.success) {
+        toast.success("Job created successfully");
+        router.push("/jobs");
+      } else {
+        toast.error(result.error ?? "Failed to create job");
+      }
     });
   }
 
@@ -136,7 +140,6 @@ export function ConvertInquiryForm({ inquiry, customers }: ConvertInquiryFormPro
             className="mt-1.5"
           />
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Converting..." : "Convert to job"}
         </Button>

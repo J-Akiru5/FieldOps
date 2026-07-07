@@ -11,9 +11,9 @@ export default function InventoryPage() {
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted mb-4">
           <Package className="h-6 w-6 text-muted-foreground" />
         </div>
-        <p className="text-sm font-medium">No inventory items</p>
+        <p className="text-sm font-medium">No inventory items yet</p>
         <p className="text-xs text-muted-foreground mt-1">
-          Add items to start tracking stock levels.
+          Contact your admin to add stock items and supplies.
         </p>
       </div>
     </div>
