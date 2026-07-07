@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0](https://github.com/J-Akiru5/FieldOps/compare/v1.6.0...v1.7.0) (2026-07-08)
+
+### Features
+
+- **ops:** add CustomerType enum (INDIVIDUAL, BUSINESS, GOVERNMENT) with customer entity type support ([28f0a6a](https://github.com/J-Akiru5/FieldOps/commit/28f0a6a))
+- **ops:** add quick-add customer inline form on schedule screen with searchable combobox ([28f0a6a](https://github.com/J-Akiru5/FieldOps/commit/28f0a6a))
+- **db:** rename customer fields via @map (name→displayName, phone→contactPhone, email→contactEmail) with backward-compatible DB columns ([28f0a6a](https://github.com/J-Akiru5/FieldOps/commit/28f0a6a))
+- **ops:** add phone-based duplicate detection on quick-add with non-blocking warning ([28f0a6a](https://github.com/J-Akiru5/FieldOps/commit/28f0a6a))
+- **ops:** add `/api/customers/search` endpoint for live combobox queries ([28f0a6a](https://github.com/J-Akiru5/FieldOps/commit/28f0a6a))
+
+### Migration Notes
+
+- New `CustomerType` enum and `contactPersonName`/`notes` columns require migration. Run `pnpm --filter @syntaxure/db exec prisma migrate dev` before deploying.
+
 ## [1.6.0](https://github.com/J-Akiru5/FieldOps/compare/v1.5.0...v1.6.0) (2026-07-07)
 
 ### Features
