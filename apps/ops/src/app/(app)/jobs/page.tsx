@@ -12,7 +12,7 @@ export default async function JobsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const jobs = await prisma.job.findMany({
+  const rawJobs = await prisma.job.findMany({
     include: {
       customer: { select: { name: true, phone: true } },
       appliance: { select: { brand: true, model: true } },
@@ -24,7 +24,7 @@ export default async function JobsPage() {
 
   return (
     <JobsListClient
-      jobs={jobs.map((j) => ({
+      jobs={rawJobs.map((j) => ({
         id: j.id,
         type: j.type,
         status: j.status,
