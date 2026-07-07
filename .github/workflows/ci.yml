@@ -48,3 +48,6 @@ jobs:
 
       - name: Build ops
         run: pnpm --filter ops build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
