@@ -38,7 +38,7 @@ export default async function LedgerPage() {
         id: true,
         type: true,
         status: true,
-        customer: { select: { name: true } },
+        customer: { select: { displayName: true } },
       },
       orderBy: { scheduledAt: "desc" },
       take: 200,
@@ -82,7 +82,7 @@ export default async function LedgerPage() {
 
   const serializedJobs = jobs.map((j) => ({
     id: j.id,
-    label: `#${j.id.slice(-6)} — ${j.type} (${j.customer.name})`,
+    label: `#${j.id.slice(-6)} — ${j.type} (${j.customer.displayName})`,
   }));
 
   return (

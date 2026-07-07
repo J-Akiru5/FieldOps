@@ -14,7 +14,7 @@ export default async function JobsPage() {
 
   const rawJobs = await prisma.job.findMany({
     include: {
-      customer: { select: { name: true, phone: true } },
+      customer: { select: { displayName: true, contactPhone: true } },
       appliance: { select: { brand: true, model: true } },
       assignments: { include: { staffMember: { select: { name: true } } } },
     },

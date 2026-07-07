@@ -13,10 +13,10 @@ export default async function NewJobPage() {
   const customers = await prisma.customer.findMany({
     select: {
       id: true,
-      name: true,
+      displayName: true,
       appliances: { select: { id: true, brand: true, model: true } },
     },
-    orderBy: { name: "asc" },
+    orderBy: { displayName: "asc" },
   });
 
   const technicians = await prisma.staffMember.findMany({

@@ -6,9 +6,9 @@ import Link from "next/link";
 
 interface Customer {
   id: string;
-  name: string;
-  phone: string;
-  email: string | null;
+  displayName: string;
+  contactPhone: string;
+  contactEmail: string | null;
   address: string | null;
   createdAt: string;
 }
@@ -61,12 +61,12 @@ export function CustomerListClient({ customers }: { customers: Customer[] }) {
                   key={customer.id}
                   className="border-b last:border-0 hover:bg-muted/30 transition-colors"
                 >
-                  <td className="px-4 py-3 font-medium">{customer.name}</td>
+                  <td className="px-4 py-3 font-medium">{customer.displayName}</td>
                   <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
-                    {customer.phone}
+                    {customer.contactPhone}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">
-                    {customer.email || "—"}
+                    {customer.contactEmail || "—"}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Link

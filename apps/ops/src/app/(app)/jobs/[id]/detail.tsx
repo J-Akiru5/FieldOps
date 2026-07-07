@@ -32,9 +32,9 @@ interface JobDetail {
   laborFee: number;
   customer: {
     id: string;
-    name: string;
-    phone: string;
-    email: string | null;
+    displayName: string;
+    contactPhone: string;
+    contactEmail: string | null;
     address: string | null;
   };
   appliance: { id: string; brand: string | null; model: string | null; type: string } | null;
@@ -91,7 +91,7 @@ export function JobDetailClient({ job }: { job: JobDetail }) {
         </Link>
         <div className="flex-1">
           <h1 className="text-2xl font-bold tracking-tight">Job {job.type}</h1>
-          <p className="text-sm text-muted-foreground">{job.customer.name}</p>
+          <p className="text-sm text-muted-foreground">{job.customer.displayName}</p>
         </div>
         <Select value={job.status} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-36">
@@ -112,11 +112,11 @@ export function JobDetailClient({ job }: { job: JobDetail }) {
           <h2 className="text-sm font-semibold text-muted-foreground">Customer</h2>
           <div>
             <Link href={`/customers/${job.customer.id}`} className="font-medium hover:underline">
-              {job.customer.name}
+              {job.customer.displayName}
             </Link>
-            <p className="text-sm text-muted-foreground">{job.customer.phone}</p>
-            {job.customer.email && (
-              <p className="text-xs text-muted-foreground">{job.customer.email}</p>
+            <p className="text-sm text-muted-foreground">{job.customer.contactPhone}</p>
+            {job.customer.contactEmail && (
+              <p className="text-xs text-muted-foreground">{job.customer.contactEmail}</p>
             )}
             {job.customer.address && (
               <p className="text-xs text-muted-foreground">{job.customer.address}</p>
