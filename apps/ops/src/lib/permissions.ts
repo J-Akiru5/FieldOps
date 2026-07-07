@@ -18,7 +18,9 @@ export type Permission =
   | "customers.read"
   | "customers.write"
   | "notifications.read"
-  | "notifications.write";
+  | "notifications.write"
+  | "ledger.read"
+  | "ledger.write";
 
 const ROLE_HIERARCHY: Record<string, number> = {
   OWNER: 4,
@@ -49,6 +51,8 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "customers.write",
     "notifications.read",
     "notifications.write",
+    "ledger.read",
+    "ledger.write",
   ],
   PARTNER: [
     "inquiries.read",
@@ -69,6 +73,8 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "customers.write",
     "notifications.read",
     "notifications.write",
+    "ledger.read",
+    "ledger.write",
   ],
   BOOKKEEPER: [
     "inquiries.read",
@@ -82,6 +88,7 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "settings.read",
     "customers.read",
     "notifications.read",
+    "ledger.read",
   ],
   TECHNICIAN: [
     "inquiries.read",

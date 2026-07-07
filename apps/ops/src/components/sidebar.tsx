@@ -3,6 +3,7 @@
 import { createBrowserClient } from "@syntaxure/db/browser";
 import {
   BarChart3,
+  BookOpen,
   ClipboardList,
   Home,
   LogOut,
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/schedule", label: "Schedule", icon: ClipboardList },
   { href: "/inventory", label: "Inventory", icon: Package },
   { href: "/sales", label: "Sales", icon: ShoppingCart },
+  { href: "/ledger", label: "Ledger", icon: BookOpen },
   { href: "/reports", label: "Reports", icon: BarChart3 },
   { href: "/staff", label: "Staff", icon: Users },
   { href: "/settings", label: "Settings", icon: Settings },

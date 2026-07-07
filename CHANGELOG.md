@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/J-Akiru5/FieldOps/compare/v1.5.0...v1.6.0) (2026-07-07)
+
+### Features
+
+- **ops:** add partnership ledger and equity accounting system with LedgerEntry model, soft-void audit trail, and 50/50 profit split service ([f5a2512](https://github.com/J-Akiru5/FieldOps/commit/f5a2512))
+- **db:** add `transactionDate` field to `SalesTransaction` for operational-date-aligned equity reporting ([f5a2512](https://github.com/J-Akiru5/FieldOps/commit/f5a2512))
+
+### Migration Notes
+
+- New `LedgerEntry` model and `LedgerCategory` enum require migration. Run `pnpm --filter @syntaxure/db exec prisma migrate dev` before deploying.
+
 ## [1.5.0](https://github.com/J-Akiru5/FieldOps/compare/v1.4.1...v1.5.0) (2026-07-07)
 
 
