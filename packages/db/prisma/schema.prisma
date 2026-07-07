@@ -64,13 +64,19 @@ enum StaffRole {
   BOOKKEEPER
 }
 
+enum LedgerCategory {
+  INCOME
+  OPERATING_EXPENSE
+  PARTNER_DRAW
+}
+
 model Customer {
   id         String      @id @default(cuid())
   name       String
   phone      String
   email      String?
   address    String?
-  tin        String?     // nullable, for B2B customers
+  tin        String? // nullable, for B2B customers
   appliances Appliance[]
   jobs       Job[]
   createdAt  DateTime    @default(now())
@@ -93,44 +99,46 @@ model Appliance {
 }
 
 model Inquiry {
-  id          String        @id @default(cuid())
-  contactName String
-  phone       String
-  email       String?
-  message     String
-  source      InquirySource @default(SITE)
-  status      InquiryStatus @default(NEW)
+  id           String        @id @default(cuid())
+  contactName  String
+  phone        String
+  email        String?
+  message      String
+  source       InquirySource @default(SITE)
+  status       InquiryStatus @default(NEW)
   convertedJob Job?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model StaffMember {
-  id         String     @id @default(cuid())
-  authUserId String     @unique // maps to Supabase auth.users.id
-  name       String
-  role       StaffRole
-  jobs       JobAssignment[]
-  createdAt  DateTime   @default(now())
+  id            String          @id @default(cuid())
+  authUserId    String          @unique // maps to Supabase auth.users.id
+  name          String
+  role          StaffRole
+  jobs          JobAssignment[]
+  ledgerEntries LedgerEntry[]
+  createdAt     DateTime        @default(now())
 }
 
 model Job {
-  id           String        @id @default(cuid())
-  customerId   String
-  customer     Customer      @relation(fields: [customerId], references: [id])
-  applianceId  String?
-  appliance    Appliance?    @relation(fields: [applianceId], references: [id])
-  inquiryId    String?       @unique
-  inquiry      Inquiry?      @relation(fields: [inquiryId], references: [id])
-  type         JobType
-  status       JobStatus     @default(SCHEDULED)
-  scheduledAt  DateTime
-  laborFee     Decimal       @default(0)
-  assignments  JobAssignment[]
-  lineItems    JobLineItem[]
+  id               String            @id @default(cuid())
+  customerId       String
+  customer         Customer          @relation(fields: [customerId], references: [id])
+  applianceId      String?
+  appliance        Appliance?        @relation(fields: [applianceId], references: [id])
+  inquiryId        String?           @unique
+  inquiry          Inquiry?          @relation(fields: [inquiryId], references: [id])
+  type             JobType
+  status           JobStatus         @default(SCHEDULED)
+  scheduledAt      DateTime
+  laborFee         Decimal           @default(0)
+  assignments      JobAssignment[]
+  lineItems        JobLineItem[]
   salesTransaction SalesTransaction?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  ledgerEntries    LedgerEntry[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model JobAssignment {
@@ -145,7 +153,7 @@ model InventoryItem {
   id                   String          @id @default(cuid())
   sku                  String          @unique
   name                 String
-  unit                 String          // e.g. "pc", "kg", "tank"
+  unit                 String // e.g. "pc", "kg", "tank"
   quantityOnHand       Decimal
   safetyStockThreshold Decimal
   unitCost             Decimal
@@ -178,27 +186,58 @@ model StockMovement {
 }
 
 model SalesTransaction {
-  id            String        @id @default(cuid())
-  jobId         String        @unique
-  job           Job           @relation(fields: [jobId], references: [id])
-  invoiceNumber String?
-  grossAmount   Decimal
-  vatType       VatType       @default(VAT_INCLUSIVE)
-  materialCost  Decimal
-  netProfit     Decimal
-  paymentStatus PaymentStatus @default(UNPAID)
-  createdAt     DateTime      @default(now())
+  id              String        @id @default(cuid())
+  jobId           String        @unique
+  job             Job           @relation(fields: [jobId], references: [id])
+  invoiceNumber   String?
+  grossAmount     Decimal
+  vatType         VatType       @default(VAT_INCLUSIVE)
+  materialCost    Decimal
+  netProfit       Decimal
+  paymentStatus   PaymentStatus @default(UNPAID)
+  transactionDate DateTime?     // operational date of the transaction (payment/close date); falls back to createdAt
+  createdAt       DateTime      @default(now())
+}
+
+model LedgerEntry {
+  id          String         @id @default(cuid())
+  date        DateTime // operational date of the transaction, NOT createdAt
+  particulars String
+  category    LedgerCategory
+  amount      Decimal // always store positive absolute value; enforce in server action
+  remarks     String?
+
+  // Soft-void with full audit trail
+  isVoided     Boolean   @default(false)
+  voidedAt     DateTime?
+  voidedBy     String?
+  voidedReason String?
+
+  partnerId String?
+  partner   StaffMember? @relation(fields: [partnerId], references: [id], onDelete: SetNull)
+
+  // If set, this entry is tied to a Job whose revenue already flows through
+  // SalesTransaction. category must NOT be INCOME when jobId is present.
+  jobId String?
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isVoided, date])
+  @@index([isVoided, category])
+  @@index([partnerId])
 }
 
 model AppSettings {
-  id                      String   @id @default("singleton")
-  companyName             String   @default("J.R.R. Aircon & Electronics")
-  scheduleReminderHours   Int      @default(24)
-  lowStockThreshold       Int      @default(5)
-  defaultVatType          VatType  @default(VAT_INCLUSIVE)
-  workingHoursStart       String   @default("08:00")
-  workingHoursEnd         String   @default("17:00")
-  updatedAt               DateTime @updatedAt
+  id                    String   @id @default("singleton")
+  companyName           String   @default("J.R.R. Aircon & Electronics")
+  scheduleReminderHours Int      @default(24)
+  lowStockThreshold     Int      @default(5)
+  defaultVatType        VatType  @default(VAT_INCLUSIVE)
+  workingHoursStart     String   @default("08:00")
+  workingHoursEnd       String   @default("17:00")
+  updatedAt             DateTime @updatedAt
 }
 
 model Notification {
