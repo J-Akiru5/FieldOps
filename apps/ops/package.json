@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "npx prisma generate --schema=../../packages/db/prisma/schema.prisma && next build",
+    "build": "pnpm --filter @syntaxure/db exec prisma generate && next build",
     "start": "next start -p 3001",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"
