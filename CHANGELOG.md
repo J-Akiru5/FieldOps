@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://github.com/J-Akiru5/FieldOps/compare/v1.4.1...v1.5.0) (2026-07-08)
+
+
+### Features
+
+* **db:** add comprehensive mock data seeder with Prisma seed script ([6a6474f](https://github.com/J-Akiru5/FieldOps/commit/6a6474f2651913ce1fc79148d2a9e6ca398bcd3f))
+* **db:** add db:push and db:reset scripts to package.json ([10c8804](https://github.com/J-Akiru5/FieldOps/commit/10c8804a25cbc96fda12b264fabf271b5a26bf42))
+* **ops:** add partnership ledger and equity accounting system ([#19](https://github.com/J-Akiru5/FieldOps/issues/19)) ([a0fb0be](https://github.com/J-Akiru5/FieldOps/commit/a0fb0be4e654ed802b6ff453ab877202eed941fa))
+* **ops:** jobs UI overhaul, inventory CRUD, reports/ledger crash fix ([112eaaa](https://github.com/J-Akiru5/FieldOps/commit/112eaaab2343cd139703cbff64af26bc43198472))
+* **ops:** modern schedule calendar with week/day/month/list views ([727fbda](https://github.com/J-Akiru5/FieldOps/commit/727fbda429727553097c8e2915636db61ee01286))
+* **ops:** modernize ledger page with 4-zone layout and analytics ([d8a13cb](https://github.com/J-Akiru5/FieldOps/commit/d8a13cb96b516f9561d24907e811a67366864afc))
+* role-aware dashboard redesign, ledger search, audit log page ([ca07c21](https://github.com/J-Akiru5/FieldOps/commit/ca07c214ddf099b11cb6644dd5b26292a4037a4f))
+
+
+### Bug Fixes
+
+* add DATABASE_URL and DIRECT_URL env vars to CI build step ([c2f809c](https://github.com/J-Akiru5/FieldOps/commit/c2f809c59a68b2fdacd66afc6c50cb921af89a03))
+* add DIRECT_URL to turbo.json globalEnv ([0a4d78b](https://github.com/J-Akiru5/FieldOps/commit/0a4d78bf57fe7b3013dd6b82e9d12c5075581186))
+* add DIRECT_URL to turbo.json globalEnv ([#26](https://github.com/J-Akiru5/FieldOps/issues/26)) ([27820ff](https://github.com/J-Akiru5/FieldOps/commit/27820ffbc4f938b39ace8fce1897c0d35e8ce1a1))
+* add migrate deploy and Prisma engine tracing for Vercel ([#24](https://github.com/J-Akiru5/FieldOps/issues/24)) ([f69ea33](https://github.com/J-Akiru5/FieldOps/commit/f69ea33b54f2b6dae1ccd7fc8e260d2604d8e7e7))
+* add migrate deploy to build and Prisma engine tracing for Vercel ([baa2c0a](https://github.com/J-Akiru5/FieldOps/commit/baa2c0a5670353367796f92be28276e2f63e7777))
+* add Prisma binaryTargets for Vercel production runtime ([#23](https://github.com/J-Akiru5/FieldOps/issues/23)) ([39ff749](https://github.com/J-Akiru5/FieldOps/commit/39ff749f9af2e554ebb668bebd0ef80f091826ca))
+* **db:** always cache Prisma singleton on globalThis, add DIRECT_URL to CI ([3f30537](https://github.com/J-Akiru5/FieldOps/commit/3f3053756c552ffdcd861b18274428e5d545f076))
+* **db:** always cache Prisma singleton on globalThis, add DIRECT_URL to CI ([297af0a](https://github.com/J-Akiru5/FieldOps/commit/297af0a4f9e83e39bfae4f643e0e06d70195510d))
+* **db:** split Prisma datasource url and directUrl for pooler mode ([1960380](https://github.com/J-Akiru5/FieldOps/commit/196038058a1482439312b90f1420b0656f405733))
+* jobs Decimal serialization and seed authUserId lookup ([417f96c](https://github.com/J-Akiru5/FieldOps/commit/417f96cd32f90b079637abdc897d06c7dd041e96))
+* **ops:** add avatar upload, storage docs, and favicon ([4963c00](https://github.com/J-Akiru5/FieldOps/commit/4963c0047c0b1d67ecc88bd30d3cc95453da53a6))
+* **ops:** add error handling to schedule and jobs pages, exclude Decimal fields from serialization ([ca68a48](https://github.com/J-Akiru5/FieldOps/commit/ca68a482052e9dd9fd0cefda2981ddf5aa289b00))
+* **ops:** add favicon, exclude manifest/sw from middleware, pre-complete tracker ([c518118](https://github.com/J-Akiru5/FieldOps/commit/c518118b9c1fd646552aff8f8b8dae595df511b4))
+* **ops:** error handling for schedule and jobs pages ([4394c08](https://github.com/J-Akiru5/FieldOps/commit/4394c081caf248d6844b9f852557f61b29604756))
+* **ops:** jobs crash and modernize jobs/inquiries ([625e5db](https://github.com/J-Akiru5/FieldOps/commit/625e5db5cc4f4b9de8e039623c4e9ba799147857))
+* resolve build errors and apply final hardening pass ([09cc430](https://github.com/J-Akiru5/FieldOps/commit/09cc430a47f616d9546849b84ed03b7bf9a7ed8f))
+
 ## [1.10.0](https://github.com/J-Akiru5/FieldOps/compare/v1.9.0...v1.10.0) (2026-07-08)
 
 ### Added
