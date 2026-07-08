@@ -85,7 +85,9 @@ export async function getLedgerEntries(filters?: LedgerFilters) {
     where,
     include: {
       partner: { select: { id: true, name: true, role: true } },
-      job: { select: { id: true, type: true, status: true } },
+      job: {
+        select: { id: true, type: true, status: true, customer: { select: { displayName: true } } },
+      },
     },
     orderBy: { date: "desc" },
     take: 100,
@@ -97,7 +99,9 @@ export async function getLedgerEntryById(id: string) {
     where: { id },
     include: {
       partner: { select: { id: true, name: true, role: true } },
-      job: { select: { id: true, type: true, status: true } },
+      job: {
+        select: { id: true, type: true, status: true, customer: { select: { displayName: true } } },
+      },
     },
   });
 }
@@ -122,7 +126,9 @@ export async function createLedgerEntry(data: CreateLedgerEntryInput) {
     },
     include: {
       partner: { select: { id: true, name: true, role: true } },
-      job: { select: { id: true, type: true, status: true } },
+      job: {
+        select: { id: true, type: true, status: true, customer: { select: { displayName: true } } },
+      },
     },
   });
 }
@@ -158,8 +164,22 @@ export async function updateLedgerEntry(id: string, data: UpdateLedgerEntryInput
     },
     include: {
       partner: { select: { id: true, name: true, role: true } },
-      job: { select: { id: true, type: true, status: true } },
+      job: {
+        select: { id: true, type: true, status: true, customer: { select: { displayName: true } } },
+      },
     },
+  });
+}
+
+export async function getRecentActivity(limit = 10) {
+  return prisma.ledgerEntry.findMany({
+    where: { isVoided: false },
+    include: {
+      partner: { select: { id: true, name: true } },
+      job: { select: { id: true, type: true, customer: { select: { displayName: true } } } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: limit,
   });
 }
 
