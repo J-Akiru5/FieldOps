@@ -12,4 +12,6 @@ export {
   StaffRole,
   LedgerCategory,
   CustomerType,
+  AuditAction,
+  AuditEntity,
 } from "@prisma/client";

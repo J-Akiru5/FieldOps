@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0](https://github.com/J-Akiru5/FieldOps/compare/v1.9.0...v1.10.0) (2026-07-08)
+
+### Added
+
+- **ops:** Role-aware dashboard with two-tier layout: Tier 1 "Today" (Inquiries, Jobs Scheduled, Jobs Completed, Low Stock Alerts) and Tier 2 "Business Health" (Gross Sales, Net Profit, Your Share).
+- **ops:** Dashboard stat cards are now clickable links to their respective pages.
+- **ops:** Mobile 2x2 grid for Tier 1 cards; desktop two-column panel layout (Recent Inquiries wider left, Jobs by Status + Low Stock stacked right).
+- **ops:** Personalized "Your Share" card on dashboard for OWNER/PARTNER roles — shows net entitlement from the 50/50 ledger.
+- **ops:** Technician dashboard: "My Jobs Today" + Schedule shortcut; no financials.
+- **ops:** Bookkeeper dashboard: Business Health tier front and center, Today tier de-emphasized.
+- **ops:** Ledger page search — filters entries by particulars, remarks, partner name, job label in real-time.
+- **ops:** Audit log page with filters (entity, action, actor, date range), pagination, and actor list.
+
+### Changed
+
+- **ops:** Dashboard data layer now fetches equity summary (net profit + partner share) for the current month.
+- **ops:** Dashboard low stock stat uses threshold-based alert count instead of zero-quantity-only count.
+- **ops:** Dashboard fetches technician's jobs-for-today count for personalized technician view.
+
+### Migration Notes
+
+- Audit log migration (`20260708000000_add_audit_log`) adds `AuditLog` table. The build script runs `prisma migrate deploy` automatically, but if deploying outside the build pipeline, run:
+  ```
+  pnpm --filter @syntaxure/db exec prisma migrate deploy
+  ```
+
 ## [1.9.0](https://github.com/J-Akiru5/FieldOps/compare/v1.8.0...v1.9.0) (2026-07-08)
 
 ### Added

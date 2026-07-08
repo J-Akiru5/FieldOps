@@ -36,7 +36,7 @@ export async function getCurrentUserRoleAndEmail(): Promise<{
 
 export async function requirePermission(
   permission: Permission
-): Promise<{ email: string | null; userId: string }> {
+): Promise<{ email: string | null; userId: string; actorName?: string }> {
   const supabase = await createServerClient();
   const {
     data: { user },
@@ -45,16 +45,18 @@ export async function requirePermission(
   if (!user) throw new Error("Unauthorized: must be signed in");
 
   if (user.email === SUPER_ADMIN_EMAIL) {
-    return { email: user.email ?? null, userId: user.id };
+    return { email: user.email ?? null, userId: user.id, actorName: "Super Admin" };
   }
 
   let role: string | undefined;
+  let actorName: string | undefined;
   try {
     const staff = await prisma.staffMember.findUnique({
       where: { authUserId: user.id },
-      select: { role: true },
+      select: { role: true, name: true },
     });
     role = staff?.role;
+    actorName = staff?.name;
   } catch {
     throw new ServiceUnavailableError("Database is unavailable — cannot verify permissions");
   }
@@ -63,5 +65,5 @@ export async function requirePermission(
     throw new Error(`Forbidden: missing permission '${permission}'`);
   }
 
-  return { email: user.email ?? null, userId: user.id };
+  return { email: user.email ?? null, userId: user.id, actorName };
 }

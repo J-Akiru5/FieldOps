@@ -31,6 +31,7 @@ import {
   MoreVertical,
   Plus,
   RotateCw,
+  Search,
   TrendingDown,
   TrendingUp,
   TriangleAlert,
@@ -291,6 +292,7 @@ export function LedgerClient({
   const [dateTo, setDateTo] = useState(format(endOfMonth(now), "yyyy-MM-dd"));
 
   // ── Client-side filters ──
+  const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("ALL");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
   const [partnerJobFilter, setPartnerJobFilter] = useState<string>("ALL");
@@ -328,6 +330,16 @@ export function LedgerClient({
   // ── Client-side filtered entries ──
   const filteredEntries = useMemo(() => {
     let result = showVoided ? entries : entries.filter((e) => !e.isVoided);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (e) =>
+          e.particulars.toLowerCase().includes(q) ||
+          e.remarks?.toLowerCase().includes(q) ||
+          e.partnerName?.toLowerCase().includes(q) ||
+          e.jobLabel?.toLowerCase().includes(q)
+      );
+    }
     if (categoryFilter !== "ALL") {
       result = result.filter((e) => e.category === categoryFilter);
     }
@@ -340,7 +352,7 @@ export function LedgerClient({
       );
     }
     return result;
-  }, [entries, showVoided, categoryFilter, typeFilter, partnerJobFilter]);
+  }, [entries, showVoided, searchQuery, categoryFilter, typeFilter, partnerJobFilter]);
 
   // ── Pagination derived ──
   const totalPages = Math.max(1, Math.ceil(filteredEntries.length / PAGE_SIZE));
@@ -495,27 +507,59 @@ export function LedgerClient({
     }
   }
 
-  function handleExport() {
-    const rows = [
-      ["Date", "Particulars", "Category", "Type", "Partner/Job", "Amount", "Remarks"],
-      ...filteredEntries.map((e) => [
-        fmtDate(e.date),
-        e.particulars,
-        CATEGORY_LABELS[e.category],
-        CATEGORY_ICON[e.category],
-        e.partnerName ?? e.jobLabel ?? "",
-        e.amount.toFixed(2),
-        e.remarks ?? "",
-      ]),
-    ];
-    const csv = rows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `ledger-${dateFrom}-to-${dateTo}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function handleExportXLSX() {
+    try {
+      const XLSX = await import("xlsx");
+      const rows = filteredEntries.map((e) => ({
+        Date: fmtDate(e.date),
+        Particulars: e.particulars,
+        Category: CATEGORY_LABELS[e.category],
+        Amount: e.amount,
+        "Partner / Job": e.partnerName ?? e.jobLabel ?? "",
+        Remarks: e.remarks ?? "",
+        Status: e.isVoided ? "VOIDED" : "ACTIVE",
+      }));
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Ledger");
+      XLSX.writeFile(wb, `ledger-${dateFrom}-to-${dateTo}.xlsx`);
+      toast.success("Excel ledger exported successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to export Excel file.");
+    }
+  }
+
+  async function handleExportPDF() {
+    try {
+      const { default: jsPDF } = await import("jspdf");
+      const { default: autoTable } = await import("jspdf-autotable");
+      const doc = new jsPDF({ orientation: "landscape" });
+      doc.setFontSize(14);
+      doc.text("Sales & Expense Ledger", 14, 15);
+      doc.setFontSize(10);
+      doc.text(`Period: ${fmtDate(dateFrom)} – ${fmtDate(dateTo)}`, 14, 22);
+      autoTable(doc, {
+        startY: 28,
+        head: [["Date", "Particulars", "Category", "Amount", "Partner / Job", "Remarks", "Status"]],
+        body: filteredEntries.map((e) => [
+          fmtDate(e.date),
+          e.particulars,
+          CATEGORY_LABELS[e.category],
+          fmtAmount(e.amount),
+          e.partnerName ?? e.jobLabel ?? "—",
+          e.remarks ?? "",
+          e.isVoided ? "VOIDED" : "ACTIVE",
+        ]),
+        styles: { fontSize: 8 },
+        headStyles: { fillColor: [30, 41, 59] },
+      });
+      doc.save(`ledger-${dateFrom}-to-${dateTo}.pdf`);
+      toast.success("PDF ledger exported successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to export PDF file.");
+    }
   }
 
   const jobIncomeSelected = !!(formJobId && formCategory === "INCOME");
@@ -539,6 +583,22 @@ export function LedgerClient({
 
       {/* ── Zone B: Filter Bar ── */}
       <div className="flex flex-wrap items-end gap-3">
+        <div className="space-y-1">
+          <Label className="text-xs text-muted-foreground">Search</Label>
+          <div className="relative">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Particulars, remarks…"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                resetPage();
+              }}
+              className="w-52 pl-9"
+            />
+          </div>
+        </div>
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">From</Label>
           <Input
@@ -643,6 +703,7 @@ export function LedgerClient({
             variant="ghost"
             size="sm"
             onClick={() => {
+              setSearchQuery("");
               setCategoryFilter("ALL");
               setTypeFilter("ALL");
               setPartnerJobFilter("ALL");
@@ -723,9 +784,18 @@ export function LedgerClient({
               >
                 <Grid3X3 className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="sm" className="gap-1 ml-2" onClick={handleExport}>
-                <Download className="h-4 w-4" />
-                Export
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1 ml-2 text-xs"
+                onClick={handleExportXLSX}
+              >
+                <Download className="h-3.5 w-3.5" />
+                XLSX
+              </Button>
+              <Button variant="ghost" size="sm" className="gap-1 text-xs" onClick={handleExportPDF}>
+                <Download className="h-3.5 w-3.5" />
+                PDF
               </Button>
             </div>
           </div>

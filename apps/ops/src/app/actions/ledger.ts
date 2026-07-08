@@ -1,5 +1,6 @@
 "use server";
 
+import { writeAuditLog } from "@/lib/data/audit-log";
 import { createLedgerEntry, updateLedgerEntry, voidLedgerEntry } from "@/lib/data/ledger";
 import { requirePermission } from "@/lib/require-permission";
 import { LedgerCategory } from "@syntaxure/db";
@@ -73,7 +74,7 @@ export async function createLedgerEntryAction(
   data: z.infer<typeof createSchema>
 ): Promise<{ success: boolean; error?: string; id?: string }> {
   try {
-    await requirePermission("ledger.write");
+    const { userId, email } = await requirePermission("ledger.write");
 
     const parsed = createSchema.safeParse(data);
     if (!parsed.success) {
@@ -82,6 +83,18 @@ export async function createLedgerEntryAction(
 
     const entry = await createLedgerEntry(parsed.data);
     revalidatePath("/ledger");
+
+    // Audit log — fire-and-forget
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      action: "CREATE",
+      entity: "LEDGER_ENTRY",
+      entityId: entry.id,
+      entityLabel: `₱${parsed.data.amount.toFixed(2)} — ${parsed.data.particulars}`,
+      after: { category: parsed.data.category, amount: parsed.data.amount },
+    });
+
     return { success: true, id: entry.id };
   } catch (error) {
     return {
@@ -96,7 +109,7 @@ export async function updateLedgerEntryAction(
   data: z.infer<typeof updateSchema>
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("ledger.write");
+    const { userId, email } = await requirePermission("ledger.write");
 
     const parsed = updateSchema.safeParse(data);
     if (!parsed.success) {
@@ -105,6 +118,17 @@ export async function updateLedgerEntryAction(
 
     await updateLedgerEntry(id, parsed.data);
     revalidatePath("/ledger");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      action: "UPDATE",
+      entity: "LEDGER_ENTRY",
+      entityId: id,
+      entityLabel: parsed.data.particulars ?? `Entry ${id}`,
+      after: parsed.data as Record<string, unknown>,
+    });
+
     return { success: true };
   } catch (error) {
     return {
@@ -119,7 +143,7 @@ export async function voidLedgerEntryAction(
   reason: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { userId } = await requirePermission("ledger.write");
+    const { userId, email } = await requirePermission("ledger.write");
 
     const trimmed = reason.trim();
     if (!trimmed) {
@@ -128,6 +152,17 @@ export async function voidLedgerEntryAction(
 
     await voidLedgerEntry(id, userId, trimmed);
     revalidatePath("/ledger");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      action: "VOID",
+      entity: "LEDGER_ENTRY",
+      entityId: id,
+      entityLabel: `Entry ${id}`,
+      metadata: { reason: trimmed },
+    });
+
     return { success: true };
   } catch (error) {
     return {

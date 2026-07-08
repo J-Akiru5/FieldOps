@@ -247,6 +247,48 @@ model LedgerEntry {
   @@index([partnerId])
 }
 
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  VOID
+  EXPORT
+  STATUS_CHANGE
+  LOGIN
+}
+
+enum AuditEntity {
+  LEDGER_ENTRY
+  JOB
+  CUSTOMER
+  INVENTORY_ITEM
+  STOCK_MOVEMENT
+  STAFF_MEMBER
+  SETTINGS
+  SALES_TRANSACTION
+}
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  actorId     String
+  actorEmail  String
+  actorName   String?
+  action      AuditAction
+  entity      AuditEntity
+  entityId    String?
+  entityLabel String?
+  before      Json?
+  after       Json?
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  @@index([actorId])
+  @@index([entity, entityId])
+  @@index([action])
+  @@index([createdAt])
+  @@index([entity, createdAt])
+}
+
 model AppSettings {
   id                    String   @id @default("singleton")
   companyName           String   @default("J.R.R. Aircon & Electronics")
