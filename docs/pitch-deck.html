@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitch Deck — Syntaxure FieldOps Startup Grant Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #f59e0b;
+      --navy: #0f172a;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --success: #16a34a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--slate-800);
+      background: var(--slate-50);
+      line-height: 1.6;
+    }
+    .slide {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 64px 24px; position: relative;
+    }
+    .slide-dark {
+      background: linear-gradient(135deg, var(--navy), #1e3a5f, var(--primary-dark));
+      color: white;
+    }
+    .slide-light { background: white; }
+    .slide-alt { background: var(--slate-50); }
+    .container { max-width: 1000px; margin: 0 auto; width: 100%; }
+
+    /* Typography */
+    h1, h2, h3 { font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+    .slide h2 { font-size: 2.6rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+    .slide h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: var(--navy); }
+    .slide-dark h3 { color: #93c5fd; }
+    .slide p.lead { font-size: 1.15rem; color: var(--slate-500); max-width: 680px; line-height: 1.7; }
+    .slide-dark p.lead { color: #cbd5e1; }
+
+    /* Slide number */
+    .slide-num {
+      position: absolute; top: 28px; right: 32px;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--slate-400); opacity: 0.7;
+    }
+    .slide-dark .slide-num { color: rgba(255,255,255,0.4); }
+
+    /* Components */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; margin-bottom: 24px;
+    }
+    .label-pill {
+      display: inline-block; background: var(--primary); color: white;
+      padding: 4px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
+    }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+    /* Cards */
+    .pcard {
+      background: white; border: 1px solid var(--slate-200); border-radius: 16px;
+      padding: 28px; transition: all 0.3s ease;
+    }
+    .pcard:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(15,23,42,0.12); }
+    .pcard .icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .pcard h4 { font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700; }
+    .pcard p { color: var(--slate-500); font-size: 0.92rem; line-height: 1.6; }
+
+    .pcard-dark {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 28px;
+    }
+    .pcard-dark .icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .pcard-dark h4 { font-size: 1.1rem; color: white; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700; }
+    .pcard-dark p { color: #94a3b8; font-size: 0.92rem; line-height: 1.6; }
+
+    /* Metrics / big numbers */
+    .big-num { font-size: 3.2rem; font-weight: 800; color: var(--primary); line-height: 1; margin-bottom: 8px; }
+    .big-label { font-size: 0.85rem; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Lists */
+    .checklist { list-style: none; }
+    .checklist li { padding: 8px 0; padding-left: 28px; position: relative; color: var(--slate-600); font-size: 0.95rem; }
+    .checklist li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+
+    .arrow-list { list-style: none; }
+    .arrow-list li { padding: 10px 0; padding-left: 24px; position: relative; color: var(--slate-600); font-size: 0.95rem; border-bottom: 1px solid var(--slate-100); }
+    .arrow-list li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+    .arrow-list li:last-child { border-bottom: none; }
+
+    /* Timeline */
+    .timeline { display: flex; gap: 16px; flex-wrap: wrap; }
+    .t-item { flex: 1; min-width: 200px; background: white; border-radius: 14px; padding: 24px; border: 1px solid var(--slate-200); position: relative; }
+    .t-item .t-phase { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+    .t-item .t-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .t-item p { font-size: 0.88rem; color: var(--slate-500); line-height: 1.5; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--slate-200); }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th { background: var(--slate-100); text-align: left; padding: 14px 18px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-600); font-weight: 600; }
+    td { padding: 14px 18px; border-top: 1px solid var(--slate-100); font-size: 0.9rem; color: var(--slate-700); }
+    tr:hover td { background: var(--slate-50); }
+
+    /* CTA Banner */
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 20px; padding: 48px; color: white; text-align: center;
+    }
+    .cta-box h3 { color: white; font-size: 1.8rem; margin-bottom: 12px; }
+    .cta-box p { color: #bfdbfe; max-width: 520px; margin: 0 auto 24px; }
+    .cta-btn {
+      display: inline-block; background: white; color: var(--primary-dark);
+      padding: 12px 32px; border-radius: 999px; font-weight: 700; text-decoration: none; font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+    .cta-btn:hover { transform: scale(1.04); }
+
+    /* Print pagination */
+    @media print {
+      .slide { page-break-after: always; min-height: auto; padding: 40px 24px; }
+      .slide:last-child { page-break-after: auto; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .slide h2 { font-size: 1.8rem; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .big-num { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Title -->
+  <section class="slide slide-dark">
+    <div class="container" style="text-align: center;">
+      <div class="badge">🚀 Startup Grant Proposal &bull; 2025</div>
+      <h1 style="font-size: 3.6rem; margin-bottom: 20px;">Syntaxure FieldOps</h1>
+      <p class="lead" style="margin: 0 auto 32px;">
+        Modernizing Philippine field service businesses through an integrated job-costing and operations platform — 
+        built by technicians, for technicians.
+      </p>
+      <div style="display: inline-flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+        <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 999px; font-size: 0.9rem;">🇵🇭 Iloilo City, Philippines</span>
+        <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 999px; font-size: 0.9rem;">🏢 J.R.R. Aircon &amp; Refrigeration Services</span>
+        <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 999px; font-size: 0.9rem;">💻 SaaS + Service Hybrid</span>
+      </div>
+      <p style="margin-top: 48px; color: rgba(255,255,255,0.5); font-size: 0.85rem;">Presented by Jose T. Puig, CEO &bull; Jeremy D. Martinez, Division Head</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: The Problem -->
+  <section class="slide slide-light">
+    <span class="slide-num">Slide 02</span>
+    <div class="container">
+      <span class="label-pill">The Problem</span>
+      <h2>Philippine Service SMEs Are Flying Blind</h2>
+      <p class="lead" style="margin-bottom: 40px;">Millions of small service businesses — HVAC, plumbing, electrical, appliance repair — operate without modern tools. The result is leakage, chaos, and stunted growth.</p>
+      <div class="grid-3">
+        <div class="pcard">
+          <span class="icon">📉</span>
+          <h4>No Profit Visibility</h4>
+          <p>Most technicians cannot tell if a job was profitable after deducting parts, fuel, and labor. Spreadsheets are error-prone and rarely used.</p>
+        </div>
+        <div class="pcard">
+          <span class="icon">📋</span>
+          <h4>Lost Inquiries</h4>
+          <p>Phone and walk-in inquiries are jotted on paper or memorized. Follow-ups are forgotten. Revenue leaks through the cracks every week.</p>
+        </div>
+        <div class="pcard">
+          <span class="icon">💸</span>
+          <h4>Foreign Software Too Expensive</h4>
+          <p>Global FSM tools charge $40–100/user/month in USD, lack Philippine VAT support, and require credit cards local SMEs do not have.</p>
+        </div>
+      </div>
+      <div style="margin-top: 40px; background: var(--slate-100); border-radius: 16px; padding: 28px; border-left: 4px solid var(--danger);">
+        <p style="color: var(--slate-700); font-size: 1rem; font-style: italic;">
+          "We fix air conditioners all day, but we have no idea which customer types make us money, which parts run out too fast, or whether we should hire another tech."
+        </p>
+        <p style="color: var(--slate-500); font-size: 0.85rem; margin-top: 10px;">— Typical service business owner, Iloilo City</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: The Solution -->
+  <section class="slide slide-alt">
+    <span class="slide-num">Slide 03</span>
+    <div class="container">
+      <span class="label-pill">The Solution</span>
+      <h2>FieldOps: Built by a Technician, for Technicians</h2>
+      <p class="lead" style="margin-bottom: 40px;">An end-to-end field service management platform that connects the front desk, the field technician, and the bookkeeper in one affordable, Philippines-ready system.</p>
+      <div class="grid-2">
+        <div>
+          <ul class="checklist">
+            <li><strong>Inquiry-to-Job Pipeline</strong> — Capture leads from web, phone, or walk-in; track status through to conversion.</li>
+            <li><strong>Smart Scheduling</strong> — Assign technicians, reserve inventory, and confirm appointments automatically.</li>
+            <li><strong>Job Costing &amp; VAT</strong> — Auto-calculate gross, material cost, net profit, and VAT inclusive / exclusive per job.</li>
+            <li><strong>Inventory Tracking</strong> — Real-time stock levels with low-stock alerts and movement audit trails.</li>
+            <li><strong>General Ledger</strong> — Income, operating expense, and partner draw entries with soft-void audit support.</li>
+            <li><strong>Mobile-Ready Ops</strong> — PWA dashboard runs on any phone or tablet for field updates.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="background: white; border-radius: 20px; padding: 32px; border: 1px solid var(--slate-200); box-shadow: 0 10px 30px -8px rgba(15,23,42,0.08);">
+            <h4 style="font-size: 1rem; color: var(--navy); margin-bottom: 16px; font-weight: 700;">Architecture at a Glance</h4>
+            <div style="display: grid; gap: 10px;">
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500); font-size: 0.85rem;">Frontend</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.85rem;">Next.js 15 + Tailwind + shadcn/ui</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500); font-size: 0.85rem;">Backend &amp; Auth</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.85rem;">Supabase (Postgres + RLS + Auth)</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500); font-size: 0.85rem;">ORM &amp; Schema</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.85rem;">Prisma (11 models, production-ready)</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--slate-100);">
+                <span style="color: var(--slate-500); font-size: 0.85rem;">Hosting</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.85rem;">Vercel (edge, auto-scaling)</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                <span style="color: var(--slate-500); font-size: 0.85rem;">Monorepo</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.85rem;">Turborepo + pnpm workspaces</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Market Opportunity -->
+  <section class="slide slide-light">
+    <span class="slide-num">Slide 04</span>
+    <div class="container">
+      <span class="label-pill">Market</span>
+      <h2>A Massive, Underserved SME Market</h2>
+      <p class="lead" style="margin-bottom: 40px;">The Philippine service sector is fragmented, informal, and hungry for affordable digital tools. FieldOps is positioned to capture this gap before global players localize.</p>
+      <div class="grid-4" style="margin-bottom: 40px;">
+        <div style="text-align: center; padding: 24px;">
+          <div class="big-num">1.1M+</div>
+          <div class="big-label">Philippine MSMEs</div>
+        </div>
+        <div style="text-align: center; padding: 24px;">
+          <div class="big-num">~35%</div>
+          <div class="big-label">Service Sector Share</div>
+        </div>
+        <div style="text-align: center; padding: 24px;">
+          <div class="big-num">&lt;5%</div>
+          <div class="big-label">Digital Tool Adoption</div>
+        </div>
+        <div style="text-align: center; padding: 24px;">
+          <div class="big-num">₱2,500</div>
+          <div class="big-label">Target Monthly Price</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="pcard">
+          <span class="icon">🎯</span>
+          <h4>Initial Beachhead</h4>
+          <p>Iloilo City and Western Visayas HVAC + electronics repair shops. We already live here, speak the dialect, and understand the seasonality (peak summer = peak AC breakdowns).</p>
+        </div>
+        <div class="pcard">
+          <span class="icon">🌏</span>
+          <h4>Expansion Path</h4>
+          <p>After product-market fit, target adjacent service verticals (plumbing, electrical, cleaning) in Bacolod, Roxas, Kalibo, and eventually Metro Manila via reseller partners.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Business Model -->
+  <section class="slide slide-alt">
+    <span class="slide-num">Slide 05</span>
+    <div class="container">
+      <span class="label-pill">Business Model</span>
+      <h2>Hybrid Revenue: Services Fund the Software</h2>
+      <p class="lead" style="margin-bottom: 40px;">J.R.R. Services provides cash-flow and a live testing ground. FieldOps SaaS creates scalable, high-margin recurring revenue.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Revenue Stream</th>
+              <th>Description</th>
+              <th>Target Mix (Y3)</th>
+              <th>Margin Profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Service Labor</strong></td>
+              <td>Aircon &amp; electronics repair/installation labor fees</td>
+              <td>60%</td>
+              <td>High (skilled labor)</td>
+            </tr>
+            <tr>
+              <td><strong>Material Markup</strong></td>
+              <td>Parts, refrigerant, filters sold with service jobs</td>
+              <td>20%</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><strong>Maintenance Contracts</strong></td>
+              <td>Annual AMCs with scheduled visits &amp; priority booking</td>
+              <td>10%</td>
+              <td>Very High (recurring)</td>
+            </tr>
+            <tr>
+              <td><strong>FieldOps SaaS</strong></td>
+              <td>Monthly subscriptions per company or per technician</td>
+              <td>8%</td>
+              <td>Very High (software)</td>
+            </tr>
+            <tr>
+              <td><strong>Onboarding &amp; Training</strong></td>
+              <td>Setup, data migration, and staff training for SaaS users</td>
+              <td>2%</td>
+              <td>High (one-time)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="background: white; border-radius: 14px; padding: 24px; border: 1px solid var(--slate-200);">
+          <h4 style="font-size: 1rem; color: var(--navy); margin-bottom: 10px;">Unit Economics — Service Job</h4>
+          <p style="color: var(--slate-600); font-size: 0.9rem; line-height: 1.6;">Average ticket: ₱2,500–₱8,000. Material cost: ~30%. Labor cost: ~25%. Net margin per job: ~35–45%. FieldOps tracking improves this by reducing no-shows and stockouts.</p>
+        </div>
+        <div style="background: white; border-radius: 14px; padding: 24px; border: 1px solid var(--slate-200);">
+          <h4 style="font-size: 1rem; color: var(--navy); margin-bottom: 10px;">Unit Economics — SaaS</h4>
+          <p style="color: var(--slate-600); font-size: 0.9rem; line-height: 1.6;">Target price: ₱2,500/month per company (3–5 users). Cloud cost per tenant: ~₱400/month. Gross margin: ~84%. Payback on dev cost at 20 paying customers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Traction & Validation -->
+  <section class="slide slide-light">
+    <span class="slide-num">Slide 06</span>
+    <div class="container">
+      <span class="label-pill">Traction</span>
+      <h2>Real Operations, Real Data, Real Product</h2>
+      <p class="lead" style="margin-bottom: 40px;">FieldOps is not a slide deck. It is already processing live inquiries, running a public booking site, and managing a production database.</p>
+      <div class="grid-3">
+        <div class="pcard">
+          <span class="icon">🌐</span>
+          <h4>Public Site Live</h4>
+          <p>Marketing site with SEO-optimized content, service descriptions, and a working inquiry form deployed on Vercel with Supabase backend.</p>
+        </div>
+        <div class="pcard">
+          <span class="icon">🔐</span>
+          <h4>Auth-Gated Dashboard</h4>
+          <p>Secure ops dashboard with Supabase SSR auth, Row-Level Security policies, and role-based access (Owner, Partner, Technician, Bookkeeper).</p>
+        </div>
+        <div class="pcard">
+          <span class="icon">📊</span>
+          <h4>Production Schema</h4>
+          <p>Prisma schema defines 11 production models: Customer, Appliance, Inquiry, Job, Staff, Inventory, Sales, Ledger, and more — all migrated and RLS-protected.</p>
+        </div>
+      </div>
+      <div style="margin-top: 36px; background: linear-gradient(135deg, var(--success-light), white); border-radius: 16px; padding: 28px; border: 1px solid var(--slate-200);">
+        <h4 style="font-size: 1rem; color: var(--navy); margin-bottom: 14px;">Validation Metrics (Internal)</h4>
+        <div class="grid-4">
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);">100%</div>
+            <div style="font-size: 0.85rem; color: var(--slate-500);">Inquiry capture rate (vs. paper)</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);">~40%</div>
+            <div style="font-size: 0.85rem; color: var(--slate-500);">Estimated admin time saved</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);">0</div>
+            <div style="font-size: 0.85rem; color: var(--slate-500);">Lost paper records since digital switch</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);">9</div>
+            <div style="font-size: 0.85rem; color: var(--slate-500);">Core modules designed &amp; schema-ready</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Competitive Advantage -->
+  <section class="slide slide-dark">
+    <span class="slide-num">Slide 07</span>
+    <div class="container">
+      <div class="badge">Competitive Advantage</div>
+      <h2 style="color: white;">Why We Win</h2>
+      <p class="lead" style="margin-bottom: 40px;">Global tools are too expensive. Local shops are too informal. FieldOps sits in the sweet spot: professional-grade software at a price Philippine SMEs can afford.</p>
+      <div class="grid-3">
+        <div class="pcard-dark">
+          <span class="icon">🇵🇭</span>
+          <h4>Local by Design</h4>
+          <p>Philippine VAT handling (inclusive / exclusive / non-VAT), peso-denominated cost tracking, and local language support — not an afterthought.</p>
+        </div>
+        <div class="pcard-dark">
+          <span class="icon">💰</span>
+          <h4>Affordable Pricing</h4>
+          <p>Priced in PHP, payable via local methods (GCash, bank transfer). No foreign exchange risk, no corporate credit card requirement.</p>
+        </div>
+        <div class="pcard-dark">
+          <span class="icon">📱</span>
+          <h4>Mobile-First Field Ops</h4>
+          <p>Technicians update jobs from any phone. PWA architecture means no App Store friction, instant updates, and offline resilience.</p>
+        </div>
+      </div>
+      <div style="margin-top: 36px;">
+        <h4 style="color: #93c5fd; font-size: 1rem; margin-bottom: 14px;">Competitive Comparison</h4>
+        <div class="table-wrap" style="border-color: rgba(255,255,255,0.15);">
+          <table style="background: rgba(255,255,255,0.04);">
+            <thead>
+              <tr>
+                <th style="background: rgba(255,255,255,0.08); color: #cbd5e1;">Factor</th>
+                <th style="background: rgba(255,255,255,0.08); color: #cbd5e1;">Informal Shops</th>
+                <th style="background: rgba(255,255,255,0.08); color: #cbd5e1;">Global FSM Tools</th>
+                <th style="background: rgba(255,255,255,0.08); color: #93c5fd;">FieldOps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: #e2e8f0;">Price</td>
+                <td style="color: #94a3b8;">Free (paper)</td>
+                <td style="color: #94a3b8;">$40–100/user/mo</td>
+                <td style="color: #93c5fd; font-weight: 700;">₱2,500/mo flat</td>
+              </tr>
+              <tr>
+                <td style="color: #e2e8f0;">Philippine VAT</td>
+                <td style="color: #94a3b8;">No</td>
+                <td style="color: #94a3b8;">Rarely</td>
+                <td style="color: #93c5fd; font-weight: 700;">Native support</td>
+              </tr>
+              <tr>
+                <td style="color: #e2e8f0;">Local Support</td>
+                <td style="color: #94a3b8;">N/A</td>
+                <td style="color: #94a3b8;">Email / Chatbot</td>
+                <td style="color: #93c5fd; font-weight: 700;">Phone / On-site</td>
+              </tr>
+              <tr>
+                <td style="color: #e2e8f0;">Job Costing</td>
+                <td style="color: #94a3b8;">Guesswork</td>
+                <td style="color: #94a3b8;">Partial</td>
+                <td style="color: #93c5fd; font-weight: 700;">Auto-calculate per job</td>
+              </tr>
+              <tr>
+                <td style="color: #e2e8f0;">Offline Mobile</td>
+                <td style="color: #94a3b8;">N/A</td>
+                <td style="color: #94a3b8;">Native app only</td>
+                <td style="color: #93c5fd; font-weight: 700;">PWA (no install)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Roadmap -->
+  <section class="slide slide-alt">
+    <span class="slide-num">Slide 08</span>
+    <div class="container">
+      <span class="label-pill">Roadmap</span>
+      <h2>Execution Plan: 18 Months</h2>
+      <p class="lead" style="margin-bottom: 40px;">Grant funding accelerates development of the remaining modules and enables the first external SaaS pilot.</p>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-phase">Phase 1 — Months 1–3</div>
+          <div class="t-title">Core Ops Completion</div>
+          <p>Jobs, Scheduling, Inventory, Sales, and Staff modules. Full end-to-end workflow internally at J.R.R.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 2 — Months 4–6</div>
+          <div class="t-title">Reporting &amp; Ledger</div>
+          <p>Dashboard charts, profit reports, low-stock alerts, and full general ledger with void audit trails.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 3 — Months 7–9</div>
+          <div class="t-title">Multi-Company Prep</div>
+          <p>Tenant isolation, custom branding, role admin, and subscription billing integration (Xendit / PayMongo).</p>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 4 — Months 10–12</div>
+          <div class="t-title">Pilot SaaS Launch</div>
+          <p>Onboard 3–5 friendly competitor shops in Iloilo for free pilot, collect feedback, iterate pricing.</p>
+        </div>
+        <div class="t-item">
+          <div class="t-phase">Phase 5 — Months 13–18</div>
+          <div class="t-title">Commercial SaaS &amp; Scale</div>
+          <p>Paid SaaS launch, content marketing, DTI partnership announcements, and expansion to Bacolod.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: Grant Ask -->
+  <section class="slide slide-light">
+    <span class="slide-num">Slide 09</span>
+    <div class="container">
+      <span class="label-pill">The Ask</span>
+      <h2>Grant Funding Request</h2>
+      <p class="lead" style="margin-bottom: 40px;">We are seeking grant funding to complete the FieldOps platform and validate external product-market fit — without diluting equity or taking on debt.</p>
+      <div class="grid-2">
+        <div>
+          <div class="big-num">₱750,000</div>
+          <div class="big-label">Total Grant Request</div>
+          <p style="margin-top: 16px; color: var(--slate-600); font-size: 0.95rem;">Covers 12 months of focused product development, cloud infrastructure, pilot onboarding, and compliance documentation.</p>
+        </div>
+        <div>
+          <ul class="arrow-list">
+            <li><strong>Software Development (60%)</strong> — Full-stack engineer stipend and contractor fees for modules 3–9.</li>
+            <li><strong>Cloud &amp; Infrastructure (15%)</strong> — Supabase Pro, Vercel, storage, and monitoring for pilot tenants.</li>
+            <li><strong>Pilot &amp; Onboarding (15%)</strong> — Travel, training materials, and support hours for 5 pilot customers.</li>
+            <li><strong>Compliance &amp; Legal (10%)</strong> — DTI registration, data privacy documentation, and SaaS terms of service.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top: 40px; background: var(--primary-light); border-radius: 16px; padding: 28px; border-left: 4px solid var(--primary);">
+        <p style="color: var(--slate-700); font-size: 1rem;">
+          <strong>Why a grant, not investment?</strong> We are not building a speculative unicorn. We are building a durable, profitable hybrid business that creates local technician jobs and exports Philippine software IP. Grant capital matches the public-good nature of SME digitalization.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Impact & Alignment -->
+  <section class="slide slide-dark">
+    <span class="slide-num">Slide 10</span>
+    <div class="container">
+      <div class="badge">Impact &amp; Alignment</div>
+      <h2 style="color: white;">Beyond Profit: National Impact</h2>
+      <p class="lead" style="margin-bottom: 40px;">FieldOps directly supports government priorities: SME digitalization, local job creation, and technology export readiness.</p>
+      <div class="grid-3">
+        <div class="pcard-dark">
+          <span class="icon">🏛️</span>
+          <h4>DTI One Town One Product</h4>
+          <p>FieldOps can be offered as the digital backbone for OTOP service clusters — giving local repair cooperatives modern tools without foreign dependency.</p>
+        </div>
+        <div class="pcard-dark">
+          <span class="icon">💼</span>
+          <h4>Job Creation</h4>
+          <p>Every shop that adopts FieldOps can handle more jobs with the same staff — growing revenue and justifying new technician hires in their communities.</p>
+        </div>
+        <div class="pcard-dark">
+          <span class="icon">🌏</span>
+          <h4>Export-Ready IP</h4>
+          <p>While built for the Philippines, the architecture supports any country with similar VAT and service-sector structures — ASEAN expansion is feasible.</p>
+        </div>
+      </div>
+      <div style="margin-top: 36px; text-align: center;">
+        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 700px; margin: 0 auto;">
+          "MSME digitalization is not just about efficiency — it is about resilience, transparency, and giving small business owners the same operational intelligence that large corporations take for granted."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Team -->
+  <section class="slide slide-alt">
+    <span class="slide-num">Slide 11</span>
+    <div class="container">
+      <span class="label-pill">Team</span>
+      <h2>The People Behind the Product</h2>
+      <p class="lead" style="margin-bottom: 40px;">A rare combination of deep field experience and modern software engineering — all based in the community we serve.</p>
+      <div class="grid-3">
+        <div class="pcard" style="text-align: center;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; margin: 0 auto 16px;">JP</div>
+          <h4>Jose T. Puig</h4>
+          <p style="color: var(--primary); font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">CEO &amp; Founder</p>
+          <p>Decades of HVAC field operations, customer relationships, and local market knowledge. Sets product priorities based on real technician pain points.</p>
+        </div>
+        <div class="pcard" style="text-align: center;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #d97706); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; margin: 0 auto 16px;">JM</div>
+          <h4>Jeremy D. Martinez</h4>
+          <p style="color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">Electronics Division Head</p>
+          <p>Hands-on electronics repair expert who manages technician quality, turnaround times, and customer satisfaction for Division 2.</p>
+        </div>
+        <div class="pcard" style="text-align: center;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--success), #15803d); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; margin: 0 auto 16px;">SF</div>
+          <h4>Syntaxure FieldOps Team</h4>
+          <p style="color: var(--success); font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">Product &amp; Engineering</p>
+          <p>Full-stack developers and designers building on Next.js, Supabase, and Prisma — with a production monorepo already deployed and live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Closing / CTA -->
+  <section class="slide slide-dark">
+    <div class="container" style="text-align: center;">
+      <div class="badge">Thank You</div>
+      <h1 style="font-size: 3.2rem; margin-bottom: 20px;">Let's Build the Future of Philippine Field Service</h1>
+      <p class="lead" style="margin: 0 auto 36px; max-width: 640px;">
+        FieldOps is real software solving a real problem for real businesses. With your support, we can complete the platform, validate it with pilot users, and create a replicable model for SME digitalization across the Philippines.
+      </p>
+      <div class="cta-box" style="max-width: 600px; margin: 0 auto;">
+        <h3>Ready to Discuss?</h3>
+        <p>We welcome site visits, product demos, and due-diligence questions. Our codebase, dashboard, and customer site are available for review.</p>
+        <a href="mailto:josepuig73@yahoo.com" class="cta-btn">Contact Jose T. Puig</a>
+      </div>
+      <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; color: #94a3b8; font-size: 0.9rem;">
+        <span>📧 josepuig73@yahoo.com</span>
+        <span>📱 +63 970 060 0264</span>
+        <span>🌐 Iloilo City, Philippines</span>
+      </div>
+      <p style="margin-top: 48px; color: rgba(255,255,255,0.4); font-size: 0.8rem;">
+        &copy; 2025 J.R.R. Air-conditioning and Refrigeration Services &mdash; Syntaxure FieldOps
+      </p>
+    </div>
+  </section>
+
+</body>
+</html>

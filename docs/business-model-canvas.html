@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Model Canvas — Syntaxure FieldOps &amp; J.R.R. Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --accent: #f59e0b;
+      --accent-light: #fffbeb;
+      --navy: #0f172a;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --purple: #7c3aed;
+      --purple-light: #f5f3ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--slate-50);
+      color: var(--slate-800);
+      line-height: 1.55;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--navy), #1e3a5f);
+      color: white; padding: 48px 0 56px; text-align: center; position: relative; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(37,99,235,0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 50%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    header .container { position: relative; z-index: 1; }
+    header h1 { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 800; margin-bottom: 12px; }
+    header p { color: #94a3b8; font-size: 1.05rem; max-width: 640px; margin: 0 auto; }
+    header .meta { display: inline-flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+    header .meta span { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 999px; font-size: 0.85rem; }
+
+    /* Canvas Grid */
+    .canvas-section { padding: 48px 0 72px; }
+    .bmc-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: auto auto auto;
+      gap: 16px;
+    }
+    .bmc-card {
+      background: white; border-radius: 14px; border: 1px solid var(--slate-200);
+      padding: 24px; transition: all 0.25s ease; position: relative; overflow: hidden;
+    }
+    .bmc-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -10px rgba(15,23,42,0.1); border-color: var(--slate-300); }
+    .bmc-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 14px 14px 0 0;
+    }
+    .bmc-card .card-title {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .bmc-card .card-title .icon { font-size: 1.1rem; }
+    .bmc-card ul { list-style: none; }
+    .bmc-card li {
+      position: relative; padding-left: 18px; font-size: 0.88rem; color: var(--slate-600);
+      margin-bottom: 10px; line-height: 1.5;
+    }
+    .bmc-card li::before {
+      content: ''; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 50%;
+    }
+    .bmc-card .highlight {
+      background: var(--slate-100); border-radius: 8px; padding: 10px 12px; font-size: 0.82rem;
+      color: var(--slate-700); margin-top: 12px; border-left: 3px solid var(--primary);
+    }
+
+    /* Color themes per block */
+    .bmc-kp::before, .bmc-kp li::before { background: var(--danger); }
+    .bmc-kp .card-title { color: var(--danger); }
+    .bmc-kp { background: linear-gradient(to bottom, white, var(--danger-light)); }
+
+    .bmc-ka::before, .bmc-ka li::before { background: var(--accent); }
+    .bmc-ka .card-title { color: var(--accent); }
+    .bmc-ka { background: linear-gradient(to bottom, white, var(--accent-light)); }
+
+    .bmc-kr::before, .bmc-kr li::before { background: var(--success); }
+    .bmc-kr .card-title { color: var(--success); }
+    .bmc-kr { background: linear-gradient(to bottom, white, var(--success-light)); }
+
+    .bmc-vp::before, .bmc-vp li::before { background: var(--primary); }
+    .bmc-vp .card-title { color: var(--primary); }
+    .bmc-vp { background: linear-gradient(to bottom, white, var(--primary-light)); grid-row: span 2; }
+
+    .bmc-cr::before, .bmc-cr li::before { background: var(--purple); }
+    .bmc-cr .card-title { color: var(--purple); }
+    .bmc-cr { background: linear-gradient(to bottom, white, var(--purple-light)); grid-row: span 2; }
+
+    .bmc-ch::before, .bmc-ch li::before { background: var(--primary); }
+    .bmc-ch .card-title { color: var(--primary); }
+    .bmc-ch { background: linear-gradient(to bottom, white, var(--primary-light)); }
+
+    .bmc-cs::before, .bmc-cs li::before { background: var(--navy); }
+    .bmc-cs .card-title { color: var(--navy); }
+    .bmc-cs { background: linear-gradient(to bottom, white, var(--slate-100)); grid-row: span 2; }
+
+    .bmc-rs::before, .bmc-rs li::before { background: var(--success); }
+    .bmc-rs .card-title { color: var(--success); }
+    .bmc-rs { background: linear-gradient(to bottom, white, var(--success-light)); }
+
+    .bmc-cst::before, .bmc-cst li::before { background: var(--danger); }
+    .bmc-cst .card-title { color: var(--danger); }
+    .bmc-cst { background: linear-gradient(to bottom, white, var(--danger-light)); }
+
+    /* Layout positions */
+    .bmc-kp { grid-column: 1; grid-row: 1; }
+    .bmc-ka { grid-column: 1; grid-row: 2; }
+    .bmc-kr { grid-column: 1; grid-row: 3; }
+    .bmc-vp { grid-column: 2; grid-row: 1 / 4; }
+    .bmc-cr { grid-column: 3; grid-row: 1 / 4; }
+    .bmc-ch { grid-column: 4; grid-row: 1; }
+    .bmc-cs { grid-column: 5; grid-row: 1 / 4; }
+    .bmc-rs { grid-column: 4; grid-row: 2; }
+    .bmc-cst { grid-column: 4; grid-row: 3; }
+
+    /* Detail sections below canvas */
+    .detail-section { padding: 56px 0; }
+    .detail-section.alt { background: white; }
+    .detail-header { text-align: center; margin-bottom: 40px; }
+    .detail-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); margin-bottom: 10px; }
+    .detail-header p { color: var(--slate-500); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .detail-card { background: white; border: 1px solid var(--slate-200); border-radius: 14px; padding: 28px; }
+    .detail-card h4 { font-size: 1rem; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .detail-card p { color: var(--slate-600); font-size: 0.9rem; line-height: 1.6; }
+
+    /* Footer legend */
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 24px 0; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--slate-600); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* Print */
+    @media print {
+      header { padding: 24px 0; }
+      .bmc-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .bmc-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .bmc-vp, .bmc-cr, .bmc-cs { grid-row: auto; }
+      .bmc-kp { grid-column: 1; grid-row: auto; }
+      .bmc-ka { grid-column: 2; grid-row: auto; }
+      .bmc-kr { grid-column: 1; grid-row: auto; }
+      .bmc-vp { grid-column: 1 / 3; grid-row: auto; }
+      .bmc-cr { grid-column: 1 / 3; grid-row: auto; }
+      .bmc-ch { grid-column: 1; grid-row: auto; }
+      .bmc-cs { grid-column: 2; grid-row: auto; }
+      .bmc-rs { grid-column: 1; grid-row: auto; }
+      .bmc-cst { grid-column: 2; grid-row: auto; }
+    }
+    @media (max-width: 640px) {
+      .bmc-grid { grid-template-columns: 1fr; }
+      .bmc-vp, .bmc-cr, .bmc-cs, .bmc-kp, .bmc-ka, .bmc-kr, .bmc-ch, .bmc-rs, .bmc-cst { grid-column: 1; }
+      header h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Business Model Canvas</h1>
+      <p>A single-page strategic overview of J.R.R. Air-conditioning &amp; Refrigeration Services and the Syntaxure FieldOps platform.</p>
+      <div class="meta">
+        <span>🏢 Service Business</span>
+        <span>💻 SaaS Product</span>
+        <span>🇵🇭 Philippines</span>
+        <span>📅 2025</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="canvas-section">
+    <div class="container">
+      <div class="bmc-grid">
+
+        <!-- Key Partners -->
+        <div class="bmc-card bmc-kp">
+          <div class="card-title"><span class="icon">🤝</span> Key Partners</div>
+          <ul>
+            <li>Refrigerant &amp; HVAC parts suppliers (local distributors)</li>
+            <li>Electronics component suppliers (Manila-based)</li>
+            <li>Supabase / Vercel (cloud infrastructure)</li>
+            <li>DTI / DOST (grant &amp; SME digitalization programs)</li>
+            <li>Appliance brands (authorized service center partnerships)</li>
+            <li>Real estate developers (bulk installation contracts)</li>
+          </ul>
+          <div class="highlight">Partners reduce procurement cost and open B2B contract pipelines.</div>
+        </div>
+
+        <!-- Key Activities -->
+        <div class="bmc-card bmc-ka">
+          <div class="card-title"><span class="icon">⚡</span> Key Activities</div>
+          <ul>
+            <li>On-site HVAC installation, repair &amp; maintenance</li>
+            <li>Electronics diagnostics &amp; component-level repair</li>
+            <li>Customer inquiry management &amp; job scheduling</li>
+            <li>Inventory &amp; parts stock management</li>
+            <li>Software development (FieldOps platform)</li>
+            <li>Marketing &amp; local SEO (public site)</li>
+          </ul>
+          <div class="highlight">Software dev is an investment in operational leverage and future licensing revenue.</div>
+        </div>
+
+        <!-- Key Resources -->
+        <div class="bmc-card bmc-kr">
+          <div class="card-title"><span class="icon">🔧</span> Key Resources</div>
+          <ul>
+            <li>Experienced HVAC &amp; electronics technicians</li>
+            <li>Service vehicle &amp; field toolkit fleet</li>
+            <li>Syntaxure FieldOps codebase (IP asset)</li>
+            <li>Customer &amp; job database (Supabase Postgres)</li>
+            <li>Local brand reputation &amp; referral network</li>
+            <li>Monorepo tooling (Turborepo, Prisma, Next.js)</li>
+          </ul>
+          <div class="highlight">FieldOps IP is the most scalable resource — reusable across other service verticals.</div>
+        </div>
+
+        <!-- Value Propositions -->
+        <div class="bmc-card bmc-vp">
+          <div class="card-title"><span class="icon">💎</span> Value Propositions</div>
+          <ul>
+            <li><strong>For Homeowners:</strong> Same-day response, transparent pricing, experienced local technicians, and digital job tracking.</li>
+            <li><strong>For Commercial Clients:</strong> Maintenance contracts, multi-unit service logs, VAT-compliant invoicing, and clear material cost tracking.</li>
+            <li><strong>For the Internal Team:</strong> End-to-end workflow from inquiry to ledger — no more spreadsheets or lost paperwork.</li>
+            <li><strong>For Future SaaS Customers:</strong> An affordable, Philippines-compliant FSM tool with local support, VAT handling, and offline-capable mobile ops.</li>
+          </ul>
+          <div class="highlight">The core promise: <em>"Professional service quality with the speed and price of a local shop — backed by software transparency."</em></div>
+        </div>
+
+        <!-- Customer Relationships -->
+        <div class="bmc-card bmc-cr">
+          <div class="card-title"><span class="icon">❤️</span> Customer Relationships</div>
+          <ul>
+            <li><strong>Personal assistance:</strong> Phone callback within hours of inquiry submission.</li>
+            <li><strong>Self-service:</strong> Public website allows 24/7 booking and service browsing.</li>
+            <li><strong>Automated follow-up:</strong> Status updates via SMS (planned) as jobs progress.</li>
+            <li><strong>Loyalty / AM contracts:</strong> Annual maintenance agreements with scheduled reminders.</li>
+            <li><strong>Community trust:</strong> Local neighborhood presence, word-of-mouth, and transparent review solicitation.</li>
+          </ul>
+          <div class="highlight">Relationship model shifts from <em>transactional repair</em> to <em>trusted household service partner</em>.</div>
+        </div>
+
+        <!-- Channels -->
+        <div class="bmc-card bmc-ch">
+          <div class="card-title"><span class="icon">📢</span> Channels</div>
+          <ul>
+            <li>Public marketing site (SEO + inquiry form)</li>
+            <li>Phone &amp; walk-in (traditional, high-trust)</li>
+            <li>Facebook / local social (community presence)</li>
+            <li>Referrals from existing customers</li>
+            <li>Real estate developer partnerships (B2B)</li>
+            <li>Future: FieldOps marketplace / app store</li>
+          </ul>
+          <div class="highlight">Digital channel (site) captures leads while sleeping; phone/walk-in closes high-value jobs.</div>
+        </div>
+
+        <!-- Customer Segments -->
+        <div class="bmc-card bmc-cs">
+          <div class="card-title"><span class="icon">👥</span> Customer Segments</div>
+          <ul>
+            <li><strong>Residential HVAC:</strong> Homeowners in Iloilo City needing installation, cleaning, or repair.</li>
+            <li><strong>Residential Electronics:</strong> Households with broken TVs, monitors, or appliances.</li>
+            <li><strong>Small Commercial:</strong> Offices, sari-sari stores, and small restaurants with 2–10 units.</li>
+            <li><strong>Property Managers:</strong> Subdivision admins and landlords needing bulk or recurring maintenance.</li>
+            <li><strong>Future SaaS:</strong> Philippine SME service businesses (plumbing, electrical, cleaning) needing affordable FSM.</li>
+          </ul>
+          <div class="highlight">Segment priority: Residential HVAC (highest margin, highest frequency) → Commercial contracts (recurring revenue) → SaaS (scale).</div>
+        </div>
+
+        <!-- Revenue Streams -->
+        <div class="bmc-card bmc-rs">
+          <div class="card-title"><span class="icon">💰</span> Revenue Streams</div>
+          <ul>
+            <li><strong>Service labor fees</strong> (aircon repair, installation, electronics repair)</li>
+            <li><strong>Material markup</strong> (parts, refrigerant, capacitors, filters)</li>
+            <li><strong>Annual maintenance contracts</strong> (recurring, predictable)</li>
+            <li><strong>FieldOps SaaS subscriptions</strong> (monthly per-technician or per-company)</li>
+            <li><strong>Training &amp; onboarding</strong> (for SaaS customers)</li>
+          </ul>
+          <div class="highlight">Revenue mix target: 70% service labor, 20% materials, 10% SaaS by Year 3.</div>
+        </div>
+
+        <!-- Cost Structure -->
+        <div class="bmc-card bmc-cst">
+          <div class="card-title"><span class="icon">📉</span> Cost Structure</div>
+          <ul>
+            <li><strong>Technician labor &amp; commissions</strong> (largest cost)</li>
+            <li><strong>Parts &amp; inventory procurement</strong></li>
+            <li><strong>Vehicle fuel &amp; maintenance</strong></li>
+            <li><strong>Cloud infrastructure</strong> (Supabase + Vercel — low, usage-based)</li>
+            <li><strong>Marketing &amp; site hosting</strong></li>
+            <li><strong>Software development</strong> (internal team time)</li>
+          </ul>
+          <div class="highlight">Low fixed-cost architecture: cloud bills scale with usage, not headcount.</div>
+        </div>
+
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--danger)"></div> Key Partners / Cost Structure</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--accent)"></div> Key Activities</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--success)"></div> Key Resources / Revenue Streams</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--primary)"></div> Value Proposition / Channels</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--purple)"></div> Customer Relationships</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--navy)"></div> Customer Segments</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Dives -->
+  <section class="detail-section alt">
+    <div class="container">
+      <div class="detail-header">
+        <h2>Deep Dive: Interconnections</h2>
+        <p>How the nine blocks reinforce each other to create a durable business.</p>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h4>🔁 The Flywheel</h4>
+          <p>More jobs &rarr; more data in FieldOps &rarr; better scheduling &amp; inventory accuracy &rarr; faster turnaround &rarr; happier customers &rarr; more referrals &rarr; more jobs. The software turns operational data into a competitive advantage.</p>
+        </div>
+        <div class="detail-card">
+          <h4>🛡️ Moat Building</h4>
+          <p>Informal technicians cannot replicate a system that tracks every inquiry, job, part, and peso. As FieldOps matures, the gap between J.R.R. and unorganized competitors widens — not through price, but through reliability and transparency.</p>
+        </div>
+        <div class="detail-card">
+          <h4>📈 SaaS Optionality</h4>
+          <p>By dogfooding FieldOps internally, the company validates features before offering them to external users. The service business becomes a paid R&amp;D lab for the software product, de-risking the SaaS pivot.</p>
+        </div>
+        <div class="detail-card">
+          <h4>🇵🇭 Local Compliance Edge</h4>
+          <p>Foreign FSM tools do not handle Philippine VAT rules, lack local payment integrations, and are priced in USD. FieldOps is built for VAT inclusive/exclusive toggles, Philippine invoicing norms, and peso-denominated cost structures.</p>
+        </div>
+        <div class="detail-card">
+          <h4>💡 Asset-Light Scaling</h4>
+          <p>Cloud infrastructure (Supabase + Vercel) means FieldOps can onboard new users with near-zero marginal cost. The service business funds the software; the software eventually funds geographic expansion without proportional headcount growth.</p>
+        </div>
+        <div class="detail-card">
+          <h4>🎯 Grant Alignment</h4>
+          <p>The business aligns with DTI and DOST digitalization mandates: SME tech adoption, local job creation (technicians), and exportable software IP. Grant funding accelerates the SaaS module completion without diluting equity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: var(--navy); color: var(--slate-400); padding: 32px 0; text-align: center; font-size: 0.85rem;">
+    <div class="container">
+      <p>&copy; 2025 J.R.R. Air-conditioning and Refrigeration Services &mdash; Syntaxure FieldOps</p>
+      <p style="margin-top: 6px; opacity: 0.7;">Business Model Canvas &bull; Generated for strategic planning and grant applications</p>
+    </div>
+  </footer>
+
+</body>
+</html>

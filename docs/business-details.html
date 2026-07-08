@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J.R.R. Aircon &amp; Refrigeration — Business Profile &amp; Workflow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #f59e0b;
+      --navy: #0f172a;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--slate-800);
+      background: var(--slate-50);
+      line-height: 1.6;
+    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header / Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, var(--primary-dark) 100%);
+      color: white;
+      padding: 80px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; margin-bottom: 24px;
+    }
+    .hero h1 { font-size: 3.4rem; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: #93c5fd; }
+    .hero-sub { font-size: 1.15rem; color: #cbd5e1; max-width: 640px; line-height: 1.7; margin-bottom: 32px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 24px; font-size: 0.9rem; color: #94a3b8; }
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* Section styling */
+    .section { padding: 72px 0; }
+    .section-alt { background: white; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header h2 { font-size: 2.4rem; color: var(--navy); margin-bottom: 12px; }
+    .section-header p { color: var(--slate-500); font-size: 1.05rem; max-width: 560px; margin: 0 auto; }
+    .section-label {
+      display: inline-block; background: var(--primary); color: white;
+      padding: 4px 14px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+    }
+
+    /* Cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .card {
+      background: white; border: 1px solid var(--slate-200); border-radius: 16px;
+      padding: 32px; transition: all 0.3s ease; position: relative;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(15,23,42,0.12); border-color: var(--slate-300); }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; font-size: 1.4rem;
+    }
+    .card h3 { font-size: 1.25rem; color: var(--navy); margin-bottom: 10px; font-family: 'Inter', sans-serif; font-weight: 700; }
+    .card p { color: var(--slate-500); font-size: 0.95rem; line-height: 1.6; }
+
+    /* Company Overview */
+    .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .overview-text h2 { font-size: 2.2rem; color: var(--navy); margin-bottom: 20px; }
+    .overview-text p { color: var(--slate-600); margin-bottom: 16px; line-height: 1.7; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .stat-box { background: var(--slate-100); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-box .num { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
+    .stat-box .lbl { font-size: 0.8rem; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Divisions */
+    .division-card { border-left: 4px solid var(--primary); }
+    .division-card.electronics { border-left-color: var(--accent); }
+    .division-card .card-icon { background: #eff6ff; color: var(--primary); }
+    .division-card.electronics .card-icon { background: #fffbeb; color: var(--accent); }
+
+    /* Leadership */
+    .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .leader-card {
+      background: white; border-radius: 16px; padding: 32px; text-align: center; border: 1px solid var(--slate-200);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .leader-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(15,23,42,0.12); }
+    .leader-avatar {
+      width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700;
+      margin: 0 auto 16px;
+    }
+    .leader-card h4 { font-size: 1.15rem; color: var(--navy); margin-bottom: 4px; }
+    .leader-card .role { color: var(--primary); font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; }
+    .leader-card .bio { color: var(--slate-500); font-size: 0.9rem; line-height: 1.5; }
+
+    /* Workflow */
+    .workflow { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .workflow-step {
+      display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 28px 0; position: relative;
+    }
+    .workflow-step:not(:last-child)::after {
+      content: ''; position: absolute; left: 31px; top: 64px; bottom: 0; width: 2px; background: var(--slate-200);
+    }
+    .step-num {
+      width: 64px; height: 64px; border-radius: 50%; background: white; border: 2px solid var(--primary);
+      color: var(--primary); display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; position: relative; z-index: 2;
+    }
+    .step-content h4 { font-size: 1.15rem; color: var(--navy); margin-bottom: 6px; font-family: 'Inter', sans-serif; font-weight: 700; }
+    .step-content p { color: var(--slate-500); font-size: 0.95rem; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .step-tag { background: var(--slate-100); color: var(--slate-600); padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 500; }
+
+    /* Strategic placement */
+    .strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .strategy-card { background: white; border-radius: 16px; padding: 32px; border: 1px solid var(--slate-200); }
+    .strategy-card h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .strategy-card ul { list-style: none; }
+    .strategy-card li { padding: 8px 0; color: var(--slate-600); font-size: 0.95rem; display: flex; align-items: flex-start; gap: 10px; }
+    .strategy-card li::before { content: '•'; color: var(--primary); font-weight: 700; font-size: 1.2rem; line-height: 1; }
+
+    /* Tech Stack bar */
+    .tech-bar {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 32px;
+    }
+    .tech-pill {
+      background: white; border: 1px solid var(--slate-200); padding: 8px 18px; border-radius: 999px;
+      font-size: 0.85rem; color: var(--slate-700); font-weight: 500; display: flex; align-items: center; gap: 8px;
+    }
+
+    /* Contact Banner */
+    .contact-banner {
+      background: linear-gradient(135deg, var(--navy), #1e3a5f); color: white; padding: 64px 0; text-align: center;
+    }
+    .contact-banner h2 { font-size: 2.2rem; margin-bottom: 16px; }
+    .contact-banner p { color: #94a3b8; max-width: 520px; margin: 0 auto 28px; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
+    .contact-item { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; }
+    .contact-item .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 6px; }
+    .contact-item .value { font-size: 1rem; font-weight: 600; }
+
+    /* Footer */
+    footer { background: var(--navy); color: var(--slate-400); padding: 40px 0; text-align: center; font-size: 0.9rem; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+      .workflow-step { grid-template-columns: 48px 1fr; }
+      .step-num { width: 48px; height: 48px; font-size: 0.9rem; }
+      .workflow-step:not(:last-child)::after { left: 23px; top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge">📍 Iloilo City, Philippines &bull; Serving Western Visayas</div>
+      <h1>J.R.R. Air-conditioning <span>&amp; Refrigeration</span> Services</h1>
+      <p class="hero-sub">
+        A dual-division field service company modernizing HVAC and electronics repair through proprietary technology. 
+        Built on decades of hands-on expertise, now scaling with <strong>Syntaxure FieldOps</strong> — our integrated job-costing and service management platform.
+      </p>
+      <div class="hero-meta">
+        <span>🏢 Established Business</span>
+        <span>🔧 2 Service Divisions</span>
+        <span>💻 1 Tech Product</span>
+        <span>🌏 Western Visayas Focus</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Overview -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="overview-grid">
+        <div class="overview-text">
+          <span class="section-label">Company Overview</span>
+          <h2>From Field Roots to Digital Scale</h2>
+          <p>
+            J.R.R. Air-conditioning and Refrigeration Services is a family-operated field service business headquartered in 
+            <strong>Iloilo City, Philippines</strong>. For years, the company has delivered residential and commercial cooling solutions 
+            under the leadership of founder <strong>Jose T. Puig</strong>, while the electronics repair division is led by 
+            <strong>Jeremy D. Martinez</strong>.
+          </p>
+          <p>
+            In 2025, the company launched <strong>Syntaxure FieldOps</strong> — a purpose-built Field Service Management (FSM) system 
+            with integrated job-costing, inventory tracking, and sales ledger. Originally developed for internal use, FieldOps is architected 
+            as a scalable SaaS product for the underserved Philippine SME service market.
+          </p>
+          <p>
+            Unlike generic FSM tools that are expensive and foreign-hosted, FieldOps is designed for local compliance 
+            (VAT handling, Philippine invoicing norms), offline-capable mobile workflows, and low-cost deployment 
+            via Supabase and Vercel.
+          </p>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="num">2</span>
+              <span class="lbl">Service Divisions</span>
+            </div>
+            <div class="stat-box">
+              <span class="num">9</span>
+              <span class="lbl">Core Modules</span>
+            </div>
+            <div class="stat-box">
+              <span class="num">∞</span>
+              <span class="lbl">Growth Trajectory</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="background: linear-gradient(135deg, #eff6ff, #fffbeb); border-radius: 20px; padding: 36px; border: 1px solid var(--slate-200);">
+            <h3 style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 20px; font-weight: 700;">At a Glance</h3>
+            <div style="display: grid; gap: 14px;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--slate-200);">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">Legal Name</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem;">J.R.R. Air-conditioning and Refrigeration Services</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--slate-200);">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">Trade Name</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem;">Syntaxure FieldOps (Tech)</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--slate-200);">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">Location</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem; text-align: right;">Adelantar Building, Happy Homes Subdivision, Poblacion Ilaya, Zamaga, Iloilo City</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--slate-200);">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">Service Area</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem;">Iloilo City &amp; Western Visayas</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--slate-200);">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">CEO / Founder</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem;">Jose T. Puig</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--slate-500); font-size: 0.9rem;">Electronics Head</span>
+                <span style="color: var(--navy); font-weight: 600; font-size: 0.9rem;">Jeremy D. Martinez</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Divisions -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">What We Do</span>
+        <h2>Service Divisions</h2>
+        <p>Two complementary divisions serving residential and commercial clients across Western Visayas.</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card division-card">
+          <div class="card-icon">❄️</div>
+          <h3>Air Conditioning &amp; Refrigeration</h3>
+          <p>Full-lifecycle cooling services from unit selection and system design to installation, preventive maintenance, repair, and air-balancing. We handle split-type, window, and inverter systems for homes and small commercial spaces.</p>
+          <div class="step-tags" style="margin-top: 16px;">
+            <span class="step-tag">Sales &amp; Design</span>
+            <span class="step-tag">Installation</span>
+            <span class="step-tag">Repair</span>
+            <span class="step-tag">Maintenance</span>
+            <span class="step-tag">Air Balancing</span>
+          </div>
+        </div>
+        <div class="card division-card electronics">
+          <div class="card-icon">📺</div>
+          <h3>Electronics Repair</h3>
+          <p>Troubleshooting and component-level repair for televisions, monitors, home appliances, and small business electronics. Customers can bring units in or request on-site service for larger installations.</p>
+          <div class="step-tags" style="margin-top: 16px;">
+            <span class="step-tag">TV / Monitor Repair</span>
+            <span class="step-tag">Appliance Repair</span>
+            <span class="step-tag">Diagnostics</span>
+            <span class="step-tag">Component Sourcing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">People</span>
+        <h2>Leadership Team</h2>
+        <p>Experienced operators with deep technical and local market knowledge.</p>
+      </div>
+      <div class="leadership-grid">
+        <div class="leader-card">
+          <div class="leader-avatar">JP</div>
+          <h4>Jose T. Puig</h4>
+          <div class="role">Chief Executive Officer</div>
+          <p class="bio">Founder of J.R.R. Aircon &amp; Refrigeration. Decades of field experience in HVAC installation, repair, and team management. Drives company strategy and the Aircon division.</p>
+        </div>
+        <div class="leader-card">
+          <div class="leader-avatar" style="background: linear-gradient(135deg, var(--accent), #d97706);">JM</div>
+          <h4>Jeremy D. Martinez</h4>
+          <div class="role">Electronics Division Head</div>
+          <p class="bio">Leads the electronics repair division with hands-on expertise in TV, monitor, and appliance diagnostics. Manages technician quality and customer turnaround.</p>
+        </div>
+        <div class="leader-card">
+          <div class="leader-avatar" style="background: linear-gradient(135deg, var(--success), #15803d);">SF</div>
+          <h4>Syntaxure FieldOps Team</h4>
+          <div class="role">Product &amp; Engineering</div>
+          <p class="bio">The internal tech unit building the FieldOps platform — product design, full-stack development (Next.js, Supabase, Prisma), and deployment on Vercel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Operations</span>
+        <h2>Service Workflow</h2>
+        <p>How a customer request moves from first contact to closed job — powered by FieldOps.</p>
+      </div>
+      <div class="workflow" style="max-width: 720px; margin: 0 auto;">
+        <div class="workflow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Inquiry Capture</h4>
+            <p>Customer submits a request via the public marketing site, phone, or walk-in. All inquiries are centralized in FieldOps with auto-assigned status (NEW).</p>
+            <div class="step-tags">
+              <span class="step-tag">Website Form</span>
+              <span class="step-tag">Phone</span>
+              <span class="step-tag">Walk-in</span>
+              <span class="step-tag">Auto-logged</span>
+            </div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Contact &amp; Qualification</h4>
+            <p>Staff calls the customer to confirm details, diagnose urgency, and schedule an inspection or direct service visit. Status advances to CONTACTED.</p>
+            <div class="step-tags">
+              <span class="step-tag">Same-day Response</span>
+              <span class="step-tag">Status Tracking</span>
+            </div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Job Scheduling &amp; Assignment</h4>
+            <p>Qualified inquiries are converted to scheduled jobs. A technician is assigned, materials are reserved from inventory, and the customer receives confirmation.</p>
+            <div class="step-tags">
+              <span class="step-tag">Convert to Job</span>
+              <span class="step-tag">Tech Assignment</span>
+              <span class="step-tag">Inventory Reservation</span>
+            </div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Field Execution</h4>
+            <p>Technician performs installation, repair, or maintenance on-site. Labor fees and materials used are recorded in real time via the ops dashboard.</p>
+            <div class="step-tags">
+              <span class="step-tag">On-site Service</span>
+              <span class="step-tag">Material Deduction</span>
+              <span class="step-tag">Labor Logging</span>
+            </div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Invoicing &amp; Payment</h4>
+            <p>Gross amount, material costs, and net profit are calculated automatically. VAT type is applied per job. Payment status tracked (UNPAID &rarr; PARTIAL &rarr; PAID).</p>
+            <div class="step-tags">
+              <span class="step-tag">Auto-invoice</span>
+              <span class="step-tag">VAT Handling</span>
+              <span class="step-tag">Payment Tracking</span>
+            </div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h4>Ledger &amp; Reporting</h4>
+            <p>Transaction flows into the general ledger. Owners and bookkeepers can view profit per job, partner draws, operating expenses, and low-stock alerts.</p>
+            <div class="step-tags">
+              <span class="step-tag">General Ledger</span>
+              <span class="step-tag">Profit Reports</span>
+              <span class="step-tag">Stock Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategic Placement -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Strategy</span>
+        <h2>Strategic Placement</h2>
+        <p>Where J.R.R. sits in the market and how it wins.</p>
+      </div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <h3>🎯 Market Position</h3>
+          <ul>
+            <li>Only integrated HVAC + electronics repair shop in Happy Homes / Zamaga area with a digital booking platform.</li>
+            <li>Competes against informal technicians on <strong>trust</strong> (transparent pricing, job tracking) and <strong>speed</strong> (same-day response).</li>
+            <li>Competes against large city firms on <strong>local responsiveness</strong> and <strong>price accessibility</strong>.</li>
+            <li>FieldOps software creates a <strong>moat</strong>: operational efficiency that informal competitors cannot replicate.</li>
+          </ul>
+        </div>
+        <div class="strategy-card">
+          <h3>📊 Competitive Landscape</h3>
+          <ul>
+            <li><strong>Informal technicians:</strong> Cheaper but unreliable, no warranty, no tracking.</li>
+            <li><strong>City HVAC franchises:</strong> Professional but expensive, slow, no local presence.</li>
+            <li><strong>Generic SaaS FSM tools:</strong> Foreign-priced, no Philippine VAT support, no offline mode.</li>
+            <li><strong>FieldOps advantage:</strong> Built by a local operator for local operators — compliant, affordable, mobile-ready.</li>
+          </ul>
+        </div>
+        <div class="strategy-card">
+          <h3>🚀 Growth Vectors</h3>
+          <ul>
+            <li><strong>Service expansion:</strong> Add commercial maintenance contracts and annual service agreements.</li>
+            <li><strong>Product expansion:</strong> License FieldOps to other Philippine SME service businesses (plumbing, electrical, cleaning).</li>
+            <li><strong>Geographic expansion:</strong> Replicate the dual-division model in Bacolod, Roxas, and Kalibo.</li>
+            <li><strong>Parts retail:</strong> Sell consumables (filters, refrigerant, capacitors) via the platform.</li>
+          </ul>
+        </div>
+        <div class="strategy-card">
+          <h3>🛡️ Risk Mitigation</h3>
+          <ul>
+            <li><strong>Revenue diversification:</strong> Two service divisions + software licensing reduces single-sector dependency.</li>
+            <li><strong>Low burn architecture:</strong> Supabase + Vercel stack minimizes infrastructure costs.</li>
+            <li><strong>Local supply chain:</strong> Inventory tracking prevents over-ordering and stockouts.</li>
+            <li><strong>Data ownership:</strong> All customer and financial data stays in-company via self-managed Postgres.</li>
+          </ul>
+        </div>
+        <div class="strategy-card">
+          <h3>💡 Technology Edge</h3>
+          <ul>
+            <li>Monorepo architecture (Turborepo + pnpm) enables rapid feature rollout across site and ops apps.</li>
+            <li>Supabase Row-Level Security ensures customer data is tenant-safe if multi-tenancy is introduced.</li>
+            <li>Prisma schema is production-ready for Jobs, Inventory, Sales, and Ledger — not just inquiries.</li>
+            <li>PWA-ready ops dashboard allows technicians to update jobs from mobile devices.</li>
+          </ul>
+        </div>
+        <div class="strategy-card">
+          <h3>🤝 Partnership Opportunities</h3>
+          <ul>
+            <li><strong>Appliance brands:</strong> Authorized service center partnerships for warranty repairs.</li>
+            <li><strong>Real estate developers:</strong> Bulk installation and maintenance contracts for new subdivisions.</li>
+            <li><strong>Local government:</strong> Energy-efficiency retrofit programs for public buildings.</li>
+            <li><strong>DTI / DOST:</strong> Grant-funded technology adoption and SME digitalization programs.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tech-bar">
+        <span class="tech-pill">⚡ Next.js 15</span>
+        <span class="tech-pill">🔷 TypeScript</span>
+        <span class="tech-pill">🗄️ Supabase</span>
+        <span class="tech-pill">📦 Prisma</span>
+        <span class="tech-pill">🎨 Tailwind CSS</span>
+        <span class="tech-pill">☁️ Vercel</span>
+        <span class="tech-pill">🔐 RLS Security</span>
+        <span class="tech-pill">📱 PWA Ready</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-banner">
+    <div class="container">
+      <h2>Let's Talk</h2>
+      <p>Whether you need aircon service, electronics repair, or want to explore FieldOps for your own business — we're here.</p>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="label">Aircon Division</div>
+          <div class="value">+63 970 060 0264</div>
+        </div>
+        <div class="contact-item">
+          <div class="label">Electronics Division</div>
+          <div class="value">+63 998 386 0315</div>
+        </div>
+        <div class="contact-item">
+          <div class="label">Email</div>
+          <div class="value">josepuig73@yahoo.com</div>
+        </div>
+        <div class="contact-item">
+          <div class="label">Address</div>
+          <div class="value">Iloilo City, Philippines</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 J.R.R. Air-conditioning and Refrigeration Services. All rights reserved.</p>
+      <p style="margin-top: 6px; font-size: 0.8rem; opacity: 0.7;">Powered by Syntaxure FieldOps</p>
+    </div>
+  </footer>
+
+</body>
+</html>

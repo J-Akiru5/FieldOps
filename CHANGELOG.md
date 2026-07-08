@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0](https://github.com/J-Akiru5/FieldOps/compare/v1.7.0...v1.8.0) (2026-07-08)
+
+### Added
+
+- **ops:** Inventory CRUD — add, edit, adjust stock, delete items with dialogs (`inventory-client.tsx`).
+- **ops:** Schedule calendar redesign — week view with 30-min time grid, day view, month view, list view, event cards, sidebar with summary/reminders/unassigned/low-stock widgets.
+- **ops:** Jobs list card grid with search, status filter, color-coded type/status badges, inline status changes.
+- **ops:** Inquiries card grid with source icons (phone/email/web/walk-in), message preview, pagination, inline status selector.
+- **ops:** New Job form — sections for Customer (searchable combobox + quick-add), Job Details (serviceCategory, priority, description, estimatedDuration), Schedule, Pricing with live Job Summary sidebar.
+- **ops:** Job schema fields — `description`, `serviceCategory`, `priority`, `estimatedDuration` (migration).
+- **db:** Job `notes` field (migration `20260708000000_add_job_notes`).
+
+### Changed
+
+- **ops:** Reports page now uses `getReportMetrics()` data-layer function instead of inline Prisma queries (fixes crash from `fields.*` pattern).
+- **ops:** Ledger page wrapped fetches in `Promise.allSettled` with safe fallbacks (fixes crash from column-reference comparison).
+- **ops:** Inventory `getLowStockItems()` filters in memory instead of comparing columns directly (fixes crash).
+- **ops:** Job queries (`getJobs`, `getJobById`, `jobs/[id]/page.tsx`) use explicit `select` instead of `include` — no longer depend on columns that may not exist if a migration is pending (fixes `/jobs` crash).
+
+### Fixed
+
+- Reports and Ledger production crashes caused by Prisma `fields.*` column references.
+- Jobs page crash when `notes` column migration hadn't been applied on production.
+
+### Migration Notes
+
+- Two new migrations add columns to the `Job` table (`notes`, `description`, `serviceCategory`, `priority`, `estimatedDuration`). The build script runs `prisma migrate deploy` automatically, but if you deploy directly (outside the build), run:
+  ```
+  pnpm --filter @syntaxure/db exec prisma migrate deploy
+  ```
+
 ## [1.7.0](https://github.com/J-Akiru5/FieldOps/compare/v1.6.0...v1.7.0) (2026-07-08)
 
 ### Features
