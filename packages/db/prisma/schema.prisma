@@ -146,6 +146,11 @@ model Job {
   status           JobStatus         @default(SCHEDULED)
   scheduledAt      DateTime
   laborFee         Decimal           @default(0)
+  notes            String?
+  description      String?
+  serviceCategory  String?
+  priority         String            @default("NORMAL")
+  estimatedDuration Int?
   assignments      JobAssignment[]
   lineItems        JobLineItem[]
   salesTransaction SalesTransaction?

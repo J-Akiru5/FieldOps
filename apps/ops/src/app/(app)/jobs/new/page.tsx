@@ -1,4 +1,3 @@
-import { prisma } from "@syntaxure/db";
 import { createServerClient } from "@syntaxure/db/server";
 import { redirect } from "next/navigation";
 import { NewJobForm } from "./new-form";
@@ -10,19 +9,5 @@ export default async function NewJobPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const customers = await prisma.customer.findMany({
-    select: {
-      id: true,
-      displayName: true,
-      appliances: { select: { id: true, brand: true, model: true } },
-    },
-    orderBy: { displayName: "asc" },
-  });
-
-  const technicians = await prisma.staffMember.findMany({
-    where: { role: { in: ["TECHNICIAN", "OWNER", "PARTNER"] } },
-    select: { id: true, name: true },
-  });
-
-  return <NewJobForm customers={customers} technicians={technicians} />;
+  return <NewJobForm />;
 }

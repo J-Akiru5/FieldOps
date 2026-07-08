@@ -14,6 +14,11 @@ export async function createJobAction(formData: {
   type: string;
   scheduledAt: string;
   laborFee?: number;
+  notes?: string;
+  description?: string;
+  serviceCategory?: string;
+  priority?: string;
+  estimatedDuration?: number;
 }): Promise<{ success: boolean; error?: string; id?: string }> {
   try {
     await requirePermission("jobs.write");
@@ -24,6 +29,11 @@ export async function createJobAction(formData: {
       type: formData.type,
       scheduledAt: new Date(formData.scheduledAt),
       laborFee: formData.laborFee,
+      notes: formData.notes,
+      description: formData.description,
+      serviceCategory: formData.serviceCategory,
+      priority: formData.priority,
+      estimatedDuration: formData.estimatedDuration,
     });
     revalidatePath("/jobs");
     revalidatePath("/schedule");

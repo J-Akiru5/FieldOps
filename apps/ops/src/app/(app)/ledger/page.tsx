@@ -22,7 +22,7 @@ export default async function LedgerPage() {
   const defaultFrom = startOfMonth(now);
   const defaultTo = endOfMonth(now);
 
-  const [entries, summary, partners, jobs] = await Promise.all([
+  const [entriesResult, summaryResult, partnersResult, jobsResult] = await Promise.allSettled([
     getLedgerEntries({
       from: defaultFrom,
       to: defaultTo,
@@ -44,6 +44,21 @@ export default async function LedgerPage() {
       take: 200,
     }),
   ]);
+
+  const entries = entriesResult.status === "fulfilled" ? entriesResult.value : [];
+  const summary =
+    summaryResult.status === "fulfilled"
+      ? summaryResult.value
+      : {
+          dateRange: { from: defaultFrom, to: defaultTo },
+          totalIncome: 0,
+          totalOperatingExpense: 0,
+          netOperatingProfit: 0,
+          profitSharePerPartner: 0,
+          partnerBalances: [],
+        };
+  const partners = partnersResult.status === "fulfilled" ? partnersResult.value : [];
+  const jobs = jobsResult.status === "fulfilled" ? jobsResult.value : [];
 
   const serializedEntries = entries.map((e) => ({
     id: e.id,

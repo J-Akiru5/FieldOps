@@ -5,17 +5,24 @@ export interface SearchCustomersResult {
   displayName: string;
   contactPhone: string;
   type: CustomerType;
+  appliances: { id: string; brand: string | null; model: string | null; type: string }[];
 }
 
 export async function searchCustomers(query: string): Promise<SearchCustomersResult[]> {
+  const select = {
+    id: true,
+    displayName: true,
+    contactPhone: true,
+    type: true,
+    appliances: {
+      select: { id: true, brand: true, model: true, type: true },
+      orderBy: { createdAt: "desc" as const },
+    },
+  };
+
   if (!query || query.trim().length === 0) {
     return prisma.customer.findMany({
-      select: {
-        id: true,
-        displayName: true,
-        contactPhone: true,
-        type: true,
-      },
+      select,
       orderBy: { createdAt: "desc" },
       take: 15,
     });
@@ -33,12 +40,7 @@ export async function searchCustomers(query: string): Promise<SearchCustomersRes
         ...(isPhoneLike ? [{ contactPhone: { contains: phonePattern } }] : []),
       ],
     },
-    select: {
-      id: true,
-      displayName: true,
-      contactPhone: true,
-      type: true,
-    },
+    select,
     orderBy: { createdAt: "desc" },
     take: 15,
   });

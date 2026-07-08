@@ -3,6 +3,7 @@ import { StatusSelect } from "@/components/status-select";
 import { prisma } from "@syntaxure/db";
 import { StatusBadge } from "@syntaxure/ui";
 import { formatDistanceToNow } from "date-fns";
+import { ChevronLeft, ChevronRight, Mail, MessageSquare, Phone, User } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,12 @@ const PAGE_SIZE = 20;
 interface PageProps {
   searchParams: Promise<{ page?: string }>;
 }
+
+const sourceIcons: Record<string, typeof MessageSquare> = {
+  SITE: MessageSquare,
+  PHONE: Phone,
+  WALK_IN: User,
+};
 
 export default async function InquiriesPage({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -29,6 +36,7 @@ export default async function InquiriesPage({ searchParams }: PageProps) {
         email: true,
         status: true,
         source: true,
+        message: true,
         createdAt: true,
       },
     }),
@@ -38,9 +46,9 @@ export default async function InquiriesPage({ searchParams }: PageProps) {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Inquiries</h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -50,57 +58,54 @@ export default async function InquiriesPage({ searchParams }: PageProps) {
         <AddInquiryDialog />
       </div>
 
-      {/* Table */}
-      <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b bg-muted/40 text-left">
-                <th className="px-4 py-3 font-medium text-muted-foreground">Contact</th>
-                <th className="px-4 py-3 font-medium text-muted-foreground">Phone</th>
-                <th className="px-4 py-3 font-medium text-muted-foreground hidden md:table-cell">
-                  Email
-                </th>
-                <th className="px-4 py-3 font-medium text-muted-foreground">Status</th>
-                <th className="px-4 py-3 font-medium text-muted-foreground hidden sm:table-cell">
-                  Source
-                </th>
-                <th className="px-4 py-3 font-medium text-muted-foreground hidden lg:table-cell">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {inquiries.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
-                    No inquiries found.
-                  </td>
-                </tr>
-              ) : (
-                inquiries.map((inquiry) => (
-                  <tr key={inquiry.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3 font-medium">{inquiry.contactName}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{inquiry.phone}</td>
-                    <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">
-                      {inquiry.email ?? <span className="text-muted-foreground/50">—</span>}
-                    </td>
-                    <td className="px-4 py-3">
-                      <StatusSelect inquiryId={inquiry.id} currentStatus={inquiry.status} />
-                    </td>
-                    <td className="px-4 py-3 hidden sm:table-cell">
-                      <StatusBadge status={inquiry.source} />
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground text-xs hidden lg:table-cell">
-                      {formatDistanceToNow(inquiry.createdAt, { addSuffix: true })}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      {/* Inquiries grid */}
+      {inquiries.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-border bg-card p-12 text-center text-muted-foreground">
+          No inquiries found.
         </div>
-      </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {inquiries.map((inquiry) => {
+            const SourceIcon = sourceIcons[inquiry.source] ?? MessageSquare;
+            return (
+              <div
+                key={inquiry.id}
+                className="rounded-xl border bg-card p-5 hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                      <SourceIcon className="h-4 w-4 text-muted-foreground" />
+                    </span>
+                    <div>
+                      <h3 className="font-semibold text-sm">{inquiry.contactName}</h3>
+                      <p className="text-xs text-muted-foreground">{inquiry.phone}</p>
+                    </div>
+                  </div>
+                  <StatusBadge status={inquiry.source} />
+                </div>
+
+                <div className="space-y-2 text-sm">
+                  {inquiry.email && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Mail className="h-3.5 w-3.5" />
+                      <span className="truncate">{inquiry.email}</span>
+                    </div>
+                  )}
+                  <p className="text-sm text-muted-foreground line-clamp-2">{inquiry.message}</p>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between border-t pt-3">
+                  <span className="text-xs text-muted-foreground">
+                    {formatDistanceToNow(inquiry.createdAt, { addSuffix: true })}
+                  </span>
+                  <StatusSelect inquiryId={inquiry.id} currentStatus={inquiry.status} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (
@@ -112,17 +117,17 @@ export default async function InquiriesPage({ searchParams }: PageProps) {
             {page > 1 && (
               <a
                 href={`/inquiries?page=${page - 1}`}
-                className="inline-flex items-center rounded-md border px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
+                className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
               >
-                Previous
+                <ChevronLeft className="h-4 w-4" /> Previous
               </a>
             )}
             {page < totalPages && (
               <a
                 href={`/inquiries?page=${page + 1}`}
-                className="inline-flex items-center rounded-md border px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
+                className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
               >
-                Next
+                Next <ChevronRight className="h-4 w-4" />
               </a>
             )}
           </div>

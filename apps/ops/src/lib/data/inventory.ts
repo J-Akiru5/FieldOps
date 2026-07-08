@@ -23,8 +23,8 @@ export async function getInventoryItemById(id: string) {
 }
 
 export async function getLowStockItems() {
-  return prisma.inventoryItem.findMany({
-    where: { quantityOnHand: { lte: prisma.inventoryItem.fields.safetyStockThreshold } },
+  const items = await prisma.inventoryItem.findMany({
     orderBy: { quantityOnHand: "asc" },
   });
+  return items.filter((item) => Number(item.quantityOnHand) <= Number(item.safetyStockThreshold));
 }

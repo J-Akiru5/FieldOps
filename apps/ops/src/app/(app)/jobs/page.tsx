@@ -13,7 +13,12 @@ export default async function JobsPage() {
   if (!user) redirect("/login");
 
   const rawJobs = await prisma.job.findMany({
-    include: {
+    select: {
+      id: true,
+      type: true,
+      status: true,
+      scheduledAt: true,
+      createdAt: true,
       customer: { select: { displayName: true, contactPhone: true } },
       appliance: { select: { brand: true, model: true } },
       assignments: { include: { staffMember: { select: { name: true } } } },
