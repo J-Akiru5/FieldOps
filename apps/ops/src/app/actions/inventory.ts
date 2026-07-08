@@ -1,5 +1,6 @@
 "use server";
 
+import { writeAuditLog } from "@/lib/data/audit-log";
 import { requirePermission } from "@/lib/require-permission";
 import { type StockMovementType, prisma } from "@syntaxure/db";
 import { revalidatePath } from "next/cache";
@@ -31,7 +32,7 @@ export async function createInventoryItemAction(data: InventoryItemFormData): Pr
   id?: string;
 }> {
   try {
-    await requirePermission("inventory.write");
+    const { userId, email, actorName } = await requirePermission("inventory.write");
 
     if (!data.sku.trim() || !data.name.trim() || !data.unit.trim()) {
       return { success: false, error: "SKU, name, and unit are required." };
@@ -72,6 +73,17 @@ export async function createInventoryItemAction(data: InventoryItemFormData): Pr
 
     revalidatePath("/inventory");
     revalidatePath("/reports");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "CREATE",
+      entity: "INVENTORY_ITEM",
+      entityId: result.id,
+      entityLabel: `${data.sku.trim()} — ${data.name.trim()}`,
+    });
+
     return { success: true, id: result.id };
   } catch (error) {
     return {
@@ -86,7 +98,7 @@ export async function updateInventoryItemAction(
   data: InventoryItemUpdateData
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("inventory.write");
+    const { userId, email, actorName } = await requirePermission("inventory.write");
 
     if (!data.sku.trim() || !data.name.trim() || !data.unit.trim()) {
       return { success: false, error: "SKU, name, and unit are required." };
@@ -113,6 +125,17 @@ export async function updateInventoryItemAction(
 
     revalidatePath("/inventory");
     revalidatePath("/reports");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "UPDATE",
+      entity: "INVENTORY_ITEM",
+      entityId: id,
+      entityLabel: data.name.trim(),
+    });
+
     return { success: true };
   } catch (error) {
     return {
@@ -128,7 +151,7 @@ export async function adjustStockAction(
   type: StockMovementType
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("inventory.write");
+    const { userId, email, actorName } = await requirePermission("inventory.write");
 
     if (!id) return { success: false, error: "Item ID is required." };
     if (Number(quantity) <= 0)
@@ -176,6 +199,17 @@ export async function adjustStockAction(
 
     revalidatePath("/inventory");
     revalidatePath("/reports");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "UPDATE",
+      entity: "STOCK_MOVEMENT",
+      entityId: id,
+      entityLabel: `${type} ×${quantity} on item ${id}`,
+    });
+
     return { success: true };
   } catch (error) {
     return {
@@ -190,7 +224,7 @@ export async function deleteInventoryItemAction(id: string): Promise<{
   error?: string;
 }> {
   try {
-    await requirePermission("inventory.write");
+    const { userId, email, actorName } = await requirePermission("inventory.write");
 
     const item = await prisma.inventoryItem.findUnique({
       where: { id },
@@ -213,6 +247,17 @@ export async function deleteInventoryItemAction(id: string): Promise<{
 
     revalidatePath("/inventory");
     revalidatePath("/reports");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "DELETE",
+      entity: "INVENTORY_ITEM",
+      entityId: id,
+      entityLabel: item.name,
+    });
+
     return { success: true };
   } catch (error) {
     return {

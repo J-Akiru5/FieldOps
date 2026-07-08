@@ -1,5 +1,6 @@
 "use server";
 
+import { writeAuditLog } from "@/lib/data/audit-log";
 import { requirePermission } from "@/lib/require-permission";
 import { type CustomerType, prisma } from "@syntaxure/db";
 import { revalidatePath } from "next/cache";
@@ -24,7 +25,7 @@ export async function createCustomer(
   data: CustomerFormData
 ): Promise<{ success: boolean; error?: string; id?: string }> {
   try {
-    await requirePermission("customers.write");
+    const { userId, email, actorName } = await requirePermission("customers.write");
     const result = await prisma.customer.create({
       data: {
         type: data.type ?? "INDIVIDUAL",
@@ -36,6 +37,17 @@ export async function createCustomer(
       select: { id: true },
     });
     revalidatePath("/customers");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "CREATE",
+      entity: "CUSTOMER",
+      entityId: result.id,
+      entityLabel: data.displayName,
+    });
+
     return { success: true, id: result.id };
   } catch (error) {
     return {
@@ -52,7 +64,7 @@ export async function createCustomerQuick(data: CustomerQuickInput): Promise<{
   duplicateOf?: { id: string; displayName: string; contactPhone: string };
 }> {
   try {
-    await requirePermission("customers.write");
+    const { userId, email, actorName } = await requirePermission("customers.write");
 
     const existing = await prisma.customer.findFirst({
       where: { contactPhone: data.contactPhone },
@@ -79,6 +91,17 @@ export async function createCustomerQuick(data: CustomerQuickInput): Promise<{
 
     revalidatePath("/customers");
     revalidatePath("/schedule");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "CREATE",
+      entity: "CUSTOMER",
+      entityId: result.id,
+      entityLabel: data.displayName,
+    });
+
     return { success: true, customer: result };
   } catch (error) {
     return {
@@ -93,7 +116,7 @@ export async function updateCustomer(
   data: CustomerFormData
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("customers.write");
+    const { userId, email, actorName } = await requirePermission("customers.write");
     await prisma.customer.update({
       where: { id },
       data: {
@@ -105,6 +128,18 @@ export async function updateCustomer(
       },
     });
     revalidatePath("/customers");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "UPDATE",
+      entity: "CUSTOMER",
+      entityId: id,
+      entityLabel: data.displayName,
+      after: data as unknown as Record<string, unknown>,
+    });
+
     return { success: true };
   } catch (error) {
     return {
@@ -116,9 +151,24 @@ export async function updateCustomer(
 
 export async function deleteCustomer(id: string): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("customers.write");
+    const { userId, email, actorName } = await requirePermission("customers.write");
+    const customer = await prisma.customer.findUnique({
+      where: { id },
+      select: { displayName: true },
+    });
     await prisma.customer.delete({ where: { id } });
     revalidatePath("/customers");
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "DELETE",
+      entity: "CUSTOMER",
+      entityId: id,
+      entityLabel: customer?.displayName ?? id,
+    });
+
     return { success: true };
   } catch (error) {
     return {

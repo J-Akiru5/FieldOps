@@ -9,6 +9,7 @@ import {
   LogOut,
   Package,
   Settings,
+  Shield,
   ShoppingCart,
   Users,
   Wrench,
@@ -16,17 +17,45 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { type Permission, hasPermission } from "@/lib/permissions";
+
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/inquiries", label: "Inquiries", icon: ClipboardList },
-  { href: "/jobs", label: "Jobs", icon: Wrench },
-  { href: "/schedule", label: "Schedule", icon: ClipboardList },
-  { href: "/inventory", label: "Inventory", icon: Package },
-  { href: "/sales", label: "Sales", icon: ShoppingCart },
-  { href: "/ledger", label: "Ledger", icon: BookOpen },
-  { href: "/reports", label: "Reports", icon: BarChart3 },
-  { href: "/staff", label: "Staff", icon: Users },
-  { href: "/settings", label: "Settings", icon: Settings },
+  {
+    href: "/inquiries",
+    label: "Inquiries",
+    icon: ClipboardList,
+    permission: "inquiries.read" as Permission,
+  },
+  { href: "/jobs", label: "Jobs", icon: Wrench, permission: "jobs.read" as Permission },
+  {
+    href: "/schedule",
+    label: "Schedule",
+    icon: ClipboardList,
+    permission: "schedule.read" as Permission,
+  },
+  {
+    href: "/inventory",
+    label: "Inventory",
+    icon: Package,
+    permission: "inventory.read" as Permission,
+  },
+  { href: "/sales", label: "Sales", icon: ShoppingCart, permission: "sales.read" as Permission },
+  { href: "/ledger", label: "Ledger", icon: BookOpen, permission: "ledger.read" as Permission },
+  { href: "/reports", label: "Reports", icon: BarChart3, permission: "reports.read" as Permission },
+  {
+    href: "/audit-log",
+    label: "Audit Log",
+    icon: Shield,
+    permission: "audit-log.read" as Permission,
+  },
+  { href: "/staff", label: "Staff", icon: Users, permission: "staff.read" as Permission },
+  {
+    href: "/settings",
+    label: "Settings",
+    icon: Settings,
+    permission: "settings.read" as Permission,
+  },
 ];
 
 interface SidebarProps {
@@ -70,23 +99,25 @@ export function Sidebar({ userName, userEmail, userRole }: SidebarProps) {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
-        {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href || pathname.startsWith(`${href}/`);
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                isActive
-                  ? "bg-sidebar-active text-white"
-                  : "text-white/60 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {label}
-            </Link>
-          );
-        })}
+        {navItems
+          .filter(({ permission }) => !permission || hasPermission(userRole, permission, userEmail))
+          .map(({ href, label, icon: Icon }) => {
+            const isActive = pathname === href || pathname.startsWith(`${href}/`);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-sidebar-active text-white"
+                    : "text-white/60 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <Icon className="h-4 w-4 shrink-0" />
+                {label}
+              </Link>
+            );
+          })}
       </nav>
 
       {/* User footer */}

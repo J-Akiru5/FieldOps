@@ -1,6 +1,7 @@
 "use server";
 
 import { createNotificationAction } from "@/app/actions/notifications";
+import { writeAuditLog } from "@/lib/data/audit-log";
 import { createJob, getTechnicians, updateJobStatus } from "@/lib/data/jobs";
 import { requirePermission } from "@/lib/require-permission";
 import { prisma } from "@syntaxure/db";
@@ -21,7 +22,7 @@ export async function createJobAction(formData: {
   estimatedDuration?: number;
 }): Promise<{ success: boolean; error?: string; id?: string }> {
   try {
-    await requirePermission("jobs.write");
+    const { userId, email, actorName } = await requirePermission("jobs.write");
     const result = await createJob({
       customerId: formData.customerId,
       applianceId: formData.applianceId,
@@ -55,6 +56,17 @@ export async function createJobAction(formData: {
         body: `${customer.displayName} — ${formData.type} on ${new Date(formData.scheduledAt).toLocaleDateString()}`,
       });
     }
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "CREATE",
+      entity: "JOB",
+      entityId: result.id,
+      entityLabel: `${formData.type} — ${customer?.displayName ?? formData.customerId}`,
+    });
+
     return { success: true, id: result.id };
   } catch (error) {
     return {
@@ -69,11 +81,12 @@ export async function updateJobStatusAction(
   status: JobStatus
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    await requirePermission("jobs.write");
+    const { userId, email, actorName } = await requirePermission("jobs.write");
     const job = await prisma.job.findUnique({
       where: { id },
       include: { customer: { select: { displayName: true } } },
     });
+    const previousStatus = job?.status;
     await updateJobStatus(id, status);
     revalidatePath("/jobs");
     revalidatePath("/schedule");
@@ -94,6 +107,19 @@ export async function updateJobStatusAction(
         });
       }
     }
+
+    void writeAuditLog({
+      actorId: userId,
+      actorEmail: email ?? "",
+      actorName,
+      action: "STATUS_CHANGE",
+      entity: "JOB",
+      entityId: id,
+      entityLabel: `${previousStatus} → ${status}`,
+      before: { status: previousStatus },
+      after: { status },
+    });
+
     return { success: true };
   } catch (error) {
     return {
