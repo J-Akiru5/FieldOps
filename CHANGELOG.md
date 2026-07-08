@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0](https://github.com/J-Akiru5/FieldOps/compare/v1.8.0...v1.9.0) (2026-07-08)
+
+### Added
+
+- **ops:** Ledger page modern redesign — 4-zone layout (header, filter bar, KPI strip, two-column body with analytics sidebar).
+- **ops:** KPI cards with % change vs last month badges (TrendingUp/TrendingDown icons).
+- **ops:** SVG donut chart for cash summary breakdown (income/expenses/partner draw) — zero new dependencies.
+- **ops:** Top Categories sidebar card with progress bars (client-computed from visible entries).
+- **ops:** Recent Activity timeline feed (last 10 entries).
+- **ops:** Right slide-in panel replaces center modal for create/edit — Type pill toggles (Income/Expense/Draw), Particulars as textarea, ₱-prefixed amount input.
+- **ops:** Edit functionality via kebab menu (⋮) — pre-fills slide-in panel with entry data, dispatches `updateLedgerEntryAction`.
+- **ops:** Client-side filters (Category, Type, Partner/Job) — no page reload needed.
+- **ops:** Client-side pagination (10 per page) with page controls.
+- **ops:** Grid/list view toggle for entries table.
+- **ops:** CSV export of filtered entries.
+
+### Changed
+
+- **ops:** Ledger page fetches prior-month equity summary for % change badges.
+- **ops:** All `LedgerEntry` job includes now select `customer.displayName` for richer job labels.
+- **data:** Added `getRecentActivity(limit)` to `lib/data/ledger.ts`.
+
 ## [1.8.0](https://github.com/J-Akiru5/FieldOps/compare/v1.7.0...v1.8.0) (2026-07-08)
 
 ### Added
